@@ -11,6 +11,6 @@ The files, in load order
 - pre.el - this file sets configuration and enables modes that is not tied to a package that have to be installed.
 - core.el - this file loads packages that are hard to define, but it is stuff like helm and and projectile. They are core to the experience of using emacs, but not really an app or a language or user interface. 
 - ui.el - user interface stuff, like themes, my status line and various other stuff that is just about how stuff looks. 
-- org.el - everything org-mode
 - apps.el - this is stuff like deft or neotree, you know apps in emacs. 
 - langs.el - programming and markup languages. 
+- personal.el - use this if you want a per machine override of a setting. I ignore it in my git; typically to override fonts etc
