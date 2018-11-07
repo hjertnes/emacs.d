@@ -1,4 +1,4 @@
-(setq gc-cons-threshold 100000000)
+ (setq gc-cons-threshold 100000000)
 (add-hook 'after-init-hook 
       (lambda () 
         (setq gc-cons-threshold 400000)))
@@ -19,7 +19,7 @@
 (load "~/.emacs.d/pre.el")
 (load "~/.emacs.d/core.el")
 (load "~/.emacs.d/ui.el")
-(load "~/.emacs.d/apps.el")
+(load "~/.emacsd/apps.el")
 (load "~/.emacs.d/langs.el")
 
 (defun new-empty-buffer ()
@@ -30,3 +30,17 @@
       (funcall initial-major-mode)
       (setq buffer-offer-save t)
       $buf))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (elisp-format cider taskpaper-mode markdown-mode lsp-python magit deft rainbow-identifiers rainbow-delimiters which-key indent-guide ace-jump-mode lsp-mode company flycheck counsel-projectile counsel projectile exec-path-from-shell smex smartparens use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

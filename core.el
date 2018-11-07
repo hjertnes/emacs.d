@@ -1,27 +1,18 @@
 (use-package 
   smex 
   :ensure t 
-  :defer 2 
   :config (smex-initialize))
 (use-package 
-  undo-tree 
-  :defer 2 
-  :ensure t 
-  :config (global-undo-tree-mode))
-(use-package 
   exec-path-from-shell 
-  :defer 2 
   :ensure t 
   :config (exec-path-from-shell-initialize))
 (use-package 
   smartparens-config 
-  :defer 2 
   :config (show-smartparens-global-mode t) 
   (smartparens-global-mode t))
 (use-package 
   projectile 
   :ensure t 
-  :defer 2 
   :config (projectile-mode) 
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map))
 (use-package 
@@ -39,24 +30,23 @@
   :init (setq  ivy-initial-inputs-alist nil ivy-use-virtual-buffers t ivy-count-format "(%d/d)"))
 (use-package 
   counsel-projectile 
-  :defer 2 
   :ensure t 
   :config (counsel-projectile-mode +1))
 (use-package 
   flycheck 
-  :defer 2 
   :ensure t 
   :config(global-flycheck-mode))
 (use-package 
   company 
-  :defer 2 
   :ensure t 
   :config (company-mode +1) 
   (global-company-mode +1))
 (use-package 
   lsp-mode 
-  :defer 2 
   :ensure t)
-(use-package 
-  ace-jump-mode 
-  :ensure t)
+(use-package ace-jump-mode
+  :ensure t
+  :bind (("C-c SPC" . ace-jump-mode)
+	 ("C-c C-u SPC" . ace-jump-char-mode)
+	 ("C-c C-u C-u SPC" . ace-jump-line-mode)))
+

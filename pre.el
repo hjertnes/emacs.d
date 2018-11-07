@@ -31,5 +31,6 @@
 (autoload 'ibuffer "ibuffer" "List buffers." t)
 (global-set-key (kbd "C-z") 'undo)
 (global-display-line-numbers-mode +1)
+;(global-highlight-changes-mode +1)
 (global-hi-lock-mode +1)
 (column-number-mode +1)
