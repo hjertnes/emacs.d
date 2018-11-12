@@ -9,7 +9,7 @@
     $buf))
 ;; Check if current system is windows
 (defun is-windows () 
-  (not (eq system-type 'windows-nt)))
+  (eq system-type 'windows-nt))
 ;; Check if current system is not windows
 (defun is-not-windows () 
-  (not(is-not-windows)))
+  (not (eq system-type 'windows-nt)))
