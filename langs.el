@@ -36,3 +36,5 @@
 (use-package 
   elisp-format 
   :ensure t)
+;; Add support for Cucumber files
+(use-package feature-mode :ensure t :config (setq feature-default-langauge "fi"))
