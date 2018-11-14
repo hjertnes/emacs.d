@@ -10,3 +10,7 @@
 (use-package 
   magit 
   :ensure t)
+;; File browser app on the left, like Textmate or Sublime. 
+(use-package 
+  neotree 
+  :ensure t)

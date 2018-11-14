@@ -25,16 +25,18 @@
 (use-package 
   cider 
   :ensure t 
-  :config (progn
-	    (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion) 
-	    (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion) 
-	    (add-hook 'after-save-hook 
-		      (lambda() 
-			(when (eq major-mode 'clojure-mode) 
-			  (cider-load-buffer))))))
+  :config (progn (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion) 
+		 (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion) 
+		 (add-hook 'after-save-hook 
+			   (lambda() 
+			     (when (eq major-mode 'clojure-mode) 
+			       (cider-load-buffer))))))
 ;; Format emacs lisp files
 (use-package 
   elisp-format 
   :ensure t)
 ;; Add support for Cucumber files
-(use-package feature-mode :ensure t :config (setq feature-default-langauge "fi"))
+(use-package 
+  feature-mode 
+  :ensure t 
+  :config (setq feature-default-langauge "fi"))

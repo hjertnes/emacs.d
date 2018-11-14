@@ -4,7 +4,7 @@
   :ensure t 
   :config (smex-initialize))
 ;; Inherit PATh from Shell; but only when not on windows.
-(if (is-not-windows)
+(if (is-not-windows) 
     (use-package 
       exec-path-from-shell 
       :ensure t 
@@ -12,27 +12,28 @@
 ;; Use smartparens for matching deliminers etc
 (use-package 
   smartparens-config 
-  :config (show-smartparens-global-mode t) 
-  (smartparens-global-mode t))
+  :config (progn (show-smartparens-global-mode t) (smartparens-global-mode t)))
 ;; Project management
 (use-package 
   projectile 
-  :ensure t 
-  :config (projectile-mode) 
-  (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map))
+  :ensure t
+  :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy)
+  :config (progn
+	    (projectile-mode) 
+	    (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
 ;; Ivy for completion buffers
 (use-package 
   counsel 
   :ensure t 
-  :config (ivy-mode 1) 
-  (global-set-key (kbd "C-s") 'swiper) 
-  (global-set-key (kbd "M-x") 'counsel-M-x) 
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file) 
-  (global-set-key (kbd "<f1> f") 'counsel-describe-function) 
-  (global-set-key (kbd "<f1> v") 'counsel-describe-variable) 
-  (global-set-key (kbd "<f1> l") 'counsel-find-library) 
-  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol) 
-  (global-set-key (kbd "<f2> u") 'counsel-unicode-char) 
+  :config (progn (ivy-mode 1) 
+		 (global-set-key (kbd "C-s") 'swiper) 
+		 (global-set-key (kbd "M-x") 'counsel-M-x) 
+		 (global-set-key (kbd "C-x C-f") 'counsel-find-file) 
+		 (global-set-key (kbd "<f1> f") 'counsel-describe-function) 
+		 (global-set-key (kbd "<f1> v") 'counsel-describe-variable) 
+		 (global-set-key (kbd "<f1> l") 'counsel-find-library) 
+		 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol) 
+		 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)) 
   :init (setq  ivy-initial-inputs-alist nil ivy-use-virtual-buffers t ivy-count-format "(%d/d)"))
 ;; Integrate Ivy and Projectile
 (use-package 
@@ -48,8 +49,8 @@
 (use-package 
   company 
   :ensure t 
-  :config (company-mode +1) 
-  (global-company-mode +1))
+  :config (progn(company-mode +1) 
+		(global-company-mode +1)))
 ;; Use Language Server Modules for Programming languages
 (use-package 
   lsp-mode 
@@ -62,4 +63,8 @@
 	 ("C-c C-u SPC" . ace-jump-char-mode) 
 	 ("C-c C-u C-u SPC" . ace-jump-line-mode)))
 ;; Disable arrows etc to learn proper emacs movement
-(use-package no-easy-keys :ensure t :config (no-easy-keys 1))
+(use-package 
+  no-easy-keys 
+  :ensure t 
+  :config (no-easy-keys 1))
+nnnn
