@@ -1,3 +1,19 @@
+;; Deft for nvALT stlye notes in Emacs
+(use-package 
+  deft 
+  :ensure t 
+  :init (setq deft-extensions '("txt" "md" "org") deft-directory "~/txt/notes"
+	      deft-use-filename-as-title t deft-file-naming-rules '((noslash . "-") 
+								    (nospace . "-") 
+								    (case-fn . downcase))))
+;; The worlds best Git client
+(use-package 
+  magit 
+  :ensure t)
+;; File browser app on the left, like Textmate or Sublime. 
+(use-package 
+  neotree 
+  :ensure t)
 ;; Used to add history of last used M-x commands into Ivy.
 (use-package 
   smex 
@@ -67,3 +83,27 @@
   no-easy-keys 
   :ensure t 
   :config (no-easy-keys 1))
+;; Show guides for different ident levels.
+(use-package 
+  indent-guide 
+  :ensure t 
+  :config (indent-guide-global-mode))
+;; Show hints when you have typed parts of a keybinding
+(use-package 
+  which-key 
+  :ensure t 
+  :config (which-key-mode))
+;; Use different colors of delimiters and identifiers
+(use-package 
+  rainbow-delimiters 
+  :ensure t 
+  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+(use-package 
+  rainbow-identifiers 
+  :ensure t 
+  :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
+;; Use the dracula theme
+(use-package 
+  dracula-theme 
+  :ensure t 
+  :config (load-theme 'dracula t))

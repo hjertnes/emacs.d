@@ -25,12 +25,8 @@
 (load "~/.emacs.d/pre.el")
 ;; Loads functions I use various places in my config
 (load "~/.emacs.d/funcs.el")
-;; Stuff I consider to be core to how I use emacs, but are neither UI or apps.
+;; Stuff I consider to be core to how I use and want my emacs to be
 (load "~/.emacs.d/core.el")
-;; Packages that alter visible stuff.
-(load "~/.emacs.d/ui.el")
-;; Apps, like for example magit
-(load "~/.emacs.d/apps.el")
 ;; Programming languages
 (load "~/.emacs.d/langs.el")
 ;; Load the csharp file on windows, a sepeate file because its messy. I use it at work.
@@ -39,3 +35,17 @@
 ;; Load personal.el if it exist, a file used to override settings per system. Ignored by git. Mostly used to override fonts per system
 (when (file-exists-p "~/.emacs.d/personal.el") 
   (load "~/.emacs.d/personal.el"))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (feature-mode elisp-format cider clojure-mode taskpaper-mode markdown-mode lsp-python neotree magit deft dracula-theme rainbow-identifiers rainbow-delimiters which-key indent-guide use-package smex smartparens no-easy-keys lsp-mode flycheck exec-path-from-shell counsel-projectile company ace-jump-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
