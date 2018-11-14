@@ -1,8 +1,4 @@
 ;; Copied from the omnisharp github page. Adds support for Csharp auto completion.
-;; Details https://github.com/OmniSharp/omnisharp-emacs
-;; Arch requires you to install the msbuild-stable package plus dotnet core
-;; And you need to have a sln file for your project
-
 ;; Set the omnisharp server path manually on windows, because that piece of shit is weird, and only work this way.
 (when (is-windows) 
   (setq omnisharp-server-executable-path "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe"))

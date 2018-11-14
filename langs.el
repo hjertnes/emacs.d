@@ -40,3 +40,4 @@
   feature-mode 
   :ensure t 
   :config (setq feature-default-langauge "fi"))
+
