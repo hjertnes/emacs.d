@@ -10,7 +10,7 @@
 (use-package 
   magit 
   :ensure t)
-;; File browser app on the left, like Textmate or Sublime. 
+;; File browser app on the left, like Textmate or Sublime.
 (use-package 
   neotree 
   :ensure t)
@@ -28,15 +28,15 @@
 ;; Use smartparens for matching deliminers etc
 (use-package 
   smartparens-config 
-  :config (progn (show-smartparens-global-mode t) (smartparens-global-mode t)))
+  :config (progn (show-smartparens-global-mode t) 
+		 (smartparens-global-mode t)))
 ;; Project management
 (use-package 
   projectile 
-  :ensure t
-  :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy)
-  :config (progn
-	    (projectile-mode) 
-	    (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
+  :ensure t 
+  :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy) 
+  :config (progn (projectile-mode) 
+		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
 ;; Ivy for completion buffers
 (use-package 
   counsel 
@@ -104,6 +104,14 @@
   :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
 ;; Use the dracula theme
 (use-package 
+  smart-mode-line-atom-one-dark-theme 
+  :ensure t)
+(use-package 
   dracula-theme 
   :ensure t 
   :config (load-theme 'dracula t))
+(use-package 
+  smart-mode-line 
+  :ensure t 
+  :init (setq sml/no-confirm-load-theme t sml/theme 'atom-one-dark) 
+  :config (sml/setup))
