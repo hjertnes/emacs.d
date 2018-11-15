@@ -2,13 +2,11 @@
 (use-package 
   lsp-python 
   :ensure t
-  :defer 2
   :init (add-hook 'python-mode-hook #'lsp-python-enable))
 ;; Markdown support
 (use-package 
   markdown-mode 
   :ensure t
-  :defer 2
   :commands (markdown-mode gfm-mode) 
   :mode (("README\\.md\\'" . gfm-mode) 
 	 ("\\.txt\\'" . markdown-mode) 
@@ -18,17 +16,14 @@
 ;; Taskpaper support
 (use-package 
   taskpaper-mode
-  :defer 2
   :ensure t)
 ;; Clojure support
 (use-package 
   clojure-mode
-  :defer 2
   :ensure t)
 ;; Clojure Repl integration and much more
 (use-package 
   cider
-  :defer 2
   :ensure t 
   :config (progn (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion) 
 		 (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion) 
@@ -39,30 +34,25 @@
 ;; Format emacs lisp files
 (use-package 
   elisp-format
-  :defer 2
   :ensure t)
 ;; Add support for Cucumber files
 (use-package 
   feature-mode 
   :ensure t
-  :defer 2
   :config (setq feature-default-langauge "fi"))
 ;; Dockerfiles
 (use-package 
   dockerfile-mode 
   :ensure t
-  :defer 2
   :config (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 ;; Docker-compose files
 (use-package 
   docker-compose-mode
-  :defer 2
   :ensure t)
 ;; Editing web stuff(html, css etc)
 (use-package 
   web-mode 
   :ensure t
-  :defer 2
   :config (progn (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 		 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 		 (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
@@ -75,19 +65,16 @@
 (use-package 
   js3-mode 
   :ensure t
-  :defer 2
   :init (setq js3-auto-indent-p t js3-enter-indents-newline t js3-indent-on-enter-key t))
 ;; React support
 (use-package 
   rjsx-mode 
-  :ensure t
-  :defer 2)
+  :ensure t)
 ;; LSP server for JavaScript
 ;; remember: npm i -g javascript-typescript-langserver
 (use-package 
   lsp-javascript-typescript 
   :ensure t
-  :defer 2
   :config (progn (add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
 		 (add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable)
 		 (add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable)
