@@ -1,4 +1,4 @@
-;; Deft for nvALT stlye notes in Emacs
+ ; Deft for nvALT stlye notes in Emacs
 (use-package 
   deft 
   :ensure t
@@ -65,6 +65,7 @@
 (use-package 
   company 
   :ensure t
+  :init (setq company-dabbrev-downcase 0 company-idle-delay 0)
   :config (progn(company-mode +1) 
 		(global-company-mode +1)))
 ;; Use Language Server Modules for Programming languages
