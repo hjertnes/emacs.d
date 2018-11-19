@@ -79,6 +79,8 @@
 		 (add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable)
 		 (add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable)
 		 (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable)))
+;; Csharp Mode
+(use-package csharp-mode :ensure t)
 ;; Code for auto completion etc with .NET
 ;; Set the omnisharp server path manually on windows, because that piece of shit is weird, and only work this way.
 (when (is-windows) 
