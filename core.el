@@ -25,11 +25,6 @@
       exec-path-from-shell 
       :ensure t
       :config (exec-path-from-shell-initialize)))
-;; Use smartparens for matching deliminers etc
-(use-package 
-  smartparens-config
-  :config (progn (show-smartparens-global-mode t) 
-		 (smartparens-global-mode t)))
 ;; Project management
 (use-package 
   projectile 

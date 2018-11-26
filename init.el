@@ -14,7 +14,7 @@
 ;; Install use-package(because it is used to load all other packages) and smartparens because its package name and what I will load are different
 (dolist (package 
 	 '(use-package 
-	    smartparens)) 
+	    )) 
   (unless (package-installed-p package) 
     (package-install package)))
 ;; load use-package

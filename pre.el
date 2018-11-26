@@ -35,12 +35,12 @@
 ;; Ident new lines like the previous
 (electric-indent-mode +1)
 ;; Matching deliminers
-;(electric-pair-mode 1)  ;disabled to see if I prefer to do it manually
+(electric-pair-mode +1)  ;disabled to see if I prefer to do it manually
 ;; Highlight the current line
  ; Only highligt current line when in GUI mode, because some lines became unreadable in termianl
   (global-hl-line-mode 1)
 ;; Wrap lines
-(global-visual-line-mode -1)
+(global-visual-line-mode 1)
 ;; Pretty symbols
 (global-prettify-symbols-mode 1)
 ;; Show matching parens
