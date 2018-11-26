@@ -1,7 +1,7 @@
 (setq
  ;; A huge undo buffer limit, because I hate loosing stuff because of this
  undo-limit 1000000000 undo-strong-limit 1000000000
- ;; Set the default mode to text-mode
+ ;; set the default mode to text-mode
  initial-major-mode (quote text-mode)
  ;; Use shift like everywhere else in org mode
  org-support-shift-select t
@@ -35,9 +35,10 @@
 ;; Ident new lines like the previous
 (electric-indent-mode +1)
 ;; Matching deliminers
-(electric-pair-mode 1)
+;(electric-pair-mode 1)  ;disabled to see if I prefer to do it manually
 ;; Highlight the current line
-(global-hl-line-mode 1)
+(when (display-graphic-p) ; Only highligt current line when in GUI mode, because some lines became unreadable in termianl
+  (global-hl-line-mode 1))
 ;; Wrap lines
 (global-visual-line-mode 1)
 ;; Pretty symbols
@@ -58,3 +59,5 @@
 (column-number-mode +1)
 ;; Hide menu bar
 (menu-bar-mode -1)
+;; No autosplitting by modules such as NeoTree or Cider
+(set-frame-parameter nil 'unsplittable t)
