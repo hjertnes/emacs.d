@@ -32,17 +32,3 @@
 ;; Load personal.el if it exist, a file used to override settings per system. Ignored by git. Mostly used to override fonts per system
 (when (file-exists-p "~/.emacs.d/personal.el") 
   (load "~/.emacs.d/personal.el"))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (lsp-javascript-typescript rjsx-mode js3-mode web-mode docker-compose-mode dockerfile-mode feature-mode elisp-format cider clojure-mode taskpaper-mode markdown-mode lsp-python esup docker counsel-tramp docker-tramp dracula-theme smart-mode-line-atom-one-dark-theme rainbow-identifiers rainbow-delimiters which-key indent-guide no-easy-keys ace-jump-mode company-lsp lsp-mode company flycheck counsel-projectile counsel projectile exec-path-from-shell smex neotree magit deft smartparens use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
