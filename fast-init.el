@@ -1,4 +1,4 @@
-;; Eivind Hjertnes' Emacs configratuin
+;; Eivind Hjertnes' Emacs configration
 ;; This is my fast init; it does not contain anything that is not a part of emacs, and I use it as my $EDITOR to have a good, but fast emacs config
 ;; Set a large GC limit during startup and a smaller after, to make load time fast, but to avoid slow GC runs during use.
 (setq gc-cons-threshold 100000000)

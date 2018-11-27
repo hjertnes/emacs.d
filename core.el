@@ -109,22 +109,17 @@
   :ensure t)
 ;; Use the dracule theme
 (if (display-graphic-p) ;only when used in GUI mode
-(use-package 
-  dracula-theme 
-  :ensure t
-  :config (load-theme 'dracula t))
-(load-theme 'misterioso))
-(if (display-graphic-p)
+    (use-package 
+      dracula-theme 
+      :ensure t
+      :config (load-theme 'dracula t))
+  (load-theme 'misterioso))
+;; SML is a better looking mode line for emacs
 (use-package 
   smart-mode-line 
   :ensure t
-  :init (setq sml/no-confirm-load-theme t sml/theme 'atom-one-dark)
+  :init (if (display-graphic-p) (setq sml/no-confirm-load-theme t sml/theme 'atom-one-dark)(setq sml/no-confirm-load-theme t sml/theme 'dark))
   :config (sml/setup))
-(use-package 
-  smart-mode-line 
-  :ensure t
-  :init (setq sml/no-confirm-load-theme t sml/theme 'dark)
-  :config (sml/setup)))    
 ;; Adds support for docker in Tramp
 (use-package 
   docker-tramp 
