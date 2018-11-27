@@ -1,11 +1,16 @@
 ;; Eivind Hjertnes' Emacs configration
-;; This is my fast init; it does not contain anything that is not a part of emacs, and I use it as my $EDITOR to have a good, but fast emacs config
-;; Set a large GC limit during startup and a smaller after, to make load time fast, but to avoid slow GC runs during use.
-(setq gc-cons-threshold 100000000)
-(add-hook 'after-init-hook 
-	  (lambda () 
-	    (setq gc-cons-threshold 400000)))
+;; This is a init file I use to start emacs fast, without any third party modules.
+;; Mainly through $EDITOR
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+;; Configure Emacs GC
+(require 'gc)
+;; Set up the emacs package manager
+(require 'package-manager)
+
 ;; Configures things that are a part of emacs out of the box, and enables modes that come with emacs
-(load "~/.emacs.d/pre.el")
+(require 'pre)
 ;; Loads functions I use various places in my config
-(load "~/.emacs.d/funcs.el")
+(require 'funcs)
+;; Load personal.el if it exist, a file used to override settings per system. Ignored by git. Mostly used to override fonts per system
+(when (file-exists-p "~/.emacs.d/personal.el") 
+  (load "~/.emacs.d/personal.el"))

@@ -13,3 +13,5 @@
 ;; Check if current system is not windows
 (defun is-not-windows () 
   (not (eq system-type 'windows-nt)))
+
+(provide 'funcs)

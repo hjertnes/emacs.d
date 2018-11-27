@@ -3,9 +3,9 @@
   deft 
   :ensure t
   :init (setq deft-extensions '("txt" "md" "org") deft-directory "~/txt/notes"
-	      deft-use-filename-as-title t deft-file-naming-rules '((noslash . "-") 
-								    (nospace . "-") 
-								    (case-fn . downcase))))
+         deft-use-filename-as-title t deft-file-naming-rules '((noslash . "-") 
+                                                               (nospace . "-") 
+                                                               (case-fn . downcase))))
 ;; The worlds best Git client
 (use-package 
   magit
@@ -31,20 +31,20 @@
   :ensure t
   :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy) 
   :config (progn (projectile-mode) 
-		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
+           (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
 ;; Ivy for completion buffers
 (use-package 
   counsel 
   :ensure t
   :config (progn (ivy-mode 1) 
-		 (global-set-key (kbd "C-s") 'swiper) 
-		 (global-set-key (kbd "M-x") 'counsel-M-x) 
-		 (global-set-key (kbd "C-x C-f") 'counsel-find-file) 
-		 (global-set-key (kbd "<f1> f") 'counsel-describe-function) 
-		 (global-set-key (kbd "<f1> v") 'counsel-describe-variable) 
-		 (global-set-key (kbd "<f1> l") 'counsel-find-library) 
-		 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol) 
-		 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)) 
+           (global-set-key (kbd "C-s") 'swiper) 
+           (global-set-key (kbd "M-x") 'counsel-M-x) 
+           (global-set-key (kbd "C-x C-f") 'counsel-find-file) 
+           (global-set-key (kbd "<f1> f") 'counsel-describe-function) 
+           (global-set-key (kbd "<f1> v") 'counsel-describe-variable) 
+           (global-set-key (kbd "<f1> l") 'counsel-find-library) 
+           (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol) 
+           (global-set-key (kbd "<f2> u") 'counsel-unicode-char)) 
   :init (setq  ivy-initial-inputs-alist nil ivy-use-virtual-buffers t ivy-count-format "(%d/d)"))
 ;; Integrate Ivy and Projectile
 (use-package 
@@ -62,7 +62,7 @@
   :ensure t
   :init (setq company-dabbrev-downcase 0 company-idle-delay 0)
   :config (progn(company-mode +1) 
-		(global-company-mode +1)))
+           (global-company-mode +1)))
 ;; Use Language Server Modules for Programming languages
 (use-package 
   lsp-mode 
@@ -77,8 +77,8 @@
   ace-jump-mode 
   :ensure t
   :bind (("C-c SPC" . ace-jump-mode) 
-	 ("C-c C-u SPC" . ace-jump-char-mode) 
-	 ("C-c C-u C-u SPC" . ace-jump-line-mode)))
+         ("C-c C-u SPC" . ace-jump-char-mode) 
+         ("C-c C-u C-u SPC" . ace-jump-line-mode)))
 ;; Disable arrows etc to learn proper emacs movement
 (use-package 
   no-easy-keys 
@@ -138,3 +138,4 @@
 (use-package 
   esup 
   :ensure t)
+(provide 'core)

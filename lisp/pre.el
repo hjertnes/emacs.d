@@ -61,3 +61,4 @@
 (menu-bar-mode -1)
 ;; No autosplitting by modules such as NeoTree or Cider
 (set-frame-parameter nil 'unsplittable t)
+(provide 'pre)

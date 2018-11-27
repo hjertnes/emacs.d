@@ -98,3 +98,4 @@
 				   truncate-lines t tab-width 4) 
 			     (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring) 
 			     (local-set-key (kbd "C-c C-c") 'recompile)))))
+(provide 'langs)
