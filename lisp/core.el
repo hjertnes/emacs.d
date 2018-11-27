@@ -32,25 +32,7 @@
   :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy) 
   :config (progn (projectile-mode) 
            (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
-;; Ivy for completion buffers
-(use-package 
-  counsel 
-  :ensure t
-  :config (progn (ivy-mode 1) 
-           (global-set-key (kbd "C-s") 'swiper) 
-           (global-set-key (kbd "M-x") 'counsel-M-x) 
-           (global-set-key (kbd "C-x C-f") 'counsel-find-file) 
-           (global-set-key (kbd "<f1> f") 'counsel-describe-function) 
-           (global-set-key (kbd "<f1> v") 'counsel-describe-variable) 
-           (global-set-key (kbd "<f1> l") 'counsel-find-library) 
-           (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol) 
-           (global-set-key (kbd "<f2> u") 'counsel-unicode-char)) 
-  :init (setq  ivy-initial-inputs-alist nil ivy-use-virtual-buffers t ivy-count-format "(%d/d)"))
-;; Integrate Ivy and Projectile
-(use-package 
-  counsel-projectile 
-  :ensure t
-  :config (counsel-projectile-mode +1))
+(require 'ivy)
 ;; Check syntax on the fly
 (use-package 
   flycheck 
@@ -84,52 +66,11 @@
   no-easy-keys 
   :ensure t
   :config (no-easy-keys 1))
-;; Show guides for different ident levels.
-(use-package 
-  indent-guide 
-  :ensure t
-  :config (indent-guide-global-mode))
-;; Show hints when you have typed parts of a keybinding
-(use-package 
-  which-key 
-  :ensure t
-  :config (which-key-mode))
-;; Use different colors of delimiters and identifiers
-(use-package 
-  rainbow-delimiters 
-  :ensure t
-  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-(use-package 
-  rainbow-identifiers 
-  :ensure t
-  :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
-;; Dark theme for smart mode line
-(use-package 
-  smart-mode-line-atom-one-dark-theme 
-  :ensure t)
-;; Use the dracule theme
-(if (display-graphic-p) ;only when used in GUI mode
-    (use-package 
-      dracula-theme 
-      :ensure t
-      :config (load-theme 'dracula t))
-  (load-theme 'misterioso))
-;; SML is a better looking mode line for emacs
-(use-package 
-  smart-mode-line 
-  :ensure t
-  :init (if (display-graphic-p) (setq sml/no-confirm-load-theme t sml/theme 'atom-one-dark)(setq sml/no-confirm-load-theme t sml/theme 'dark))
-  :config (sml/setup))
+(require 'ui)
 ;; Adds support for docker in Tramp
 (use-package 
   docker-tramp 
   :ensure t)
-;; Ivy interface for tramp
-(use-package 
-  counsel-tramp 
-  :ensure t
-  :init (setq tramp-default-method "ssh") 
-  :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
 ;; Docker UI
 (use-package 
   docker 
