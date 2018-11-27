@@ -14,11 +14,6 @@
 (use-package 
   neotree
   :ensure t)
-;; Used to add history of last used M-x commands into Ivy.
-(use-package 
-  smex
-  :ensure t 
-  :config (smex-initialize))
 ;; Inherit PATh from Shell; but only when not on windows.
 (if (is-not-windows) 
     (use-package 

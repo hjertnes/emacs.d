@@ -1,3 +1,8 @@
+;; Used to add history of last used M-x commands into Ivy.
+(use-package 
+  smex
+  :ensure t 
+  :config (smex-initialize))
 ;; Ivy for completion buffers
 (use-package 
   counsel 
