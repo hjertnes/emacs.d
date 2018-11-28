@@ -28,4 +28,4 @@
   :ensure t
   :init (setq tramp-default-method "ssh") 
   :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
-(provide 'ivy)
+(provide 'core-ivy)

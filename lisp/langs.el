@@ -17,20 +17,7 @@
 (use-package 
   taskpaper-mode
   :ensure t)
-;; Clojure support
-(use-package 
-  clojure-mode
-  :ensure t)
-;; Clojure Repl integration and much more
-(use-package 
-  cider
-  :ensure t 
-  :config (progn (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion) 
-		 (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion) 
-		 (add-hook 'after-save-hook 
-			   (lambda() 
-			     (when (eq major-mode 'clojure-mode) 
-			       (cider-load-buffer))))))
+
 ;; Format emacs lisp files
 (use-package 
   elisp-format
@@ -49,8 +36,11 @@
 (use-package 
   docker-compose-mode
   :ensure t)
-
-(require 'web)
+;;Csharp support on windows
 (when (is-windows)
-  (require 'csharp))
+  (require 'langs-csharp))
+;; JS and Web modules
+(require 'langs-web)
+;; Clojure modules
+(require 'langs-clojure)
 (provide 'langs)

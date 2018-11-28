@@ -28,4 +28,4 @@
 		 (add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable)
 		 (add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable)
 		 (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable)))
-(provide 'web)
+(provide 'langs-web)

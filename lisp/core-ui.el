@@ -34,4 +34,4 @@
   :ensure t
   :init (if (display-graphic-p) (setq sml/no-confirm-load-theme t sml/theme 'atom-one-dark)(setq sml/no-confirm-load-theme t sml/theme 'dark))
   :config (sml/setup))
-(provide 'ui)
+(provide 'core-ui)
