@@ -19,3 +19,17 @@
   neotree
   :ensure t)
 (provide 'core-apps)
+;; Hugo Apps
+(use-package easy-hugo :ensure t
+:init
+;; Main blog
+(setq easy-hugo-basedir "~/Code/hugo-hjertnes/")
+(setq easy-hugo-url "https://hjertnes.blog")
+(setq easy-hugo-previewtime "300")
+(define-key global-map (kbd "C-c C-e") 'easy-hugo)
+
+(setq easy-hugo-bloglist
+	'(((easy-hugo-basedir . "~/Code/hugo-inksmudge/")
+	(easy-hugo-url . "http://inksmudge.net"))))
+
+:bind ("C-c C-e" . easy-hugo))
