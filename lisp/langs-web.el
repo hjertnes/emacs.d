@@ -12,9 +12,13 @@
 		 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))))
 ;; Plain Javascript support
 (use-package 
-  js3-mode 
+  js2-mode 
   :ensure t
-  :init (setq js3-auto-indent-p t js3-enter-indents-newline t js3-indent-on-enter-key t))
+  :init (progn
+	 (setq-default flycheck-disabled-checkers
+		       (append flycheck-disabled-checkers
+			       '(javascript-jshint json-jsonlist)))
+	 (flycheck-add-mode 'javascript-eslint 'web-mode)))
 ;; React support
 (use-package 
   rjsx-mode 
