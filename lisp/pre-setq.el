@@ -17,6 +17,8 @@
  create-lockfiles nil make-backup-files nil auto-save-default nil
  ;; Disable startup message and the "scratch" message.
  inhibit-startup-message t initial-scratch-message nil
+ ;; Indent of 2 spaces for js
+ js-indent-level 2
  ;; Integrate into the X11 clipboard
  select-enable-clipboard t)
 

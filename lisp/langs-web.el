@@ -13,12 +13,7 @@
 ;; Plain Javascript support
 (use-package 
   js2-mode 
-  :ensure t
-  :init (progn
-	 (setq-default flycheck-disabled-checkers
-		       (append flycheck-disabled-checkers
-			       '(javascript-jshint json-jsonlist)))
-	 (flycheck-add-mode 'javascript-eslint 'web-mode)))
+  :ensure t)
 ;; React support
 (use-package 
   rjsx-mode 
