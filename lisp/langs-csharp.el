@@ -1,4 +1,4 @@
-˘;; Code for auto completion etc with .NET
+;; Code for auto completion etc with .NET
 ;; Set the omnisharp server path manually on windows, because that piece of shit is weird, and only work this way.
   (use-package 
     omnisharp 
