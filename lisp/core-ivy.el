@@ -21,11 +21,13 @@
 (use-package 
   counsel-projectile 
   :ensure t
+  :after (counsel projectile)
   :config (counsel-projectile-mode +1))
 ;; Ivy interface for tramp
 (use-package 
   counsel-tramp 
   :ensure t
+  :after (counsel)
   :init (setq tramp-default-method "ssh") 
   :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
 (provide 'core-ivy)

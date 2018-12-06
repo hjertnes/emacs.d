@@ -6,5 +6,6 @@
 (use-package 
   company-lsp 
   :ensure t
+  :after (lsp-mode company)
   :config (push 'company-lsp company-backends))
 (provide 'core-lsp)

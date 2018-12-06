@@ -32,6 +32,7 @@
 (use-package 
   smart-mode-line 
   :ensure t
+  :after (smart-mode-line-atom-one-dark-theme)
   :init (if (display-graphic-p) (setq sml/no-confirm-load-theme t sml/theme 'atom-one-dark)(setq sml/no-confirm-load-theme t sml/theme 'dark))
   :config (sml/setup))
 (provide 'core-ui)

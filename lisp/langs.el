@@ -37,8 +37,7 @@
   docker-compose-mode
   :ensure t)
 ;;Csharp support on windows
-(when (is-windows)
-  (require 'langs-csharp))
+(require 'langs-csharp)
 ;; JS and Web modules
 (require 'langs-web)
 ;; Clojure modules
