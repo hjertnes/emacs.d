@@ -1,8 +1,3 @@
-;; Python support through LSP
-(use-package 
-  lsp-python 
-  :ensure t
-  :init (add-hook 'python-mode-hook #'lsp-python-enable))
 ;; Markdown support
 (use-package 
   markdown-mode 

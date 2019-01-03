@@ -11,7 +11,15 @@
   :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy) 
   :config (progn (projectile-mode) 
 		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
-
+;; Resize windows to golden ratio
+(use-package
+  golden-ratio
+  :ensure t
+  :config (golden-ratio-mode 1))
+;; Eshell autojump
+(use-package
+  eshell-autojump
+  :ensure t)
 ;; Check syntax on the fly
 (use-package 
   flycheck 
@@ -34,8 +42,6 @@
 (require 'core-ui)
 ;; Loading Ivy/Counsel
 (require 'core-ivy)
-;; Loading LSP
-(require 'core-lsp)
 ;; Loading keyboard related modules
 (require 'core-keyboard)
 (provide 'core)
