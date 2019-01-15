@@ -35,4 +35,8 @@
   :after (smart-mode-line-atom-one-dark-theme)
   :init (if (display-graphic-p) (setq sml/no-confirm-load-theme t sml/theme 'atom-one-dark)(setq sml/no-confirm-load-theme t sml/theme 'dark))
   :config (sml/setup))
+(use-package awesome-tab
+  :config
+  (awesome-tab-mode t)
+)
 (provide 'core-ui)
