@@ -27,6 +27,6 @@
 (global-hi-lock-mode +1)
 ;; Show Column numbers
 (column-number-mode +1)
-;; Hide menu bar
-(menu-bar-mode -1)
+;; Server mode (enables emacsclient)
+(server-mode +1)
 (provide 'pre-modes)
