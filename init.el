@@ -1,4 +1,4 @@
-;; Eivind Hjertnes' Emacs configration
+;; Eivindp Hjertnes' Emacs configration
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 ;; Configure Emacs GC
 (require 'gc)
