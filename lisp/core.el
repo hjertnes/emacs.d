@@ -14,15 +14,6 @@
 ;;
 (use-package undo-tree :ensure t :config (global-undo-tree-mode))
 
-;; Resize windows to golden ratio
-(use-package
-  golden-ratio
-  :ensure t
-  :config (golden-ratio-mode 1))
-;; Eshell autojump
-(use-package
-  eshell-autojump
-  :ensure t)
 ;; Check syntax on the fly
 (use-package 
   flycheck 
@@ -39,8 +30,6 @@
 (use-package 
   docker-tramp 
   :ensure t)
-;;Loading apps
-(require 'core-apps)
 ;; Loading UI stuff
 (require 'core-ui)
 ;; Loading Ivy/Counsel

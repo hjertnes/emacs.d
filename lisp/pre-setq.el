@@ -1,5 +1,7 @@
 (setq
- ;; A huge undo buffer limit, because I hate loosing stuff because of this
+ ;; GC
+  gc-cons-threshold most-positive-fixnum
+  ;; A huge undo buffer limit, because I hate loosing stuff because of this
  undo-limit 1000000000 undo-strong-limit 1000000000
  ;; set the default mode to text-mode
  initial-major-mode (quote text-mode)
