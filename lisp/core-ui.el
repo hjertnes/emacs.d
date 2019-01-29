@@ -17,10 +17,6 @@
   rainbow-identifiers 
   :ensure t
   :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
-;; Dark theme for smart mode line
-(use-package 
-  smart-mode-line-atom-one-dark-theme 
-  :ensure t)
 ;; Use the dracule theme
 (if (display-graphic-p) ;only when used in GUI mode
     (use-package 
@@ -28,13 +24,6 @@
       :ensure t
       :config (load-theme 'dracula t))
   (load-theme 'misterioso))
-;; SML is a better looking mode line for emacs
-(use-package 
-  smart-mode-line 
-  :ensure t
-  :after (smart-mode-line-atom-one-dark-theme)
-  :init (if (display-graphic-p) (setq sml/no-confirm-load-theme t sml/theme 'atom-one-dark)(setq sml/no-confirm-load-theme t sml/theme 'dark))
-  :config (sml/setup))
 (use-package awesome-tab
   :config
   (awesome-tab-mode t)

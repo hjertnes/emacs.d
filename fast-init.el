@@ -2,8 +2,6 @@
 ;; This is a init file I use to start emacs fast, without any third party modules.
 ;; Mainly through $EDITOR
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-;; Configure Emacs GC
-(require 'gc)
 ;; Set up the emacs package manager
 (require 'package-manager)
 

@@ -1,7 +1,5 @@
 ;; Eivindp Hjertnes' Emacs configration
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-;; Configure Emacs GC
-(require 'gc)
 ;; Set up the emacs package manager
 (require 'package-manager)
 
