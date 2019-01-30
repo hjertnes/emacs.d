@@ -24,8 +24,4 @@
       :ensure t
       :config (load-theme 'dracula t))
   (load-theme 'misterioso))
-(use-package awesome-tab
-  :config
-  (awesome-tab-mode t)
-)
 (provide 'core-ui)
