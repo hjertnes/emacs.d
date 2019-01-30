@@ -11,8 +11,6 @@
   :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy) 
   :config (progn (projectile-mode) 
 		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
-;;
-(use-package undo-tree :ensure t :config (global-undo-tree-mode))
 
 ;; Check syntax on the fly
 (use-package 
