@@ -28,6 +28,12 @@
 (use-package 
   docker-tramp 
   :ensure t)
+;; Smartparens
+(use-package smartparens :ensure t :config
+  (progn
+    (require 'smartparens-config)
+    (smartparens-global-strict-mode +1)
+    (show-smartparens-global-mode +1)))
 ;; Loading UI stuff
 (require 'core-ui)
 ;; Loading Ivy/Counsel
