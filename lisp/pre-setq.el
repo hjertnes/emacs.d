@@ -23,5 +23,9 @@
  js-indent-level 2
  ;; Integrate into the X11 clipboard
  select-enable-clipboard t)
-
+;; reframe
+(setq cider-cljs-lein-repl
+	"(do (require 'figwheel-sidecar.repl-api)
+         (figwheel-sidecar.repl-api/start-figwheel!)
+         (figwheel-sidecar.repl-api/cljs-repl))")
 (provide 'pre-setq)
