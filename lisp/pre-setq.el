@@ -1,7 +1,7 @@
 (setq
  ;; GC
-  gc-cons-threshold most-positive-fixnum
-  ;; A huge undo buffer limit, because I hate loosing stuff because of this
+ gc-cons-threshold most-positive-fixnum
+ ;; A huge undo buffer limit, because I hate loosing stuff because of this
  undo-limit 1000000000 undo-strong-limit 1000000000
  ;; set the default mode to text-mode
  initial-major-mode (quote text-mode)
@@ -24,8 +24,7 @@
  ;; Integrate into the X11 clipboard
  select-enable-clipboard t)
 ;; reframe
-(setq cider-cljs-lein-repl
-	"(do (require 'figwheel-sidecar.repl-api)
+(setq cider-cljs-lein-repl "(do (require 'figwheel-sidecar.repl-api)
          (figwheel-sidecar.repl-api/start-figwheel!)
          (figwheel-sidecar.repl-api/cljs-repl))")
 (provide 'pre-setq)

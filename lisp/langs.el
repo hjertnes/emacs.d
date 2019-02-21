@@ -1,9 +1,11 @@
 ;; pug support
-(use-package pug-mode :ensure t)
+(use-package 
+  pug-mode 
+  :ensure t)
 ;; Markdown support
 (use-package 
   markdown-mode 
-  :ensure t
+  :ensure t 
   :commands (markdown-mode gfm-mode) 
   :mode (("README\\.md\\'" . gfm-mode) 
 	 ("\\.txt\\'" . markdown-mode) 
@@ -12,60 +14,58 @@
   :init (setq markdown-command "multimarkdown"))
 ;; Taskpaper support
 (use-package 
-  taskpaper-mode
+  taskpaper-mode 
   :ensure t)
 
 ;; Format emacs lisp files
 (use-package 
-  elisp-format
+  elisp-format 
   :ensure t)
 ;; Add support for Cucumber files
 (use-package 
   feature-mode 
-  :ensure t
+  :ensure t 
   :config (setq feature-default-langauge "fi"))
 ;; Dockerfiles
 (use-package 
   dockerfile-mode 
-  :ensure t
+  :ensure t 
   :config (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 ;; Docker-compose files
 (use-package 
-  docker-compose-mode
+  docker-compose-mode 
   :ensure t)
-; Code for auto completion etc with .NET
+					; Code for auto completion etc with .NET
 ;; Set the omnisharp server path manually on windows, because that piece of shit is weird, and only work this way.
 (use-package 
   omnisharp 
-  :ensure t
-  :if (is-windows)
-  :init (setq omnisharp-server-executable-path  "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe")
+  :ensure t 
+  :if (is-windows) 
+  :init (setq omnisharp-server-executable-path  "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
   :config (progn (add-to-list 'company-backends #'company-omnisharp) 
 		 (add-hook 'csharp-mode-hook 
 			   (lambda() 
 			     (omnisharp-mode) 
 			     (company-mode) 
 			     (flycheck-mode) 
-			     (setq indent-tabs-mode nil
-			      company-idle-delay .1
-				   c-syntactic-indentation t c-basic-offset 4
-				   truncate-lines t tab-width 4) 
+			     (setq indent-tabs-mode nil company-idle-delay .1
+				   c-syntactic-indentation t c-basic-offset 4 truncate-lines t
+				   tab-width 4) 
 			     (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring) 
 			     (local-set-key (kbd "C-c C-c") 'recompile)))))
 (use-package 
   omnisharp 
-  :ensure t
-  :if (is-not-windows)
+  :ensure t 
+  :if (is-not-windows) 
   :config (progn (add-to-list 'company-backends #'company-omnisharp) 
 		 (add-hook 'csharp-mode-hook 
 			   (lambda() 
 			     (omnisharp-mode) 
 			     (company-mode) 
 			     (flycheck-mode) 
-			     (setq indent-tabs-mode nil
-			      company-idle-delay .1
-				   c-syntactic-indentation t c-basic-offset 4
-				   truncate-lines t tab-width 4) 
+			     (setq indent-tabs-mode nil company-idle-delay .1
+				   c-syntactic-indentation t c-basic-offset 4 truncate-lines t
+				   tab-width 4) 
 			     (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring) 
 			     (local-set-key (kbd "C-c C-c") 'recompile)))))
 ;; Editing web stuff(html, css etc)
@@ -84,11 +84,11 @@
   :ensure t)
 ;; Clojure support
 (use-package 
-  clojure-mode
+  clojure-mode 
   :ensure t)
 ;; Clojure Repl integration and much more
 (use-package 
-  cider
+  cider 
   :ensure t 
   :config (progn (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion) 
 		 (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion) 

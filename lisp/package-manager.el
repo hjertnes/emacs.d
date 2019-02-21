@@ -6,8 +6,7 @@
 (unless package-archive-contents (package-refresh-contents))
 ;; Install use-package(because it is used to load all other packages) and smartparens because its package name and what I will load are different
 (dolist (package 
-	 '(use-package 
-	    )) 
+	 '(use-package)) 
   (unless (package-installed-p package) 
     (package-install package)))
 ;; load use-package
