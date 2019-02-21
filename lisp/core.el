@@ -1,3 +1,4 @@
+(use-package magit :ensure t)
 ;; Inherit PATh from Shell; but only when not on windows.
 (use-package 
   exec-path-from-shell 
