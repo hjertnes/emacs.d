@@ -16,7 +16,6 @@
 (use-package 
   taskpaper-mode 
   :ensure t)
-
 ;; Format emacs lisp files
 (use-package 
   elisp-format 
@@ -34,40 +33,30 @@
 ;; Docker-compose files
 (use-package 
   docker-compose-mode 
-  :ensure t)
-					; Code for auto completion etc with .NET
+  :ensure t)					; Code for auto completion etc with .NET
 ;; Set the omnisharp server path manually on windows, because that piece of shit is weird, and only work this way.
+(defun csharp-config () 
+  (add-to-list 'company-backends #'company-omnisharp) 
+  (add-hook 'csharp-mode-hook 
+	    (lambda() 
+	      (omnisharp-mode) 
+	      (company-mode) 
+	      (flycheck-mode) 
+	      (setq indent-tabs-mode nil company-idle-delay .1 c-syntactic-indentation t
+		    c-basic-offset 4 truncate-lines t tab-width 4) 
+	      (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring) 
+	      (local-set-key (kbd "C-c C-c") 'recompile))))
 (use-package 
   omnisharp 
   :ensure t 
   :if (is-windows) 
   :init (setq omnisharp-server-executable-path  "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
-  :config (progn (add-to-list 'company-backends #'company-omnisharp) 
-		 (add-hook 'csharp-mode-hook 
-			   (lambda() 
-			     (omnisharp-mode) 
-			     (company-mode) 
-			     (flycheck-mode) 
-			     (setq indent-tabs-mode nil company-idle-delay .1
-				   c-syntactic-indentation t c-basic-offset 4 truncate-lines t
-				   tab-width 4) 
-			     (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring) 
-			     (local-set-key (kbd "C-c C-c") 'recompile)))))
+  :config (csharp-config))
 (use-package 
   omnisharp 
   :ensure t 
   :if (is-not-windows) 
-  :config (progn (add-to-list 'company-backends #'company-omnisharp) 
-		 (add-hook 'csharp-mode-hook 
-			   (lambda() 
-			     (omnisharp-mode) 
-			     (company-mode) 
-			     (flycheck-mode) 
-			     (setq indent-tabs-mode nil company-idle-delay .1
-				   c-syntactic-indentation t c-basic-offset 4 truncate-lines t
-				   tab-width 4) 
-			     (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring) 
-			     (local-set-key (kbd "C-c C-c") 'recompile)))))
+  :config (csharp-config))
 ;; Editing web stuff(html, css etc)
 (use-package 
   web-mode 
@@ -75,13 +64,6 @@
 (use-package 
   json-mode 
   :ensure)
-(use-package 
-  js2-mode 
-  :ensure)
-;; React support
-(use-package 
-  rjsx-mode 
-  :ensure t)
 ;; Clojure support
 (use-package 
   clojure-mode 
