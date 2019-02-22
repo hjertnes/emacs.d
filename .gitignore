@@ -8,6 +8,6 @@ tramp
 network-security.data
 url
 personal.el
-.transient
+transient
 .cache
 server
