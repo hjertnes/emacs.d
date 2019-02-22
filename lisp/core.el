@@ -18,7 +18,8 @@
 ;; Check syntax on the fly
 (use-package 
   flycheck 
-  :ensure t 
+  :ensure t
+  :init (setq flycheck-disabled-checkers '(javascript-standard javascript-jshint))
   :config(global-flycheck-mode))
 ;; Auto completion
 (use-package 
