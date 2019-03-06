@@ -64,6 +64,12 @@
 (use-package 
   json-mode 
   :ensure)
+(use-package js2-mode :ensure t :config (progn (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))(add-hook 'js2-mode-hook #'js2-imenu-extras-mode)))
+
+(use-package company-tern :ensure t :config (progn (add-to-list 'company-backends 'company-tern)
+(add-hook 'js2-mode-hook (lambda ()
+                           (tern-mode)
+                           (company-mode)))))
 ;; Clojure support
 (use-package 
   clojure-mode 
