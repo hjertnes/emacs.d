@@ -4,6 +4,8 @@
 (if (version< emacs-version "26") 
     (auto-save-mode +1) 
   (auto-save-visited-mode +1))
+;; line numbers
+(global-linum-mode +1)
 ;; Dont show scrollbars or those ugly ass icons
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
