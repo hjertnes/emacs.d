@@ -1,4 +1,11 @@
-(use-package golden-ratio :ensure t :config (golden-ratio-mode 1))
+(use-package 
+  golden-ratio 
+  :ensure t 
+  :config (golden-ratio-mode 1))
+(use-package 
+  ace-window 
+  :ensure t 
+  :config (global-set-key (kbd "M-o") 'ace-window))
 (use-package 
   magit 
   :ensure t)
@@ -19,8 +26,8 @@
 ;; Check syntax on the fly
 (use-package 
   flycheck 
-  :ensure t
-  :init (setq flycheck-disabled-checkers '(javascript-standard javascript-jshint))
+  :ensure t 
+  :init (setq flycheck-disabled-checkers '(javascript-standard javascript-jshint)) 
   :config(global-flycheck-mode))
 ;; Auto completion
 (use-package 
@@ -29,19 +36,20 @@
   :init (setq company-dabbrev-downcase 0 company-idle-delay 0) 
   :config (progn(company-mode +1) 
 		(global-company-mode +1)))
-;; Adds support for docker in Tramp
+;; Adds suppnnort for docker in Tramp
 (use-package 
   docker-tramp 
   :ensure t)
 ;; Smartparens
 (use-package 
   smartparens 
-  :ensure t 
-  :config (progn 
-	    (require 'smartparens-config) 
+  :ensure t)
+(use-package 
+  smartparens-config 
+  :config (progn
 	    (smartparens-global-strict-mode +1) 
-	    (show-smartparens-global-mode +1))
-  :diminish smartparens-mode
+	    (show-smartparens-global-mode +1)) 
+  :diminish smartparens-mode 
   :bind (("C-M-k" . sp-kill-sexp-with-a-twist-of-lime) 
 	 ("C-M-f" . sp-forward-sexp) 
 	 ("C-M-b" . sp-backward-sexp) 
@@ -92,7 +100,8 @@
 (use-package 
   counsel 
   :ensure t 
-  :config (progn (ivy-mode 1) 
+  :config (progn (ivy-mode 1)
+		 (global-set-key (kbd "C-x C-b") 'ivy-switch-buffer)
 		 (global-set-key (kbd "C-s") 'swiper) 
 		 (global-set-key (kbd "M-x") 'counsel-M-x) 
 		 (global-set-key (kbd "C-x C-f") 'counsel-find-file) 
