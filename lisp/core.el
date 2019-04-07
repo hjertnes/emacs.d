@@ -1,3 +1,4 @@
+
 (use-package 
   golden-ratio 
   :ensure t 
@@ -194,8 +195,10 @@
   :ensure t 
   :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
 ;; Use the dracule theme
-(use-package tomorrow-night-paradise-theme
-  :config (load-theme 'tomorrow-night-paradise t))
+(use-package afternoon-theme :ensure t :config (load-theme 'afternoon t))					;
+;(require 'tomorrow-night-paradise-theme)
+;(load-theme tomorrow-night-paradise t)
+
 ;; (use-package 
 ;;   dracula-theme n
 ;;   :ensure t 
