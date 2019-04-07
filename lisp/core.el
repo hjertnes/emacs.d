@@ -194,11 +194,11 @@
   rainbow-identifiers 
   :ensure t 
   :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
-;; Use the dracule theme
+;;Afternoon theme
 (use-package afternoon-theme :ensure t :config (load-theme 'afternoon t))					;
-;(require 'tomorrow-night-paradise-theme)
-;(load-theme tomorrow-night-paradise t)
-
+;; solarized theme
+;(use-package solarized-theme :ensure t :config (load-theme 'solarized-dark t))
+;; Dracula theme
 ;; (use-package 
 ;;   dracula-theme n
 ;;   :ensure t 
