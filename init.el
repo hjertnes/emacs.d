@@ -1,4 +1,4 @@
-n ;; Eivindp Hjertnes' Emacs configration
+;; Eivindp Hjertnes' Emacs configration
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 ;; Set up the emacs package manager
 (require 'package-manager)
