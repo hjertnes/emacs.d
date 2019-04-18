@@ -8,10 +8,17 @@
     (setq buffer-offer-save t)
     $buf))
 ;; Check if current system is windows
-(defun is-windows () 
+(defun is-windows ()
+  (interactive)
   (eq system-type 'windows-nt))
 ;; Check if current system is not windows
-(defun is-not-windows () 
+(defun is-not-windows ()
+  (interactive)
   (not (eq system-type 'windows-nt)))
-
+(defun is-mac ()
+  (interactive)
+  (eq system-type 'darwin))
+(defun is-linux ()
+  (interactive)
+  (eq system-type 'gnu/linux))
 (provide 'funcs)

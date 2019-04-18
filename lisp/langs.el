@@ -55,7 +55,13 @@
 (use-package 
   omnisharp 
   :ensure t 
-  :if (is-not-windows)
+  :if (is-linux)
+  :init (setq omnisharp-server-executable-path "/opt/omnisharp-roslyn/OmniSharp.exe")
+  :config (csharp-config))
+(use-package  ;;todo fix
+  omnisharp 
+  :ensure t 
+  :if (is-mac)
   :init (setq omnisharp-server-executable-path "/opt/omnisharp-roslyn/OmniSharp.exe")
   :config (csharp-config))
 ;; Editing web stuff(html, css etc)
