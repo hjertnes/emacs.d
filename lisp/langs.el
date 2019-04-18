@@ -33,7 +33,7 @@
 ;; Docker-compose files
 (use-package 
   docker-compose-mode 
-  :ensure t)					; Code for auto completion etc with .NET
+  :ensure t)		      ; Code for auto completion etc with .NET
 ;; Set the omnisharp server path manually on windows, because that piece of shit is weird, and only work this way.
 (defun csharp-config () 
   (add-to-list 'company-backends #'company-omnisharp) 
@@ -55,14 +55,14 @@
 (use-package 
   omnisharp 
   :ensure t 
-  :if (is-linux)
-  :init (setq omnisharp-server-executable-path "/opt/omnisharp-roslyn/OmniSharp.exe")
+  :if (is-linux) 
+  :init (setq omnisharp-server-executable-path "/opt/omnisharp-roslyn/OmniSharp.exe") 
   :config (csharp-config))
-(use-package  ;;todo fix
+(use-package ;;todo fix
   omnisharp 
   :ensure t 
-  :if (is-mac)
-  :init (setq omnisharp-server-executable-path "/opt/omnisharp-roslyn/OmniSharp.exe")
+  :if (is-mac) 
+  :init (setq omnisharp-server-executable-path "/opt/omnisharp-roslyn/OmniSharp.exe") 
   :config (csharp-config))
 ;; Editing web stuff(html, css etc)
 (use-package 
@@ -71,20 +71,23 @@
 (use-package 
   json-mode 
   :ensure)
-(use-package js2-mode
-  :ensure t
-  :mode "\\.js\\'"
-  :interpreter "node"
-  :init
-  (setq-default js2-concat-multiline-strings 'eol)
+(use-package 
+  js2-mode 
+  :ensure t 
+  :mode "\\.js\\'" 
+  :interpreter "node" 
+  :init (setq-default js2-concat-multiline-strings 'eol) 
   (setq-default js2-global-externs '("module" "require" "setTimeout" "clearTimeout" "setInterval"
-                                     "clearInterval" "location" "__dirname" "console" "JSON" "window"
-                                     "process" "fetch"))
-  (setq-default js2-strict-inconsistent-return-warning nil)
-  :config
-  (use-package prettier-js :ensure t)
-  (use-package rjsx-mode :ensure t
-    :mode "\\.js\\'"
+				     "clearInterval" "location" "__dirname" "console" "JSON"
+				     "window" "process" "fetch")) 
+  (setq-default js2-strict-inconsistent-return-warning nil) 
+  :config (use-package 
+	    prettier-js 
+	    :ensure t) 
+  (use-package 
+    rjsx-mode 
+    :ensure t 
+    :mode "\\.js\\'" 
     :magic ("import React" . rjsx-mode)))
 
 ;; Clojure support
