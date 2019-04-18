@@ -55,7 +55,8 @@
 (use-package 
   omnisharp 
   :ensure t 
-  :if (is-not-windows) 
+  :if (is-not-windows)
+  :init (setq omnisharp-server-executable-path "/opt/omnisharp-roslyn/OmniSharp.exe")
   :config (csharp-config))
 ;; Editing web stuff(html, css etc)
 (use-package 
@@ -64,8 +65,6 @@
 (use-package 
   json-mode 
   :ensure)
-
-
 (use-package js2-mode
   :ensure t
   :mode "\\.js\\'"
@@ -76,56 +75,12 @@
                                      "clearInterval" "location" "__dirname" "console" "JSON" "window"
                                      "process" "fetch"))
   (setq-default js2-strict-inconsistent-return-warning nil)
-  :bind (:map js2-mode-map
-              ("M-r"        . node-js-eval-region-or-buffer)
-              ("M-R"        . refresh-chrome)
-              ("M-s-<up>"   . js2r-move-line-up)
-              ("M-s-<down>" . js2r-move-line-down)
-              ("C-<left>"   . js2r-forward-barf)
-              ("C-<right>"  . js2r-forward-slurp)
-              ("M-m S"      . js2r-split-string))
   :config
   (use-package prettier-js :ensure t)
   (use-package rjsx-mode :ensure t
-    :mode "\\.jsx\\'"
-    :magic ("import React" . rjsx-mode))
-  (use-package js2-refactor :ensure t)
-  (use-package json-mode :ensure t)
-  (use-package nodejs-repl :ensure t)
-  (add-hook 'js2-mode-hook #'js2-refactor-mode)
-  (add-hook 'js2-mode-hook
-            '(lambda ()
-               (js2-refactor-mode)
-               (js2r-add-keybindings-with-prefix "M-m")
-               (key-chord-define js2-mode-map ";;" (λ (save-excursion (move-end-of-line nil) (insert ";"))))
-               (key-chord-define js2-mode-map ",," (λ (save-excursion (move-end-of-line nil) (insert ","))))
+    :mode "\\.js\\'"
+    :magic ("import React" . rjsx-mode)))
 
-               (define-key js2-mode-map (kbd ";")
-                 (λ (if (looking-at ";")
-                        (forward-char)
-                      (funcall 'self-insert-command 1))))
-
-               ;; Overwrite this function to output to minibuffer
-               (defun nodejs-repl-execute (command &optional buf)
-                 "Execute a command and output the result to minibuffer."
-                 (let ((ret (nodejs-repl--send-string (concat command "\n"))))
-                   (setq ret (replace-regexp-in-string nodejs-repl-ansi-color-sequence-re "" ret))
-                   ;; delete inputs
-                   (setq ret (replace-regexp-in-string "\\(\\w\\|\\W\\)+\r\r\n" "" ret))
-                   (setq ret (replace-regexp-in-string "\r" "" ret))
-                   (setq ret (replace-regexp-in-string "\n.*\\'" "" ret))
-                   (setq ret (replace-regexp-in-string "\nundefined\\'" "" ret))
-                   (message ret)))
-
-               (defadvice nodejs-repl (after switch-back activate)
-                 (delete-window)))))
-
-
-
-(use-package company-tern :ensure t :config (progn (add-to-list 'company-backends 'company-tern)
-(add-hook 'js2-mode-hook (lambda ()
-                           (tern-mode)
-                           (company-mode)))))
 ;; Clojure support
 (use-package 
   clojure-mode 
