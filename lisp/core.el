@@ -1,4 +1,5 @@
-
+(use-package ace-window :ensure t :init (setq aw-dispatch-always t) :config (global-set-key (kbd "M-o") 'ace-window))
+;;automagical window resize
 (use-package 
   golden-ratio 
   :ensure t 
