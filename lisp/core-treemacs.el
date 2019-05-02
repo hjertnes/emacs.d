@@ -56,7 +56,7 @@
   dired 
   :ensure t 
   :config (treemacs-icons-dired-mode))
-0
+
 (use-package 
   treemacs-magit 
   :after treemacs 

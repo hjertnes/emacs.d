@@ -1,7 +1,3 @@
-;; pug support
-(use-package 
-  pug-mode 
-  :ensure t)
 ;; Markdown support
 (use-package 
   markdown-mode 

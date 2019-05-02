@@ -21,4 +21,6 @@
 (defun is-linux () 
   (interactive) 
   (eq system-type 'gnu/linux))
+(defun save-all () (interactive) (save-some-buffers t))
 (provide 'funcs)
+
