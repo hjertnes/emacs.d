@@ -8,6 +8,7 @@
   ace-window 
   :ensure t 
   :config (global-set-key (kbd "M-o") 'ace-window))
+(use-package transient :ensure t)
 (use-package 
   magit 
   :init (setq magit-completing-read-function 'ivy-completing-read) 
