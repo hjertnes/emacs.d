@@ -49,20 +49,11 @@
 (use-package 
   omnisharp 
   :ensure t 
-  :if (is-windows) 
-  :init (setq omnisharp-server-executable-path  "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
-  :config (csharp-config))
-(use-package 
-  omnisharp 
-  :ensure t 
-  :if (is-linux) 
-  :init (setq omnisharp-server-executable-path "/opt/omnisharp-roslyn/OmniSharp.exe") 
-  :config (csharp-config))
-(use-package ;;todo fix
-  omnisharp 
-  :ensure t 
-  :if (is-mac) 
-  :init (setq omnisharp-server-executable-path "/opt/omnisharp-roslyn/OmniSharp.exe") 
+  :init (setq omnisharp-server-executable-path(cond((is-windows)
+						    "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
+						   ((is-mac)  "/opt/omnisharp-roslyn/OmniSharp.exe") 
+						   ((is-linux)
+						    "/opt/omnisharp-roslyn/OmniSharp.exe"))) 
   :config (csharp-config))
 ;; Editing web stuff(html, css etc)
 (use-package 
@@ -88,9 +79,10 @@
     rjsx-mode 
     :ensure t 
     :mode "\\.js\\'" 
-    :magic ("import React" . rjsx-mode)))
-  (use-package scss-mode :ensure t)
-
+    :magic ("import React" . rjsx-mode))) 
+(use-package 
+  scss-mode 
+  :ensure t)
 ;; Clojure support
 (use-package 
   clojure-mode 
@@ -105,5 +97,6 @@
 			   (lambda() 
 			     (when (eq major-mode 'clojure-mode) 
 			       (cider-load-buffer))))))
-
+(use-package 
+  org)
 (provide 'langs)

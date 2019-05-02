@@ -1,9 +1,7 @@
 ;; Auto load when files change on disk from outside emacs
 (global-auto-revert-mode +1)
 ;; Auto save
-(if (version< emacs-version "26") 
-    (auto-save-mode +1) 
-  (auto-save-visited-mode +1))
+(auto-save-visited-mode +1)
 ;; line numbers
 (global-linum-mode +1)
 ;; Dont show scrollbars or those ugly ass icons
