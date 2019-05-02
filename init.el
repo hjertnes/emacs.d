@@ -2,11 +2,10 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 ;; Set up the emacs package manager
 (require 'package-manager)
-
-;; Configures things that are a part of emacs out of the box, and enables modes that come with emacs
-(require 'pre)
 ;; Loads functions I use various places in my config
 (require 'funcs)
+;; Configures things that are a part of emacs out of the box, and enables modes that come with emacs
+(require 'pre)
 ;; Stuff I consider to be core to how I use and want my emacs to be
 (require 'core)
 ;; Programming languages
