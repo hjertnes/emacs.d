@@ -89,6 +89,7 @@
     :ensure t 
     :mode "\\.js\\'" 
     :magic ("import React" . rjsx-mode)))
+  (use-package scss-mode :ensure t)
 
 ;; Clojure support
 (use-package 
