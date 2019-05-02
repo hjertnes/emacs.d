@@ -1,6 +1,6 @@
 (setq
  ;; GC
- gc-cons-threshold most-positive-fixnum
+ ;;gc-cons-threshold most-positive-fixnum
  ;; A huge undo buffer limit, because I hate loosing stuff because of this
  undo-limit 1000000000 undo-strong-limit 1000000000
  ;; set the default mode to text-mode
@@ -32,5 +32,8 @@
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 
-
+(setq gc-cons-threshold most-positive-fixnum)
+(add-hook 'after-init-hook 
+	  (lambda () 
+	    (setq gc-cons-threshold 800000)))
 (provide 'pre-setq)
