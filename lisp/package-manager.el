@@ -1,6 +1,7 @@
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/") 
-			 ("marmalade" . "http://marmalade-repo.org/packages/") 
+			 ("marmalade" . "http://marmalade-repo.org/packages/")
+			 ("org" . "https://orgmode.org/elpa/")
 			 ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))

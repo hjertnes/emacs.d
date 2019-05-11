@@ -21,6 +21,46 @@
 (defun is-linux () 
   (interactive) 
   (eq system-type 'gnu/linux))
-(defun save-all () (interactive) (save-some-buffers t))
-(provide 'funcs)
+(defun save-all () 
+  (interactive) 
+  (save-some-buffers t))
+(defvar current-date-time-format "%a %b %d %H:%M:%S %Z %Y" 
+  "Format of date to insert with `insert-current-date-time' func
+See help of `format-time-string' for possible replacements")
 
+
+
+(defun insert-datetime () 
+  (interactive) 
+  (insert (concat (format-time-string "%Y-%m-%dT%T") 
+		  ((lambda 
+		     (x) 
+		     (concat (substring x 0 3) ":" (substring x 3 5))) 
+		   (format-time-string "%z")))))
+
+(defun newline() (insert "\n"))
+(defun new-post ()
+  (interactive)
+  (insert ":PROPERTIES:")
+  (newline)
+  (insert ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :type post")
+  (newline)
+  (insert (concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :url " (format-time-string "/%Y/%m/%d/")))
+  (newline)
+  (insert (concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :date " (format-time-string "%Y-%m-%dT%T") 
+		  ((lambda 
+		     (x) 
+		     (concat (substring x 0 3) ":" (substring x 3 5))) 
+		   (format-time-string "%z"))))
+  (newline)
+  (insert (concat ":EXPORT_FILE_NAME:" (format-time-string "%Y-%m-%d-")))
+  (newline)
+  (insert ":END:")
+  (newline))
+
+
+
+
+
+
+(provide 'funcs)

@@ -94,5 +94,6 @@
 			     (when (eq major-mode 'clojure-mode) 
 			       (cider-load-buffer))))))
 (use-package 
-  org)
+  org :ensure t :pin org)
+(use-package org-plus-contrib :ensure t :pin org)
 (provide 'langs)

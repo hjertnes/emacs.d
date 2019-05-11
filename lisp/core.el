@@ -1,3 +1,4 @@
+(use-package ox-hugo :ensure t :init (setq org-hugo-front-matter-format 'yaml) :after ox)
 (use-package 
   ace-window 
   :ensure t 
@@ -52,7 +53,7 @@
   :ensure t 
   :config (progn 
 	    (require 'smartparens-config) 
-	    (smartparens-global-strict-mode t)
+	    (smartparens-global-mode t)
 	    ;; keybinding management
 	    (define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp) 
 	    (define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp) 
