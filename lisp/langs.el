@@ -95,5 +95,5 @@
 			       (cider-load-buffer))))))
 (use-package 
   org :ensure t :pin org)
-(use-package org-plus-contrib :ensure t :pin org)
+;(use-package org-plus-contrib :ensure t :pin org)
 (provide 'langs)
