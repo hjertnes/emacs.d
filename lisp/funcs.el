@@ -4,7 +4,7 @@
   (interactive)
   (if (yes-or-no-p "Are you sure you want to post this?")
     (request
-      micropub-endpoint
+      "https://micro.blog/micropub"
       :type "POST"
       :data `(("h"."entry")("content" . ,(buffer-substring-no-properties (point-min) (point-max))))
       :headers `(("Authorization" . ,(format "Bearer %s" (first (aref (aref (plist-get (car (auth-source-search :host "microblog")) :secret) 2) 0)))))
