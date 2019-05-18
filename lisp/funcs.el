@@ -1,3 +1,14 @@
+(require 'request)
+(defun microblog ()
+  "Post without title."
+  (interactive)
+  (if (yes-or-no-p "Are you sure you want to post this?")
+    (request
+      micropub-endpoint
+      :type "POST"
+      :data `(("h"."entry")("content" . ,(buffer-substring-no-properties (point-min) (point-max))))
+      :headers `(("Authorization" . ,(format "Bearer %s" (first (aref (aref (plist-get (car (auth-source-search :host "microblog")) :secret) 2) 0)))))
+:success (cl-function (lambda (&key data &allow-other-keys) (message "Success"))))))
 ;; Create new blank buffer. Stolen from; http://ergoemacs.org/emacs/emacs_new_empty_buffer.html
 (defun new-empty-buffer () 
   "Create a new empty buffer." 
