@@ -19,11 +19,9 @@
  js-indent-level 2
  ;; Integrate into the X11 clipboard
  ;; don't hide links in org mode
- org-descriptive-links nil
- select-enable-clipboard t)
+ org-descriptive-links nil select-enable-clipboard t)
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
-(add-hook 'after-init-hook 
-	  (lambda () 
-	    (setq gc-cons-threshold 800000)))
+(add-hook 'after-init-hook (lambda () 
+			     (setq gc-cons-threshold 800000)))
 (provide 'pre-setq)

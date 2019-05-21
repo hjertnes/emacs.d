@@ -1,4 +1,17 @@
-(use-package ox-hugo :ensure t :init (setq org-hugo-front-matter-format 'yaml) :after ox)
+(use-package 
+  package-lint 
+  :ensure t)
+(use-package 
+  ace-link 
+  :ensure t)
+(use-package 
+  hl-todo 
+  :ensure t)
+(use-package 
+  ox-hugo 
+  :ensure t 
+  :init (setq org-hugo-front-matter-format 'yaml) 
+  :after ox)
 (use-package 
   ace-window 
   :ensure t 
@@ -86,16 +99,12 @@
 	    (define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol) 
 	    (define-key smartparens-mode-map (kbd "C-\"") 'sp-change-inner) 
 	    (define-key smartparens-mode-map (kbd "M-i") 'sp-change-enclosing) 
-	    (bind-key "C-c f" 
-		      (lambda () 
-			(interactive) 
-			(sp-beginning-of-sexp 2))
-		      smartparens-mode-map) 
-	    (bind-key "C-c b" 
-		      (lambda () 
-			(interactive) 
-			(sp-beginning-of-sexp -2))
-		      smartparens-mode-map)
+	    (bind-key "C-c f" (lambda () 
+				(interactive) 
+				(sp-beginning-of-sexp 2)) smartparens-mode-map) 
+	    (bind-key "C-c b" (lambda () 
+				(interactive) 
+				(sp-beginning-of-sexp -2)) smartparens-mode-map) 
 	    (bind-key "H-t" 'sp-prefix-tag-object smartparens-mode-map) 
 	    (bind-key "H-p" 'sp-prefix-pair-object smartparens-mode-map) 
 	    (bind-key "H-y" 'sp-prefix-symbol-object smartparens-mode-map) 

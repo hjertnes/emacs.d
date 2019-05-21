@@ -33,15 +33,16 @@
 ;; Set the omnisharp server path manually on windows, because that piece of shit is weird, and only work this way.
 (defun csharp-config () 
   (add-to-list 'company-backends #'company-omnisharp) 
-  (add-hook 'csharp-mode-hook 
-	    (lambda() 
-	      (omnisharp-mode) 
-	      (company-mode) 
-	      (flycheck-mode) 
-	      (setq indent-tabs-mode nil company-idle-delay .1 c-syntactic-indentation t
-		    c-basic-offset 4 truncate-lines t tab-width 4) 
-	      (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring) 
-	      (local-set-key (kbd "C-c C-c") 'recompile))))
+  (add-hook 'csharp-mode-hook (lambda() 
+				(omnisharp-mode) 
+				(company-mode) 
+				(flycheck-mode) 
+				(setq indent-tabs-mode nil company-idle-delay .1
+				      c-syntactic-indentation t c-basic-offset 4 truncate-lines t
+				      tab-width 4) 
+				(local-set-key (kbd "C-c r r")
+					       'omnisharp-run-code-action-refactoring) 
+				(local-set-key (kbd "C-c C-c") 'recompile))))
 (use-package 
   omnisharp 
   :ensure t 
@@ -75,7 +76,7 @@
     rjsx-mode 
     :ensure t 
     :mode "\\.js\\'" 
-    :magic ("import React" . rjsx-mode))) 
+    :magic ("import React" . rjsx-mode)))
 (use-package 
   scss-mode 
   :ensure t)
@@ -89,12 +90,18 @@
   :ensure t 
   :config (progn (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion) 
 		 (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion) 
-		 (add-hook 'after-save-hook 
-			   (lambda() 
-			     (when (eq major-mode 'clojure-mode) 
-			       (cider-load-buffer))))))
+		 (add-hook 'after-save-hook (lambda() 
+					      (when (eq major-mode 'clojure-mode) 
+						(cider-load-buffer))))))
 (use-package 
-  org :ensure t :pin org)
-(use-package org-bullets :ensure t :config (add-hook 'org-mode-hook 'org-bullets-mode))
-(use-package org-beautify-theme :ensure t)
+  org 
+  :ensure t 
+  :pin org)
+(use-package 
+  org-bullets 
+  :ensure t 
+  :config (add-hook 'org-mode-hook 'org-bullets-mode))
+(use-package 
+  org-beautify-theme 
+  :ensure t)
 (provide 'langs)

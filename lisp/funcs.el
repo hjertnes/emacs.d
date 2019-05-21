@@ -1,14 +1,29 @@
 (require 'request)
-(defun microblog ()
-  "Post without title."
-  (interactive)
-  (if (yes-or-no-p "Are you sure you want to post this?")
-    (request
-      "https://micro.blog/micropub"
-      :type "POST"
-      :data `(("h"."entry")("content" . ,(buffer-substring-no-properties (point-min) (point-max))))
-      :headers `(("Authorization" . ,(format "Bearer %s" (first (aref (aref (plist-get (car (auth-source-search :host "microblog")) :secret) 2) 0)))))
-:success (cl-function (lambda (&key data &allow-other-keys) (message "Success"))))))
+
+(defun get-password (name) 
+  (let* ((results (auth-source-search :host name)) 
+	 (result (car results)) 
+	 (secrets (plist-get result 
+			     :secret)) 
+	 (secret (first (aref (aref secrets 2) 0)))) secret))
+
+(defun microblog () 
+  "Post without title." 
+  (interactive) 
+  (if (yes-or-no-p "Are you sure you want to post this?") 
+      (request "https://micro.blog/micropub" 
+	       :type "POST" 
+	       :data `(("h"."entry")
+		       ("content" . 
+			,(buffer-substring-no-properties 
+			  (point-min) 
+			  (point-max)))) 
+	       :headers `(("Authorization" . ,(format "Bearer %s" (get-password "microblog"))))
+	       :success (cl-function (lambda 
+				       (&key 
+					data
+					&allow-other-keys) 
+				       (message "Success"))))))
 ;; Create new blank buffer. Stolen from; http://ergoemacs.org/emacs/emacs_new_empty_buffer.html
 (defun new-empty-buffer () 
   "Create a new empty buffer." 
@@ -44,31 +59,30 @@ See help of `format-time-string' for possible replacements")
 (defun insert-datetime () 
   (interactive) 
   (insert (concat (format-time-string "%Y-%m-%dT%T") 
-		  ((lambda 
-		     (x) 
+		  ((lambda (x) 
 		     (concat (substring x 0 3) ":" (substring x 3 5))) 
 		   (format-time-string "%z")))))
 
-(defun newline2() (insert "\n"))
-(defun new-post ()
-  (interactive)
-  (insert "* ")
-  (newline2)
-  (insert ":PROPERTIES:")
-  (newline2)
-  (insert ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :type post")
-  (newline2)
-  (insert (concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :url " (format-time-string "/%Y/%m/%d/")))
-  (newline2)
+(defun newline2() 
+  (insert "\n"))
+(defun new-post () 
+  (interactive) 
+  (insert "* ") 
+  (newline2) 
+  (insert ":PROPERTIES:") 
+  (newline2) 
+  (insert ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :type post") 
+  (newline2) 
+  (insert (concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :url " (format-time-string "/%Y/%m/%d/"))) 
+  (newline2) 
   (insert (concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :date " (format-time-string "%Y-%m-%dT%T") 
-		  ((lambda 
-		     (x) 
+		  ((lambda (x) 
 		     (concat (substring x 0 3) ":" (substring x 3 5))) 
-		   (format-time-string "%z"))))
-  (newline2)
-  (insert (concat ":EXPORT_FILE_NAME: " (format-time-string "%Y-%m-%d-")))
-  (newline2)
-  (insert ":END:")
+		   (format-time-string "%z")))) 
+  (newline2) 
+  (insert (concat ":EXPORT_FILE_NAME: " (format-time-string "%Y-%m-%d-"))) 
+  (newline2) 
+  (insert ":END:") 
   (newline2))
 
 
