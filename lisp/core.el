@@ -193,5 +193,26 @@
   no-easy-keys 
   :ensure t 
   :config (no-easy-keys 1))
+;;
+     
+(use-package mu4e 
+  :init (setq
+	 mu4e-maildir (expand-file-name "~/Mail")
+ mu4e-drafts-folder "/Drafts"
+ mu4e-refile-folder "/Archive"
+ mu4e-sent-folder   "/Sent Items"
+ mu4e-trash-folder  "/Trash"
+ mu4e-get-mail-command "mbsync -a"
+ user-mail-address "me@hjertnes.me"
+ user-full-name  "Eivind Hjertnes"
+ smtpmail-default-smtp-server "smtp.fastmail.com"
+ smtpmail-smtp-server "smtp.fastmail.com"
+ smtpmail-smtp-service 587
+ mu4e-bookmarks
+ `(
+   ("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
+   ("maildir:/INBOX" "Inbox" ?i)
+   )))
+
 (require 'core-treemacs)
 (provide 'core)
