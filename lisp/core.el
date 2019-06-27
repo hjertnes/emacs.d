@@ -213,6 +213,13 @@
    ("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
    ("maildir:/INBOX" "Inbox" ?i)
    )))
+(use-package avy :ensure t :bind (("C-'" . avy-goto-char-2)))
+(use-package yasnippet
+  :ensure t
+  :init (setq  yas-snippet-dirs '("~/.emacs.d/snippets"))
+  :config
+  (yas-global-mode 1)
+  :bind (("M-s M-s" . yas-insert-snippet)("C-c y" . yas-expand)("C-c p" . yas-prev-field)("C-c n" . yas-next-field)))
 
 (require 'core-treemacs)
 (provide 'core)

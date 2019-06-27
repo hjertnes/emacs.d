@@ -54,8 +54,17 @@
   "Format of date to insert with `insert-current-date-time' func
 See help of `format-time-string' for possible replacements")
 
+(defun get-url()
+  (format-time-string "/%Y/%m/%d/"))
+(defun get-datestring()
+  (format-time-string "%Y-%m-%dT%T"))
+(defun get-timestring()
+  ((lambda (x) 
+		     (concat (substring x 0 3) ":" (substring x 3 5))) 
+		   (format-time-string "%z")))
 
 
+(defun get-timezone() (format-time-string "%z"))
 (defun insert-datetime () 
   (interactive) 
   (insert (concat (format-time-string "%Y-%m-%dT%T") 
@@ -84,10 +93,5 @@ See help of `format-time-string' for possible replacements")
   (newline2) 
   (insert ":END:") 
   (newline2))
-
-
-
-
-
 
 (provide 'funcs)
