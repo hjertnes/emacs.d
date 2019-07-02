@@ -1,10 +1,10 @@
-# key: new-wiki
+# key: new-page
 # --
 
 * $1
 :PROPERTIES:
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :url  /$2
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :date `(get-datestring)` `(get-timestring)` 
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :date `(get-datestring)``(get-timestring)` 
 :EXPORT_FILE_NAME: $3
 :END:
 

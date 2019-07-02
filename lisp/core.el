@@ -1,35 +1,29 @@
+;; emacs package linter
 (use-package 
   package-lint 
   :ensure t)
-(use-package 
-  ace-link 
-  :ensure t)
+;; highlight TODO items in a buffer
 (use-package 
   hl-todo 
-  :ensure t)
+  :ensure t
+  :config (hl-todo-mode +1))
+;; generate hugo blog post files from a org file
 (use-package 
   ox-hugo 
   :ensure t 
   :init (setq org-hugo-front-matter-format 'yaml) 
   :after ox)
-(use-package 
-  ace-window 
-  :ensure t 
-  :init (setq aw-dispatch-always t) 
-  :config (global-set-key (kbd "M-o") 'ace-window))
 ;;automagical window resize
 (use-package 
   golden-ratio 
   :ensure t 
   :config (golden-ratio-mode 1))
-(use-package 
-  transient 
-  :ensure t)
+;; git client for emacs
 (use-package 
   magit 
   :init (setq magit-completing-read-function 'ivy-completing-read) 
   :ensure t)
-;; Inherit PATh from Shell; but only when not on windows.
+;; Inherit Path from Shell; but only when not on windows.
 (use-package 
   exec-path-from-shell 
   :ensure t 
@@ -42,7 +36,6 @@
   :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy) 
   :config (progn (projectile-mode) 
 		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
-
 ;; Check syntax on the fly
 (use-package 
   flycheck 
@@ -56,89 +49,11 @@
   :init (setq company-dabbrev-downcase 0 company-idle-delay 0) 
   :config (progn(company-mode +1) 
 		(global-company-mode +1)))
-;; Adds suppnnort for docker in Tramp
-(use-package 
-  docker-tramp 
-  :ensure t)
-;; Smartparens
-(use-package 
-  smartparens 
-  :ensure t 
-  :config (progn 
-	    (require 'smartparens-config) 
-	    (smartparens-global-mode t)
-	    ;; keybinding management
-	    (define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-S-d") 'sp-beginning-of-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-S-a") 'sp-end-of-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-n") 'sp-forward-hybrid-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-p") 'sp-backward-hybrid-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-k") 'sp-kill-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp) 
-	    (define-key smartparens-mode-map (kbd "M-<delete>") 'sp-unwrap-sexp) 
-	    (define-key smartparens-mode-map (kbd "M-<backspace>") 'sp-backward-unwrap-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-<right>") 'sp-forward-slurp-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-<left>") 'sp-forward-barf-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-<left>") 'sp-backward-slurp-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-<right>") 'sp-backward-barf-sexp) 
-	    (define-key smartparens-mode-map (kbd "M-D") 'sp-splice-sexp) 
-	    (define-key smartparens-mode-map (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward) 
-	    (define-key smartparens-mode-map (kbd "C-M-<backspace>")
-	      'sp-splice-sexp-killing-backward) 
-	    (define-key smartparens-mode-map (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around) 
-	    (define-key smartparens-mode-map (kbd "C-]") 'sp-select-next-thing-exchange) 
-	    (define-key smartparens-mode-map (kbd "C-<left_bracket>") 'sp-select-previous-thing) 
-	    (define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing) 
-	    (define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol) 
-	    (define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol) 
-	    (define-key smartparens-mode-map (kbd "C-\"") 'sp-change-inner) 
-	    (define-key smartparens-mode-map (kbd "M-i") 'sp-change-enclosing) 
-	    (bind-key "C-c f" (lambda () 
-				(interactive) 
-				(sp-beginning-of-sexp 2)) smartparens-mode-map) 
-	    (bind-key "C-c b" (lambda () 
-				(interactive) 
-				(sp-beginning-of-sexp -2)) smartparens-mode-map) 
-	    (bind-key "H-t" 'sp-prefix-tag-object smartparens-mode-map) 
-	    (bind-key "H-p" 'sp-prefix-pair-object smartparens-mode-map) 
-	    (bind-key "H-y" 'sp-prefix-symbol-object smartparens-mode-map) 
-	    (bind-key "H-h" 'sp-highlight-current-sexp smartparens-mode-map) 
-	    (bind-key "H-e" 'sp-prefix-save-excursion smartparens-mode-map) 
-	    (bind-key "H-s c" 'sp-convolute-sexp smartparens-mode-map) 
-	    (bind-key "H-s a" 'sp-absorb-sexp smartparens-mode-map) 
-	    (bind-key "H-s e" 'sp-emit-sexp smartparens-mode-map) 
-	    (bind-key "H-s p" 'sp-add-to-previous-sexp smartparens-mode-map) 
-	    (bind-key "H-s n" 'sp-add-to-next-sexp smartparens-mode-map) 
-	    (bind-key "H-s j" 'sp-join-sexp smartparens-mode-map) 
-	    (bind-key "H-s s" 'sp-split-sexp smartparens-mode-map) 
-	    (bind-key "H-s r" 'sp-rewrap-sexp smartparens-mode-map) 
-	    (defvar hyp-s-x-map) 
-	    (define-prefix-command 'hyp-s-x-map) 
-	    (bind-key "H-s x" hyp-s-x-map smartparens-mode-map) 
-	    (bind-key "H-s x x" 'sp-extract-before-sexp smartparens-mode-map) 
-	    (bind-key "H-s x a" 'sp-extract-after-sexp smartparens-mode-map) 
-	    (bind-key "H-s x s" 'sp-swap-enclosing-sexp smartparens-mode-map) 
-	    (bind-key "C-x C-t" 'sp-transpose-hybrid-sexp smartparens-mode-map) 
-	    (bind-key ";" 'sp-comment emacs-lisp-mode-map) 
-	    (bind-key [remap c-electric-backspace] 'sp-backward-delete-char
-		      smartparens-strict-mode-map)))
-
 ;; Show guides for different ident levels.
 (use-package 
   indent-guide 
   :ensure t 
   :config (indent-guide-global-mode))
-;; Show hints when you have typed parts of a keybinding
-(use-package 
-  which-key 
-  :ensure t 
-  :config (which-key-mode))
 ;; Use different colors of delimiters and identifiers
 (use-package 
   rainbow-delimiters 
@@ -181,6 +96,19 @@
   :after (counsel) 
   :init (setq tramp-default-method "ssh") 
   :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
+;; Disable arrows etc to learn proper emacs movement
+(use-package 
+  no-easy-keys 
+  :ensure t 
+  :config (no-easy-keys 1))
+;;Snippet expainsion
+(use-package yasnippet
+  :ensure t
+  :init (setq  yas-snippet-dirs '("~/.emacs.d/snippets"))
+  :config
+  (yas-global-mode 1)
+  :bind (("M-s M-s" . yas-insert-snippet)("C-c y" . yas-expand)("C-c p" . yas-prev-field)("C-c n" . yas-next-field)))
+(use-package toml-mode :ensure t)
 ;; Use Ace-jump to move quickly
 (use-package 
   ace-jump-mode 
@@ -188,38 +116,14 @@
   :bind (("C-c SPC" . ace-jump-mode) 
 	 ("C-c C-u SPC" . ace-jump-char-mode) 
 	 ("C-c C-u C-u SPC" . ace-jump-line-mode)))
-;; Disable arrows etc to learn proper emacs movement
+;; ace-window: makes it easier to manage windows in emacs
 (use-package 
-  no-easy-keys 
+  ace-window 
   :ensure t 
-  :config (no-easy-keys 1))
-;;
-     
-(use-package mu4e 
-  :init (setq
-	 mu4e-maildir (expand-file-name "~/Mail")
- mu4e-drafts-folder "/Drafts"
- mu4e-refile-folder "/Archive"
- mu4e-sent-folder   "/Sent Items"
- mu4e-trash-folder  "/Trash"
- mu4e-get-mail-command "mbsync -a"
- user-mail-address "me@hjertnes.me"
- user-full-name  "Eivind Hjertnes"
- smtpmail-default-smtp-server "smtp.fastmail.com"
- smtpmail-smtp-server "smtp.fastmail.com"
- smtpmail-smtp-service 587
- mu4e-bookmarks
- `(
-   ("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
-   ("maildir:/INBOX" "Inbox" ?i)
-   )))
-(use-package avy :ensure t :bind (("C-'" . avy-goto-char-2)))
-(use-package yasnippet
-  :ensure t
-  :init (setq  yas-snippet-dirs '("~/.emacs.d/snippets"))
-  :config
-  (yas-global-mode 1)
-  :bind (("M-s M-s" . yas-insert-snippet)("C-c y" . yas-expand)("C-c p" . yas-prev-field)("C-c n" . yas-next-field)))
-
+  :init (setq aw-dispatch-always t) 
+  :config (global-set-key (kbd "M-o") 'ace-window))
+;; Smart Parens Config - smart parens is a better way to manage expressions
+(require 'core-sm)
+;; Treemacs config - file expolorer.
 (require 'core-treemacs)
 (provide 'core)
