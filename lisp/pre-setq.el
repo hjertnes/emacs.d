@@ -24,4 +24,7 @@
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 (add-hook 'after-init-hook (lambda () 
 			     (setq gc-cons-threshold 800000)))
+;; C-z are set to work more like most undo systems would
+(global-unset-key "\C-z")
+(global-set-key "\C-z" 'advertised-undo)
 (provide 'pre-setq)

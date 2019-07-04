@@ -13,11 +13,6 @@
   :ensure t 
   :init (setq org-hugo-front-matter-format 'yaml) 
   :after ox)
-;;automagical window resize
-(use-package 
-  golden-ratio 
-  :ensure t 
-  :config (golden-ratio-mode 1))
 ;; git client for emacs
 (use-package 
   magit 
@@ -56,7 +51,7 @@
   :config (indent-guide-global-mode))
 ;; Use different colors of delimiters and identifiers
 (use-package 
-  rainbow-delimiters 
+  rainbow-delimiters
   :ensure t 
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 (use-package 
@@ -108,6 +103,7 @@
   :config
   (yas-global-mode 1)
   :bind (("M-s M-s" . yas-insert-snippet)("C-c y" . yas-expand)("C-c p" . yas-prev-field)("C-c n" . yas-next-field)))
+;; toml
 (use-package toml-mode :ensure t)
 ;; Use Ace-jump to move quickly
 (use-package 

@@ -16,9 +16,6 @@
 (global-visual-line-mode 1)
 ;; Show matching parens
 (show-paren-mode 1)
-;; C-z are set to work more like most undo systems would
-(global-unset-key "\C-z")
-(global-set-key "\C-z" 'advertised-undo)
 ;; Search and highlight something in the current buffer (C-x w)
 (global-hi-lock-mode +1)
 ;; Show Column numbers
