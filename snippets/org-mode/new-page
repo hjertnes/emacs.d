@@ -4,7 +4,7 @@
 * $1
 :PROPERTIES:
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :date `(get-datestring)``(get-timestring)` 
-:EXPORT_FILE_NAME: $2
+:EXPORT_FILE_NAME:  $2
 :END:
 
 $3
