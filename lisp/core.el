@@ -118,8 +118,32 @@
   :ensure t 
   :init (setq aw-dispatch-always t) 
   :config (global-set-key (kbd "M-o") 'ace-window))
+;;eshell stuff
+(use-package eshell-z :ensure t :config (add-hook 'eshell-mode-hook (defun my-eshell-mode-hook ()(require 'eshell-z))))
+;; email
+(use-package mu4e 
+  :init (setq
+	 mu4e-maildir (expand-file-name "~/Mail")
+ mu4e-drafts-folder "/Drafts"
+ mu4e-refile-folder "/Archive"
+ mu4e-sent-folder   "/Sent Items"
+ mu4e-trash-folder  "/Trash"
+ mu4e-get-mail-command "mbsync -a"
+ user-mail-address "me@hjertnes.me"
+ user-full-name  "Eivind Hjertnes"
+ smtpmail-default-smtp-server "smtp.fastmail.com"
+ smtpmail-smtp-server "smtp.fastmail.com"
+ smtpmail-smtp-service 587
+ mu4e-bookmarks
+ `(
+   ("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
+   ("maildir:/INBOX" "Inbox" ?i)
+   )))
+;; browser
+(use-package w3m :ensure t)
 ;; Smart Parens Config - smart parens is a better way to manage expressions
 (require 'core-sm)
 ;; Treemacs config - file expolorer.
 (require 'core-treemacs)
+
 (provide 'core)

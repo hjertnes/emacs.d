@@ -17,6 +17,8 @@
  inhibit-startup-message t initial-scratch-message nil
  ;; Indent of 2 spaces for js
  js-indent-level 2
+ ;;dont export toc in org
+ (setq org-export-with-toc nil)
  ;; Integrate into the X11 clipboard
  ;; don't hide links in org mode
  org-descriptive-links nil select-enable-clipboard t)

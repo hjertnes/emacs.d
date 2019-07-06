@@ -5,25 +5,27 @@
 	 (result (car results)) 
 	 (secrets (plist-get result 
 			     :secret)) 
-	 (secret (first (aref (aref secrets 2) 0)))) secret))
+	 (secret (first (aref (aref secrets 2) 0)))) secret))  
 
 (defun microblog () 
   "Post without title." 
   (interactive) 
-  (if (yes-or-no-p "Are you sure you want to post this?") 
+  (if (yes-or-no-p "Are you sure you want to post this? ")
+      (progn
+      (switch-to-buffer (org-md-export-as-markdown))
       (request "https://micro.blog/micropub" 
 	       :type "POST" 
 	       :data `(("h"."entry")
-		       ("content" . 
+		       ("content" .
 			,(buffer-substring-no-properties 
 			  (point-min) 
-			  (point-max)))) 
+			  (point-max))))
 	       :headers `(("Authorization" . ,(format "Bearer %s" (get-password "microblog"))))
 	       :success (cl-function (lambda 
 				       (&key 
 					data
-					&allow-other-keys) 
-				       (message "Success"))))))
+					&allow-other-keys)
+				       (message "Success")))))))
 ;; Create new blank buffer. Stolen from; http://ergoemacs.org/emacs/emacs_new_empty_buffer.html
 (defun new-empty-buffer () 
   "Create a new empty buffer." 
@@ -71,5 +73,8 @@ See help of `format-time-string' for possible replacements")
 		  ((lambda (x) 
 		     (concat (substring x 0 3) ":" (substring x 3 5))) 
 		   (format-time-string "%z")))))
-
+(defun eshell-new()
+  "Open a new instance of eshell."
+  (interactive)
+  (eshell 'N))
 (provide 'funcs)

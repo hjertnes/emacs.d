@@ -1,11 +1,8 @@
 # key: new-post
 # --
 
-* $1
 :PROPERTIES:
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :type post
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :date `(get-datestring)``(get-timestring)` 
-:EXPORT_FILE_NAME: `(format-time-string "%Y-%m-%d-")`$2
+:EXPORT_FILE_NAME: `(format-time-string "%Y-%m-%d-")`$1
 :END:
-
-$3
