@@ -17,16 +17,15 @@
  inhibit-startup-message t initial-scratch-message nil
  ;; Indent of 2 spaces for js
  js-indent-level 2
- ;;dont export toc in org
- (setq org-export-with-toc nil)
+ ;; better default for tramp
+ tramp-default-method "sshx"
  ;; Integrate into the X11 clipboard
- ;; don't hide links in org mode
- org-descriptive-links nil select-enable-clipboard t)
+ select-enable-clipboard t)
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 (add-hook 'after-init-hook (lambda () 
-			     (setq gc-cons-threshold 800000)))
+			     (setq gc-cons-threshold most-positive-fixnum)))
 ;; C-z are set to work more like most undo systems would
-(global-unset-key "\C-z")
-(global-set-key "\C-z" 'advertised-undo)
+;;(global-unset-key "\C-z")
+;;(global-set-key "\C-z" 'advertised-undo)
 (provide 'pre-setq)

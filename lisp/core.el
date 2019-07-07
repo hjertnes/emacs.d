@@ -141,6 +141,8 @@
    )))
 ;; browser
 (use-package w3m :ensure t)
+;;undo tree
+(use-package undo-tree :ensure t :config (global-undo-tree-mode))
 ;; Smart Parens Config - smart parens is a better way to manage expressions
 (require 'core-sm)
 ;; Treemacs config - file expolorer.
