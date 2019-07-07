@@ -121,7 +121,8 @@
 ;;eshell stuff
 (use-package eshell-z :ensure t :config (add-hook 'eshell-mode-hook (defun my-eshell-mode-hook ()(require 'eshell-z))))
 ;; email
-(use-package mu4e 
+(use-package mu4e
+  :when (is-linux)
   :init (setq
 	 mu4e-maildir (expand-file-name "~/Mail")
  mu4e-drafts-folder "/Drafts"
