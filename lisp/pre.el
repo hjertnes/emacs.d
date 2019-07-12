@@ -3,7 +3,7 @@
 		    :family "Source Code Pro" 
 		    :height (cond ((is-windows) 100)
 				  ((is-linux) 100) 
-				  ((is-mac) 120)) 
+				  ((is-mac) 140)) 
 		    :weight 'normal 
 		    :width 'normal)
 (autoload 'ibuffer "ibuffer" "List buffers." t)

@@ -16,7 +16,7 @@
   :ensure t 
   :init (setq omnisharp-server-executable-path(cond((is-windows)
 						    "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
-						   ((is-mac)  "/opt/omnisharp-roslyn/OmniSharp.exe") 
+						   ((is-mac)  "~/bin/omnisharp") 
 						   ((is-linux)
 						    "/opt/omnisharp-roslyn/OmniSharp.exe"))) 
   :config (csharp-config))
