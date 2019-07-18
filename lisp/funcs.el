@@ -77,4 +77,6 @@ See help of `format-time-string' for possible replacements")
   "Open a new instance of eshell."
   (interactive)
   (eshell 'N))
+
+
 (provide 'funcs)

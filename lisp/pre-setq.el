@@ -28,4 +28,7 @@
 ;; C-z are set to work more like most undo systems would
 ;;(global-unset-key "\C-z")
 ;;(global-set-key "\C-z" 'advertised-undo)
+(when (eq system-type 'darwin)
+  (setq mac-right-option-modifier 'none mac-right-command-modifier 'none))
+
 (provide 'pre-setq)
