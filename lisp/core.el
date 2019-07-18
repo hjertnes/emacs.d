@@ -91,11 +91,6 @@
   :after (counsel) 
   :init (setq tramp-default-method "ssh") 
   :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
-;; Disable arrows etc to learn proper emacs movement
-(use-package 
-  no-easy-keys 
-  :ensure t 
-  :config (no-easy-keys 1))
 ;;Snippet expainsion
 (use-package yasnippet
   :ensure t
