@@ -31,4 +31,5 @@
 (when (eq system-type 'darwin)
   (setq mac-right-option-modifier 'none mac-right-command-modifier 'none))
 
+
 (provide 'pre-setq)

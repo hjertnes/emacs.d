@@ -92,6 +92,7 @@
   :init (setq tramp-default-method "ssh") 
   :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
 ;;Snippet expainsion
+
 (use-package yasnippet
   :ensure t
   :init (setq  yas-snippet-dirs '("~/.emacs.d/snippets"))
