@@ -1,6 +1,6 @@
 (setq
  ;; GC
- gc-cons-threshold most-positive-fixnum
+ gc-cons-threshold 8000000000
  ;; A huge undo buffer limit, because I hate loosing stuff because of this
  undo-limit 1000000000 undo-strong-limit 1000000000
  ;; set the default mode to text-mode
@@ -19,6 +19,8 @@
  js-indent-level 2
  ;; better default for tramp
  tramp-default-method "sshx"
+ ;;
+ reb-re-syntax 'string
  ;; Integrate into the X11 clipboard
  select-enable-clipboard t)
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))

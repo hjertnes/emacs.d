@@ -8,10 +8,16 @@
 ;; Ident new lines like the previous
 (electric-indent-mode +1)
 ;; Matching deliminers
-(electric-pair-mode +1)	;disabled to see if I prefer to do it manually
+(electric-pair-mode +1)
+;; linum
+(global-linum-mode 1)
 ;; Highlight the current line
 ;;highligt current line when in GUI mode, because some lines became unreadable in termianl
 (global-hl-line-mode 1)
+(window-divider-mode 1)
+
+;; hl changes
+(global-highlight-changes-mode 1)
 ;; Wrap lines
 (global-visual-line-mode 1)
 ;; Show matching parens

@@ -136,6 +136,8 @@
    ("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
    ("maildir:/INBOX" "Inbox" ?i)
    )))
+;;
+(use-package deadgrep :ensure t :bind (("<f5>". deadgrep)))
 ;; browser
 (use-package w3m :ensure t)
 ;;undo tree
