@@ -71,7 +71,7 @@
 		 (global-set-key (kbd "C-x C-b") 'ivy-switch-buffer) 
 		 (global-set-key (kbd "C-s") 'swiper) 
 		 (global-set-key (kbd "M-x") 'counsel-M-x) 
-		 (global-set-key (kbd "C-x C-f") 'counsel-find-file) 
+p		 (global-set-key (kbd "C-x C-f") 'counsel-find-file) 
 		 (global-set-key (kbd "<f1> f") 'counsel-describe-function) 
 		 (global-set-key (kbd "<f1> v") 'counsel-describe-variable) 
 		 (global-set-key (kbd "<f1> l") 'counsel-find-library) 
@@ -142,6 +142,7 @@
 (use-package w3m :ensure t)
 ;;undo tree
 (use-package undo-tree :ensure t :config (global-undo-tree-mode))
+(use-package browse-kill-ring :ensure t)
 ;; Smart Parens Config - smart parens is a better way to manage expressions
 (require 'core-sm)
 ;; Treemacs config - file expolorer.
