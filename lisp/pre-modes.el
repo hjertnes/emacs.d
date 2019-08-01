@@ -12,12 +12,9 @@
 ;; linum
 (global-linum-mode 1)
 ;; Highlight the current line
-;;highligt current line when in GUI mode, because some lines became unreadable in termianl
 (global-hl-line-mode 1)
+;; divider
 (window-divider-mode 1)
-
-;; hl changes
-(global-highlight-changes-mode 1)
 ;; Wrap lines
 (global-visual-line-mode 1)
 ;; Show matching parens

@@ -3,7 +3,7 @@
  gc-cons-threshold 8000000000
  ;; A huge undo buffer limit, because I hate loosing stuff because of this
  undo-limit 1000000000 undo-strong-limit 1000000000
- ;; set the default mode to text-mode
+ ;; set the initial mode to text-mode
  initial-major-mode (quote text-mode)
  ;; tag is 2 spaces and not a tab
  tab-with 2 indent-tabs-mode nil
@@ -27,6 +27,8 @@
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 (add-hook 'after-init-hook (lambda () 
 			     (setq gc-cons-threshold most-positive-fixnum)))
+;; default major mode
+(setq-default major-mode 'text-mode)
 ;; C-z are set to work more like most undo systems would
 ;;(global-unset-key "\C-z")
 ;;(global-set-key "\C-z" 'advertised-undo)
