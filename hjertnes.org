@@ -1,7 +1,4 @@
 #+TITLE: Eivind Hjertnes' Emacs configuration
-#+STARTUP: showeverything
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
 * Introduction
 * Settings
 ** Personal information
@@ -101,16 +98,7 @@ See help of `format-time-string' for possible replacements")
   (interactive)
   (eshell 'N))
 #+END_SRC
-** Font
-#+BEGIN_SRC emacs-lisp
-(set-face-attribute 'default nil 
-		    :family "Source Code Pro" 
-		    :height (cond ((is-windows) 100)
-				  ((is-linux) 100) 
-				  ((is-mac) 140)) 
-		    :weight 'normal 
-		    :width 'normal)
-#+END_SRC
+
 ** GC
 #+BEGIN_SRC emacs-lisp
 (setq gc-cons-threshold 8000000000)
@@ -128,10 +116,6 @@ See help of `format-time-string' for possible replacements")
 #+BEGIN_SRC emacs-lisp
 (setq tab-with 2 indent-tabs-mode nil js-indent-level 2)
 (electric-indent-mode +1)
-(use-package 
-  indent-guide 
-  :ensure t 
-  :config (indent-guide-global-mode))
 #+END_SRC
 ** OS X stuff
 #+BEGIN_SRC emacs-lisp
@@ -150,11 +134,7 @@ See help of `format-time-string' for possible replacements")
 #+BEGIN_SRC emacs-lisp
 (setq create-lockfiles nil make-backup-files nil auto-save-default nil)
 #+END_SRC
-** Mininmal UI
-#+BEGIN_SRC emacs-lisp
-(setq inhibit-startup-message t initial-scratch-message nil)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
+
 #+END_SRC
 ** Better SSH for TRAMP
 #+BEGIN_SRC emacs-lisp
@@ -181,18 +161,7 @@ See help of `format-time-string' for possible replacements")
 (global-auto-revert-mode +1)
 (auto-save-visited-mode +1)
 #+END_SRC
-** Line numbers
-#+BEGIN_SRC emacs-lisp
-(global-linum-mode 1)
-#+END_SRC
-** Highlight current line
-#+BEGIN_SRC emacs-lisp
-(global-hl-line-mode 1)
-#+END_SRC
-** Window divider
-#+BEGIN_SRC emacs-lisp
-(window-divider-mode 1)
-#+END_SRC
+
 ** Pairs
 #+BEGIN_SRC emacs-lisp
 (electric-pair-mode +1)
@@ -264,26 +233,6 @@ See help of `format-time-string' for possible replacements")
 	    (bind-key [remap c-electric-backspace] 'sp-backward-delete-char
 		      smartparens-strict-mode-map)))
 #+END_SRC
-** Wrap lines
-#+BEGIN_SRC emacs-lisp
-(global-visual-line-mode 1)
-#+END_SRC
-** Highlight matching parens
-#+BEGIN_SRC emacs-lisp
-(show-paren-mode 1)
-#+END_SRC
-** Highlight
-Enables you to highlight everything matching a search in the current buffer with a speicifc color
-#+BEGIN_SRC emacs-lisp
-(global-hi-lock-mode +1)
-#+END_SRC
-** Magit
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  magit 
-  :init (setq magit-completing-read-function 'ivy-completing-read) 
-  :ensure t)
-#+END_SRC
 
 ** OX Hugo
 #+BEGIN_SRC emacs-lisp
@@ -317,15 +266,6 @@ Enables you to highlight everything matching a search in the current buffer with
   :config(global-flycheck-mode))
 #+END_SRC
 
-** Elisp
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  package-lint 
-  :ensure t)
-(use-package 
-  elisp-format 
-  :ensure t)
-#+END_SRC
 
 ** Projectile
 #+BEGIN_SRC emacs-lisp
@@ -405,7 +345,235 @@ Enables you to highlight everything matching a search in the current buffer with
   :bind (("M-s M-s" . yas-insert-snippet)("C-c y" . yas-expand)("C-c p" . yas-prev-field)("C-c n" . yas-next-field)))
 #+END_SRC
 
-** Email
+** Ace
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  ace-jump-mode 
+  :ensure t 
+  :bind (("C-c SPC" . ace-jump-mode) 
+	 ("C-c C-u SPC" . ace-jump-char-mode) 
+	 ("C-c C-u C-u SPC" . ace-jump-line-mode)))
+;; ace-window: makes it easier to manage windows in emacs
+(use-package 
+  ace-window 
+  :ensure t 
+  :init (setq aw-dispatch-always t) 
+  :config (global-set-key (kbd "M-o") 'ace-window))
+#+END_SRC
+
+** Eshell
+#+BEGIN_SRC emacs-lisp
+(use-package eshell-z :ensure t :config (add-hook 'eshell-mode-hook (defun my-eshell-mode-hook ()(require 'eshell-z))))
+#+END_SRC
+
+** Search
+#+BEGIN_SRC emacs-lisp
+(use-package deadgrep :ensure t :bind (("<f5>". deadgrep)))
+#+END_SRC
+
+** Undo
+#+BEGIN_SRC emacs-lisp
+(use-package undo-tree :ensure t :config (global-undo-tree-mode))
+(use-package browse-kill-ring :ensure t)
+#+END_SRC
+
+
+** UI
+Changes that are first and foremost UI changes
+*** Font
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'default nil 
+		    :family "Source Code Pro" 
+		    :height (cond ((is-windows) 100)
+				  ((is-linux) 100) 
+				  ((is-mac) 140)) 
+		    :weight 'normal 
+		    :width 'normal)
+#+END_SRC
+*** Mininmal UI
+#+BEGIN_SRC emacs-lisp
+(setq inhibit-startup-message t initial-scratch-message nil)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+#+END_SRC
+*** Wrap lines
+#+BEGIN_SRC emacs-lisp
+(global-visual-line-mode 1)
+#+END_SRC
+*** Highlight matching parens
+#+BEGIN_SRC emacs-lisp
+(show-paren-mode 1)
+#+END_SRC
+*** Highlight Search
+Enables you to highlight everything matching a search in the current buffer with a speicifc color
+#+BEGIN_SRC emacs-lisp
+(global-hi-lock-mode +1)
+#+END_SRC
+*** Indent Guide
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  indent-guide 
+  :ensure t 
+  :config (indent-guide-global-mode))
+#+END_SRC
+*** Line numbers
+#+BEGIN_SRC emacs-lisp
+(global-linum-mode 1)
+#+END_SRC
+*** Highlight current line
+#+BEGIN_SRC emacs-lisp
+(global-hl-line-mode 1)
+#+END_SRC
+*** Window divider
+#+BEGIN_SRC emacs-lisp
+(window-divider-mode 1)
+#+END_SRC
+** Langauges
+*** Haskell
+#+BEGIN_SRC emacs-lisp
+(use-package intero :ensure t :config (add-hook 'haskell-mode-hook 'intero-mode))
+#+END_SRC
+*** TaskPaper
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  taskpaper-mode 
+  :ensure t)
+#+END_SRC
+
+*** Feature files
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  feature-mode 
+  :ensure t 
+  :config (setq feature-default-langauge "fi"))
+#+END_SRC
+*** HTML
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  web-mode 
+  :ensure)
+#+END_SRC
+
+*** JSON
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  json-mode 
+  :ensure)
+#+END_SRC
+
+*** JavaScript
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  js2-mode 
+  :ensure t 
+  :mode "\\.js\\'" 
+  :interpreter "node" 
+  :init (setq-default js2-concat-multiline-strings 'eol) 
+  (setq-default js2-global-externs '("module" "require" "setTimeout" "clearTimeout" "setInterval"
+				     "clearInterval" "location" "__dirname" "console" "JSON"
+				     "window" "process" "fetch")) 
+  (setq-default js2-strict-inconsistent-return-warning nil) 
+  :config (use-package 
+	    prettier-js 
+	    :ensure t) 
+  (use-package 
+    rjsx-mode 
+    :ensure t 
+    :mode "\\.js\\'" 
+    :magic ("import React" . rjsx-mode)))
+
+#+END_SRC
+*** C#
+
+#+BEGIN_SRC emacs-lisp
+(defun csharp-config () 
+  (add-to-list 'company-backends #'company-omnisharp) 
+  (add-hook 'csharp-mode-hook (lambda() 
+				(omnisharp-mode) 
+				(company-mode) 
+				(flycheck-mode) 
+				(setq indent-tabs-mode nil company-idle-delay .1
+				      c-syntactic-indentation t c-basic-offset 4 truncate-lines t
+				      tab-width 4) 
+				(local-set-key (kbd "C-c r r")
+					       'omnisharp-run-code-action-refactoring) 
+				(local-set-key (kbd "C-c C-c") 'recompile))))
+(use-package 
+  omnisharp 
+  :ensure t 
+  :init (setq omnisharp-server-executable-path(cond((is-windows)
+						    "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
+						   ((is-mac)  "~/bin/omnisharp") 
+						   ((is-linux)
+						    "/opt/omnisharp-roslyn/OmniSharp.exe"))) 
+  :config (csharp-config))
+
+#+END_SRC
+*** Docker
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  dockerfile-mode 
+  :ensure t 
+  :config (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+;; Docker-compose files
+(use-package 
+  docker-compose-mode 
+  :ensure t)
+#+END_SRC
+
+*** Org
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  org 
+  :ensure t
+  :init (setq org-export-with-toc nil org-descriptive-links nil)
+  :pin org)
+#+END_SRC
+*** Clojure
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  clojure-mode 
+  :ensure t)
+;; Clojure Repl integration and much more
+(use-package 
+  cider 
+  :ensure t 
+  :config (progn (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion) 
+		 (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion) 
+		 (add-hook 'after-save-hook (lambda() 
+					      (when (eq major-mode 'clojure-mode) 
+						(cider-load-buffer
+						 ))))))
+#+END_SRC
+
+*** Markdown
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  markdown-mode 
+  :ensure t 
+  :commands (markdown-mode gfm-mode) 
+  :mode (("README\\.md\\'" . gfm-mode) 
+	 ("\\.txt\\'" . markdown-mode) 
+	 ("\\.md\\'" . markdown-mode) 
+	 ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+#+END_SRC
+*** TOML
+#+BEGIN_SRC emacs-lisp
+(use-package toml-mode :ensure t)
+#+END_SRC
+*** Elisp
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  package-lint 
+  :ensure t)
+(use-package 
+  elisp-format 
+  :ensure t)
+#+END_SRC
+** Apps
+*** Email
+
 #+BEGIN_SRC emacs-lisp
 (use-package mu4e
   :when (is-linux)
@@ -428,7 +596,7 @@ Enables you to highlight everything matching a search in the current buffer with
    )))
 #+END_SRC
 
-** Sidebar with filenavigation
+*** File explorer
 #+BEGIN_SRC emacs-lisp
 
 (use-package 
@@ -497,171 +665,15 @@ Enables you to highlight everything matching a search in the current buffer with
   :ensure t)
 
 #+END_SRC
-
-** Markdown
+*** Magit
 #+BEGIN_SRC emacs-lisp
 (use-package 
-  markdown-mode 
-  :ensure t 
-  :commands (markdown-mode gfm-mode) 
-  :mode (("README\\.md\\'" . gfm-mode) 
-	 ("\\.txt\\'" . markdown-mode) 
-	 ("\\.md\\'" . markdown-mode) 
-	 ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
-#+END_SRC
-** TOML
-#+BEGIN_SRC emacs-lisp
-(use-package toml-mode :ensure t)
-#+END_SRC
-** Ace
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  ace-jump-mode 
-  :ensure t 
-  :bind (("C-c SPC" . ace-jump-mode) 
-	 ("C-c C-u SPC" . ace-jump-char-mode) 
-	 ("C-c C-u C-u SPC" . ace-jump-line-mode)))
-;; ace-window: makes it easier to manage windows in emacs
-(use-package 
-  ace-window 
-  :ensure t 
-  :init (setq aw-dispatch-always t) 
-  :config (global-set-key (kbd "M-o") 'ace-window))
-#+END_SRC
-
-** Docker
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  dockerfile-mode 
-  :ensure t 
-  :config (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
-;; Docker-compose files
-(use-package 
-  docker-compose-mode 
+  magit 
+  :init (setq magit-completing-read-function 'ivy-completing-read) 
   :ensure t)
 #+END_SRC
 
-** Org
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  org 
-  :ensure t
-  :init (setq org-export-with-toc nil org-descriptive-links nil)
-  :pin org)
-#+END_SRC
-** Clojure
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  clojure-mode 
-  :ensure t)
-;; Clojure Repl integration and much more
-(use-package 
-  cider 
-  :ensure t 
-  :config (progn (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion) 
-		 (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion) 
-		 (add-hook 'after-save-hook (lambda() 
-					      (when (eq major-mode 'clojure-mode) 
-						(cider-load-buffer
-						 ))))))
-#+END_SRC
-** C#
-#+BEGIN_SRC emacs-lisp
-(defun csharp-config () 
-  (add-to-list 'company-backends #'company-omnisharp) 
-  (add-hook 'csharp-mode-hook (lambda() 
-				(omnisharp-mode) 
-				(company-mode) 
-				(flycheck-mode) 
-				(setq indent-tabs-mode nil company-idle-delay .1
-				      c-syntactic-indentation t c-basic-offset 4 truncate-lines t
-				      tab-width 4) 
-				(local-set-key (kbd "C-c r r")
-					       'omnisharp-run-code-action-refactoring) 
-				(local-set-key (kbd "C-c C-c") 'recompile))))
-(use-package 
-  omnisharp 
-  :ensure t 
-  :init (setq omnisharp-server-executable-path(cond((is-windows)
-						    "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
-						   ((is-mac)  "~/bin/omnisharp") 
-						   ((is-linux)
-						    "/opt/omnisharp-roslyn/OmniSharp.exe"))) 
-  :config (csharp-config))
-
-#+END_SRC
-** Eshell
-#+BEGIN_SRC emacs-lisp
-(use-package eshell-z :ensure t :config (add-hook 'eshell-mode-hook (defun my-eshell-mode-hook ()(require 'eshell-z))))
-#+END_SRC
-** HTML
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  web-mode 
-  :ensure)
-#+END_SRC
-
-** JSON
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  json-mode 
-  :ensure)
-#+END_SRC
-
-** JavaScript
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  js2-mode 
-  :ensure t 
-  :mode "\\.js\\'" 
-  :interpreter "node" 
-  :init (setq-default js2-concat-multiline-strings 'eol) 
-  (setq-default js2-global-externs '("module" "require" "setTimeout" "clearTimeout" "setInterval"
-				     "clearInterval" "location" "__dirname" "console" "JSON"
-				     "window" "process" "fetch")) 
-  (setq-default js2-strict-inconsistent-return-warning nil) 
-  :config (use-package 
-	    prettier-js 
-	    :ensure t) 
-  (use-package 
-    rjsx-mode 
-    :ensure t 
-    :mode "\\.js\\'" 
-    :magic ("import React" . rjsx-mode)))
-
-#+END_SRC
-** Search
-#+BEGIN_SRC emacs-lisp
-(use-package deadgrep :ensure t :bind (("<f5>". deadgrep)))
-#+END_SRC
-
-** Web browser
+*** Web browser
 #+BEGIN_SRC emacs-lisp
 (use-package w3m :ensure t :when (is-not-windows))
-#+END_SRC
-
-** Undo
-#+BEGIN_SRC emacs-lisp
-(use-package undo-tree :ensure t :config (global-undo-tree-mode))
-(use-package browse-kill-ring :ensure t)
-#+END_SRC
-
-** Haskell
-#+BEGIN_SRC emacs-lisp
-(use-package intero :ensure t :config (add-hook 'haskell-mode-hook 'intero-mode))
-#+END_SRC
-** TaskPaper
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  taskpaper-mode 
-  :ensure t)
-#+END_SRC
-
-** Feature files
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  feature-mode 
-  :ensure t 
-  :config (setq feature-default-langauge "fi"))
 #+END_SRC
