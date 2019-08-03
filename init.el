@@ -1,17 +1,14 @@
-;; Eivindp Hjertnes' Emacs configration
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-;; Set up the emacs package manager
-(require 'package-manager)
-;; Loads functions I use various places in my config
-(require 'funcs)
-;; Configures things that are a part of emacs out of the box, and enables modes that come with emacs
-(require 'pre)
-;; Stuff I consider to be core to how I use and want my emacs to be
-(require 'core)
-;; Programming languages
-(require 'langs)
-;; Theme config
-(require 'theme)
-;; Load personal.el if it exist, a file used to override settings per system. Ignored by git. Mostly used to override fonts per system
-(when (file-exists-p "~/.emacs.d/personal.el") 
-  (load "~/.emacs.d/personal.el"))
+;; Eivind Hjertnes' Emacs configration
+
+(when (not(file-exists-p "~/.emacs.d/personal.el"))
+  (comint-send-string (get-buffer-process (shell)) "touch ~/.emacs.d/personal.el"))
+
+(when (not(file-exists-p "~/.emacs.d/custom.el"))
+  (comint-send-string (get-buffer-process (shell)) "touch ~/.emacs.d/custom.el"))
+
+(require 'org)
+(org-babel-load-file "~/.emacs.d/hjertnes.org")
+
+(load "~/.emacs.d/personal.el")
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)

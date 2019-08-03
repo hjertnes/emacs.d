@@ -1,0 +1,667 @@
+#+TITLE: Eivind Hjertnes' Emacs configuration
+#+STARTUP: showeverything
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
+* Introduction
+* Settings
+** Personal information
+#+BEGIN_SRC emacs-lisp
+  (setq user-full-name "Eivind Hjertnes"
+        user-mail-address "me@hjertnes.me")
+#+END_SRC
+** Package manager
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/") 
+			 ("marmalade" . "http://marmalade-repo.org/packages/") 
+			 ("org" . "https://orgmode.org/elpa/") 
+			 ("melpa" . "http://melpa.org/packages/")))
+(package-initialize)
+(unless package-archive-contents (package-refresh-contents))
+;; Install use-package(because it is used to load all other packages) and smartparens because its package name and what I will load are different
+(dolist (package 
+	 '(use-package
+	    org-plus-contrib
+	    request)) 
+  (unless (package-installed-p package) 
+    (package-install package)))
+;; load use-package
+(eval-when-compile 
+  (require 'use-package))
+#+END_SRC
+** Helper functions
+#+BEGIN_SRC emacs-lisp
+(defun get-password (name) 
+  (let* ((results (auth-source-search :host name)) 
+	 (result (car results)) 
+	 (secrets (plist-get result 
+			     :secret)) 
+	 (secret (first (aref (aref secrets 2) 0)))) secret)) 
+;; Check if current system is windows
+(defun is-windows () 
+  (eq system-type 'windows-nt))
+;; Check if current system is not windows
+(defun is-not-windows () 
+  (not (eq system-type 'windows-nt)))
+(defun is-mac () 
+  (eq system-type 'darwin))
+(defun is-linux () 
+  (eq system-type 'gnu/linux))
+(defvar current-date-time-format "%a %b %d %H:%M:%S %Z %Y" 
+  "Format of date to insert with `insert-current-date-time' func
+See help of `format-time-string' for possible replacements")
+
+(defun get-url()
+  (format-time-string "/%Y/%m/%d/"))
+(defun get-datestring()
+  (format-time-string "%Y-%m-%dT%T"))
+(defun get-timestring()
+  ((lambda (x) 
+		     (concat (substring x 0 3) ":" (substring x 3 5))) 
+		   (format-time-string "%z")))
+#+END_SRC
+** Interactive functions
+#+BEGIN_SRC emacs-lisp
+(require 'request)
+(defun microblog () 
+  "Post without title." 
+  (interactive) 
+  (if (yes-or-no-p "Are you sure you want to post this? ")
+      (progn
+      (switch-to-buffer (org-md-export-as-markdown))
+      (request "https://micro.blog/micropub" 
+	       :type "POST" 
+	       :data `(("h"."entry")
+		       ("content" .
+			,(buffer-substring-no-properties 
+			  (point-min) 
+			  (point-max))))
+	       :headers `(("Authorization" . ,(format "Bearer %s" (get-password "microblog"))))
+	       :success (cl-function (lambda 
+				       (&key 
+					data
+					&allow-other-keys)
+				       (message "Success")))))))
+;; Create new blank buffer. Stolen from; http://ergoemacs.org/emacs/emacs_new_empty_buffer.html
+(defun new-empty-buffer () 
+  "Create a new empty buffer." 
+  (interactive) 
+  (let (($buf (generate-new-buffer "untitled"))) 
+    (switch-to-buffer $buf) 
+    (funcall initial-major-mode) 
+    (setq buffer-offer-save t)
+    $buf))
+
+(defun save-all () 
+  (interactive) 
+  (save-some-buffers t))
+
+(defun eshell-new()
+  "Open a new instance of eshell."
+  (interactive)
+  (eshell 'N))
+#+END_SRC
+** Font
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'default nil 
+		    :family "Source Code Pro" 
+		    :height (cond ((is-windows) 100)
+				  ((is-linux) 100) 
+				  ((is-mac) 140)) 
+		    :weight 'normal 
+		    :width 'normal)
+#+END_SRC
+** GC
+#+BEGIN_SRC emacs-lisp
+(setq gc-cons-threshold 8000000000)
+#+END_SRC
+** Undo limit
+#+BEGIN_SRC emacs-lisp
+(setq undo-limit 1000000000 undo-strong-limit 1000000000)
+#+END_SRC
+** Default Mode
+#+BEGIN_SRC emacs-lisp
+(setq initial-major-mode (quote text-mode))
+(setq-default major-mode 'text-mode)
+#+END_SRC
+** Indent
+#+BEGIN_SRC emacs-lisp
+(setq tab-with 2 indent-tabs-mode nil js-indent-level 2)
+(electric-indent-mode +1)
+(use-package 
+  indent-guide 
+  :ensure t 
+  :config (indent-guide-global-mode))
+#+END_SRC
+** OS X stuff
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
+(setq ns-use-native-fullscreen t)
+(when (eq system-type 'darwin)
+  (setq mac-right-option-modifier 'none mac-right-command-modifier 'none))
+(use-package 
+  exec-path-from-shell 
+  :ensure t 
+  :if (is-not-windows) 
+  :config (exec-path-from-shell-initialize))
+#+END_SRC
+** Backup files etc
+#+BEGIN_SRC emacs-lisp
+(setq create-lockfiles nil make-backup-files nil auto-save-default nil)
+#+END_SRC
+** Mininmal UI
+#+BEGIN_SRC emacs-lisp
+(setq inhibit-startup-message t initial-scratch-message nil)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+#+END_SRC
+** Better SSH for TRAMP
+#+BEGIN_SRC emacs-lisp
+(setq tramp-default-method "sshx")
+#+END_SRC
+** Syntax for Re-builder
+#+BEGIN_SRC emacs-lisp
+(setq reb-re-syntax 'string)
+#+END_SRC
+** X11 Clipboard integration
+#+BEGIN_SRC emacs-lisp
+(setq select-enable-clipboard t)
+#+END_SRC
+** Server mode
+#+BEGIN_SRC emacs-lisp
+(server-mode +1)
+#+END_SRC
+** Column numbers
+#+BEGIN_SRC emacs-lisp
+(column-number-mode +1)
+#+END_SRC
+** Autosave & autoload
+#+BEGIN_SRC emacs-lisp
+(global-auto-revert-mode +1)
+(auto-save-visited-mode +1)
+#+END_SRC
+** Line numbers
+#+BEGIN_SRC emacs-lisp
+(global-linum-mode 1)
+#+END_SRC
+** Highlight current line
+#+BEGIN_SRC emacs-lisp
+(global-hl-line-mode 1)
+#+END_SRC
+** Window divider
+#+BEGIN_SRC emacs-lisp
+(window-divider-mode 1)
+#+END_SRC
+** Pairs
+#+BEGIN_SRC emacs-lisp
+(electric-pair-mode +1)
+(use-package 
+  smartparens 
+  :ensure t 
+  :config (progn 
+	    (require 'smartparens-config) 
+	    (smartparens-global-mode t)
+	    ;; keybinding management
+	    (define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-S-d") 'sp-beginning-of-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-S-a") 'sp-end-of-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-n") 'sp-forward-hybrid-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-p") 'sp-backward-hybrid-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-k") 'sp-kill-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp) 
+	    (define-key smartparens-mode-map (kbd "M-<delete>") 'sp-unwrap-sexp) 
+	    (define-key smartparens-mode-map (kbd "M-<backspace>") 'sp-backward-unwrap-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-<right>") 'sp-forward-slurp-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-<left>") 'sp-forward-barf-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-<left>") 'sp-backward-slurp-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-<right>") 'sp-backward-barf-sexp) 
+	    (define-key smartparens-mode-map (kbd "M-D") 'sp-splice-sexp) 
+	    (define-key smartparens-mode-map (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward) 
+	    (define-key smartparens-mode-map (kbd "C-M-<backspace>")
+	      'sp-splice-sexp-killing-backward) 
+	    (define-key smartparens-mode-map (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around) 
+	    (define-key smartparens-mode-map (kbd "C-]") 'sp-select-next-thing-exchange) 
+	    (define-key smartparens-mode-map (kbd "C-<left_bracket>") 'sp-select-previous-thing) 
+	    (define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing) 
+	    (define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol) 
+	    (define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol) 
+	    (define-key smartparens-mode-map (kbd "C-\"") 'sp-change-inner) 
+	    (define-key smartparens-mode-map (kbd "M-i") 'sp-change-enclosing) 
+	    (bind-key "C-c f" (lambda () 
+				(interactive) 
+				(sp-beginning-of-sexp 2)) smartparens-mode-map) 
+	    (bind-key "C-c b" (lambda () 
+				(interactive) 
+				(sp-beginning-of-sexp -2)) smartparens-mode-map) 
+	    (bind-key "H-t" 'sp-prefix-tag-object smartparens-mode-map) 
+	    (bind-key "H-p" 'sp-prefix-pair-object smartparens-mode-map) 
+	    (bind-key "H-y" 'sp-prefix-symbol-object smartparens-mode-map) 
+	    (bind-key "H-h" 'sp-highlight-current-sexp smartparens-mode-map) 
+	    (bind-key "H-e" 'sp-prefix-save-excursion smartparens-mode-map) 
+	    (bind-key "H-s c" 'sp-convolute-sexp smartparens-mode-map) 
+	    (bind-key "H-s a" 'sp-absorb-sexp smartparens-mode-map) 
+	    (bind-key "H-s e" 'sp-emit-sexp smartparens-mode-map) 
+	    (bind-key "H-s p" 'sp-add-to-previous-sexp smartparens-mode-map) 
+	    (bind-key "H-s n" 'sp-add-to-next-sexp smartparens-mode-map) 
+	    (bind-key "H-s j" 'sp-join-sexp smartparens-mode-map) 
+	    (bind-key "H-s s" 'sp-split-sexp smartparens-mode-map) 
+	    (bind-key "H-s r" 'sp-rewrap-sexp smartparens-mode-map) 
+	    (defvar hyp-s-x-map) 
+	    (define-prefix-command 'hyp-s-x-map) 
+	    (bind-key "H-s x" hyp-s-x-map smartparens-mode-map) 
+	    (bind-key "H-s x x" 'sp-extract-before-sexp smartparens-mode-map) 
+	    (bind-key "H-s x a" 'sp-extract-after-sexp smartparens-mode-map) 
+	    (bind-key "H-s x s" 'sp-swap-enclosing-sexp smartparens-mode-map) 
+	    (bind-key "C-x C-t" 'sp-transpose-hybrid-sexp smartparens-mode-map) 
+	    (bind-key ";" 'sp-comment emacs-lisp-mode-map) 
+	    (bind-key [remap c-electric-backspace] 'sp-backward-delete-char
+		      smartparens-strict-mode-map)))
+#+END_SRC
+** Wrap lines
+#+BEGIN_SRC emacs-lisp
+(global-visual-line-mode 1)
+#+END_SRC
+** Highlight matching parens
+#+BEGIN_SRC emacs-lisp
+(show-paren-mode 1)
+#+END_SRC
+** Highlight
+Enables you to highlight everything matching a search in the current buffer with a speicifc color
+#+BEGIN_SRC emacs-lisp
+(global-hi-lock-mode +1)
+#+END_SRC
+** Magit
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  magit 
+  :init (setq magit-completing-read-function 'ivy-completing-read) 
+  :ensure t)
+#+END_SRC
+
+** OX Hugo
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  ox-hugo 
+  :ensure t 
+  :init (setq org-hugo-front-matter-format 'yaml) 
+  :after ox)
+#+END_SRC
+
+** Highlight TODO comments
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  hl-todo 
+  :ensure t
+  :config (hl-todo-mode +1))
+#+END_SRC
+** Theme
+#+BEGIN_SRC emacs-lisp
+(use-package
+  solarized-theme
+   :config (load-theme 'solarized-dark t)
+  :ensure t)
+#+END_SRC
+** Flycheck
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  flycheck 
+  :ensure t 
+  :init (setq flycheck-disabled-checkers '(javascript-standard javascript-jshint)) 
+  :config(global-flycheck-mode))
+#+END_SRC
+
+** Elisp
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  package-lint 
+  :ensure t)
+(use-package 
+  elisp-format 
+  :ensure t)
+#+END_SRC
+
+** Projectile
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  projectile 
+  :ensure t 
+  :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy projectile-project-search-path '("~/Code/")) 
+  :config (progn (projectile-mode) 
+		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
+#+END_SRC
+
+** Company
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  company 
+  :ensure t 
+  :init (setq company-dabbrev-downcase 0 company-idle-delay 0) 
+  :config (progn(company-mode +1) 
+		(global-company-mode +1)))
+#+END_SRC
+
+** Rainbow
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  rainbow-delimiters
+  :ensure t 
+  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+(use-package 
+  rainbow-identifiers 
+  :ensure t 
+  :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
+#+END_SRC
+
+** Ivy
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  smex 
+  :ensure t 
+  :config (smex-initialize))
+;; Ivy for completion buffers
+(use-package 
+  counsel 
+  :ensure t 
+  :config (progn (ivy-mode 1) 
+		 (global-set-key (kbd "C-x C-b") 'ivy-switch-buffer) 
+		 (global-set-key (kbd "C-s") 'swiper) 
+		 (global-set-key (kbd "M-x") 'counsel-M-x) 
+		 (global-set-key (kbd "C-x C-f") 'counsel-find-file) 
+		 (global-set-key (kbd "<f1> f") 'counsel-describe-function) 
+		 (global-set-key (kbd "<f1> v") 'counsel-describe-variable) 
+		 (global-set-key (kbd "<f1> l") 'counsel-find-library) 
+		 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol) 
+		 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)) 
+  :init (setq  ivy-initial-inputs-alist nil ivy-use-virtual-buffers t ivy-count-format "(%d/d)"))
+;; Integrate Ivy and Projectile
+(use-package 
+  counsel-projectile 
+  :ensure t 
+  :after (counsel projectile) 
+  :config (counsel-projectile-mode +1))
+;; Ivy interface for tramp
+(use-package 
+  counsel-tramp 
+  :ensure t 
+  :after (counsel) 
+  :init (setq tramp-default-method "ssh") 
+  :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
+#+END_SRC
+
+** Yasnippet
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+  :ensure t
+  :init (setq  yas-snippet-dirs '("~/.emacs.d/snippets"))
+  :config
+  (yas-global-mode 1)
+  :bind (("M-s M-s" . yas-insert-snippet)("C-c y" . yas-expand)("C-c p" . yas-prev-field)("C-c n" . yas-next-field)))
+#+END_SRC
+
+** Email
+#+BEGIN_SRC emacs-lisp
+(use-package mu4e
+  :when (is-linux)
+  :init (setq
+	 mu4e-maildir (expand-file-name "~/Mail")
+ mu4e-drafts-folder "/Drafts"
+ mu4e-refile-folder "/Archive"
+ mu4e-sent-folder   "/Sent Items"
+ mu4e-trash-folder  "/Trash"
+ mu4e-get-mail-command "mbsync -a"
+ user-mail-address "me@hjertnes.me"
+ user-full-name  "Eivind Hjertnes"
+ smtpmail-default-smtp-server "smtp.fastmail.com"
+ smtpmail-smtp-server "smtp.fastmail.com"
+ smtpmail-smtp-service 587
+ mu4e-bookmarks
+ `(
+   ("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
+   ("maildir:/INBOX" "Inbox" ?i)
+   )))
+#+END_SRC
+
+** Sidebar with filenavigation
+#+BEGIN_SRC emacs-lisp
+
+(use-package 
+  treemacs 
+  :ensure t 
+  :defer t 
+  :init (with-eval-after-load 'winum (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)) 
+  :config (progn 
+	    (setq treemacs-collapse-dirs                 (if (executable-find "python3") 3 0)
+		  treemacs-deferred-git-apply-delay      0.5 treemacs-display-in-side-window t
+		  treemacs-eldoc-display                 t treemacs-file-event-delay 5000
+		  treemacs-file-follow-delay             0.2 treemacs-follow-after-init t
+		  treemacs-git-command-pipe              "" treemacs-goto-tag-strategy
+		  'refetch-index treemacs-indentation                   2
+		  treemacs-indentation-string            " " treemacs-is-never-other-window nil
+		  treemacs-max-git-entries               5000 treemacs-no-png-images nil
+		  treemacs-no-delete-other-windows       t treemacs-project-follow-cleanup nil
+		  treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist"
+									   user-emacs-directory)
+		  treemacs-recenter-distance             0.1 treemacs-recenter-after-file-follow nil
+		  treemacs-recenter-after-tag-follow     nil treemacs-recenter-after-project-jump
+		  'always treemacs-recenter-after-project-expand 'on-distance treemacs-show-cursor
+		  nil treemacs-show-hidden-files             t treemacs-silent-filewatch nil
+		  treemacs-silent-refresh                nil treemacs-sorting 'alphabetic-desc
+		  treemacs-space-between-root-nodes      t treemacs-tag-follow-cleanup            t
+		  treemacs-tag-follow-delay 1.5 treemacs-width                         35)
+
+	    ;; The default width and height of the icons is 22 pixels. If you are
+	    ;; using a Hi-DPI display, uncomment this to double the icon size.
+	    ;;(treemacs-resize-icons 44)
+	    (treemacs-follow-modep t) 
+	    (treemacs-filewatch-mode t) 
+	    (treemacs-fringe-indicator-mode t) 
+	    (pcase (cons (not (null (executable-find "git"))) 
+			 (not (null (executable-find "python3")))) 
+	      (`(t . t) 
+	       (treemacs-git-mode 'deferred)) 
+	      (`(t . _) 
+	       (treemacs-git-mode 'simple)))) 
+  :bind (:map global-map
+	      ("M-0"       . treemacs-select-window) 
+	      ("C-x t 1"   . treemacs-delete-other-windows) 
+	      ("C-x t t"   . treemacs) 
+	      ("C-x t B"   . treemacs-bookmark) 
+	      ("C-x t C-t" . treemacs-find-file) 
+	      ("C-x t M-t" . treemacs-find-tag)))
+
+
+(use-package 
+  treemacs-projectile 
+  :after treemacs 
+  projectile 
+  :ensure t)
+
+(use-package 
+  treemacs-icons-dired 
+  :after treemacs 
+  dired 
+  :ensure t 
+  :config (treemacs-icons-dired-mode))
+
+(use-package 
+  treemacs-magit 
+  :after treemacs 
+  magit 
+  :ensure t)
+
+#+END_SRC
+
+** Markdown
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  markdown-mode 
+  :ensure t 
+  :commands (markdown-mode gfm-mode) 
+  :mode (("README\\.md\\'" . gfm-mode) 
+	 ("\\.txt\\'" . markdown-mode) 
+	 ("\\.md\\'" . markdown-mode) 
+	 ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+#+END_SRC
+** TOML
+#+BEGIN_SRC emacs-lisp
+(use-package toml-mode :ensure t)
+#+END_SRC
+** Ace
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  ace-jump-mode 
+  :ensure t 
+  :bind (("C-c SPC" . ace-jump-mode) 
+	 ("C-c C-u SPC" . ace-jump-char-mode) 
+	 ("C-c C-u C-u SPC" . ace-jump-line-mode)))
+;; ace-window: makes it easier to manage windows in emacs
+(use-package 
+  ace-window 
+  :ensure t 
+  :init (setq aw-dispatch-always t) 
+  :config (global-set-key (kbd "M-o") 'ace-window))
+#+END_SRC
+
+** Docker
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  dockerfile-mode 
+  :ensure t 
+  :config (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+;; Docker-compose files
+(use-package 
+  docker-compose-mode 
+  :ensure t)
+#+END_SRC
+
+** Org
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  org 
+  :ensure t
+  :init (setq org-export-with-toc nil org-descriptive-links nil)
+  :pin org)
+#+END_SRC
+** Clojure
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  clojure-mode 
+  :ensure t)
+;; Clojure Repl integration and much more
+(use-package 
+  cider 
+  :ensure t 
+  :config (progn (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion) 
+		 (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion) 
+		 (add-hook 'after-save-hook (lambda() 
+					      (when (eq major-mode 'clojure-mode) 
+						(cider-load-buffer
+						 ))))))
+#+END_SRC
+** C#
+#+BEGIN_SRC emacs-lisp
+(defun csharp-config () 
+  (add-to-list 'company-backends #'company-omnisharp) 
+  (add-hook 'csharp-mode-hook (lambda() 
+				(omnisharp-mode) 
+				(company-mode) 
+				(flycheck-mode) 
+				(setq indent-tabs-mode nil company-idle-delay .1
+				      c-syntactic-indentation t c-basic-offset 4 truncate-lines t
+				      tab-width 4) 
+				(local-set-key (kbd "C-c r r")
+					       'omnisharp-run-code-action-refactoring) 
+				(local-set-key (kbd "C-c C-c") 'recompile))))
+(use-package 
+  omnisharp 
+  :ensure t 
+  :init (setq omnisharp-server-executable-path(cond((is-windows)
+						    "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
+						   ((is-mac)  "~/bin/omnisharp") 
+						   ((is-linux)
+						    "/opt/omnisharp-roslyn/OmniSharp.exe"))) 
+  :config (csharp-config))
+
+#+END_SRC
+** Eshell
+#+BEGIN_SRC emacs-lisp
+(use-package eshell-z :ensure t :config (add-hook 'eshell-mode-hook (defun my-eshell-mode-hook ()(require 'eshell-z))))
+#+END_SRC
+** HTML
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  web-mode 
+  :ensure)
+#+END_SRC
+
+** JSON
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  json-mode 
+  :ensure)
+#+END_SRC
+
+** JavaScript
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  js2-mode 
+  :ensure t 
+  :mode "\\.js\\'" 
+  :interpreter "node" 
+  :init (setq-default js2-concat-multiline-strings 'eol) 
+  (setq-default js2-global-externs '("module" "require" "setTimeout" "clearTimeout" "setInterval"
+				     "clearInterval" "location" "__dirname" "console" "JSON"
+				     "window" "process" "fetch")) 
+  (setq-default js2-strict-inconsistent-return-warning nil) 
+  :config (use-package 
+	    prettier-js 
+	    :ensure t) 
+  (use-package 
+    rjsx-mode 
+    :ensure t 
+    :mode "\\.js\\'" 
+    :magic ("import React" . rjsx-mode)))
+
+#+END_SRC
+** Search
+#+BEGIN_SRC emacs-lisp
+(use-package deadgrep :ensure t :bind (("<f5>". deadgrep)))
+#+END_SRC
+
+** Web browser
+#+BEGIN_SRC emacs-lisp
+(use-package w3m :ensure t :when (is-not-windows))
+#+END_SRC
+
+** Undo
+#+BEGIN_SRC emacs-lisp
+(use-package undo-tree :ensure t :config (global-undo-tree-mode))
+(use-package browse-kill-ring :ensure t)
+#+END_SRC
+
+** Haskell
+#+BEGIN_SRC emacs-lisp
+(use-package intero :ensure t :config (add-hook 'haskell-mode-hook 'intero-mode))
+#+END_SRC
+** TaskPaper
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  taskpaper-mode 
+  :ensure t)
+#+END_SRC
+
+** Feature files
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  feature-mode 
+  :ensure t 
+  :config (setq feature-default-langauge "fi"))
+#+END_SRC

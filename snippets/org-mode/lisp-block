@@ -1,0 +1,5 @@
+# key: lisp-block
+# --
+
+#+BEGIN_SRC emacs-lisp
+#+END_SRC

@@ -8,6 +8,11 @@ tramp
 network-security.data
 url
 personal.el
+personal.el~
 transient
 .cache
 server
+custom.el
+custom.el~
+hjertnes.el
+hjertnes.el~
