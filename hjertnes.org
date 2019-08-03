@@ -1,5 +1,9 @@
 #+TITLE: Eivind Hjertnes' Emacs configuration
 * Introduction
+This is my Emacs configuration, I use it for more or less anything that require me to edit text. Everything from writing, to programming, file management and a lot of command line stuff and sometimes reading email. In August of 2019 I moved my config from a pile of well commented elisp files to this org document.
+
+Why? Because it felt like it made more sense to have my configuration in a form where it works to give a lot of context about every single little dumb detail, to inspiration for others and to remind me why. 
+
 * Settings
 ** Personal information
 #+BEGIN_SRC emacs-lisp
@@ -7,6 +11,9 @@
         user-mail-address "me@hjertnes.me")
 #+END_SRC
 ** Package manager
+One of the first things I do is to configure the Emacs package system to use all the package sources I know of, and to install use-package, request and org-plus-contrib; and then load use-package. 
+
+Use-package will be used to load, install and configure more or less all other pakcages. Request are installed here because I use it in some of my interactive functions. And I install org-contrib-plus here because I either have to do this or to have nested use-packages, and I'm doing the lesser evil. 
 #+BEGIN_SRC emacs-lisp
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/") 
@@ -15,18 +22,17 @@
 			 ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
-;; Install use-package(because it is used to load all other packages) and smartparens because its package name and what I will load are different
 (dolist (package 
 	 '(use-package
 	    org-plus-contrib
 	    request)) 
   (unless (package-installed-p package) 
     (package-install package)))
-;; load use-package
 (eval-when-compile 
   (require 'use-package))
 #+END_SRC
 ** Helper functions
+Various helper functions I use a few different places in my setup. Most of them do stuff like reading passwords from auth-info, predicates for figuring out what kind of system it is or isn't and a few date related functions I use in my yasnippets
 #+BEGIN_SRC emacs-lisp
 (defun get-password (name) 
   (let* ((results (auth-source-search :host name)) 
@@ -58,6 +64,9 @@ See help of `format-time-string' for possible replacements")
 		   (format-time-string "%z")))
 #+END_SRC
 ** Interactive functions
+Interactive functions that I use from time to time to do stuff that isn't as easy as I like out of the box. 
+*** Post to Micro.blog
+Micro.blog is my "social" media of choice. It is a tiny network tied together with blogs and rss feeds. This is a tiny function I use to post from emacs.
 #+BEGIN_SRC emacs-lisp
 (require 'request)
 (defun microblog () 
@@ -79,7 +88,12 @@ See help of `format-time-string' for possible replacements")
 					data
 					&allow-other-keys)
 				       (message "Success")))))))
-;; Create new blank buffer. Stolen from; http://ergoemacs.org/emacs/emacs_new_empty_buffer.html
+
+#+END_SRC
+
+*** New Empty Buffer
+Stole this one from [[http://ergoemacs.org/emacs/emacs_new_empty_buffer.html][http://ergoemacs.org/emacs/emacs_new_empty_buffer.html]]. It is a small function that let me create a new "scratch" buffer. 
+#+BEGIN_SRC emacs-lisp
 (defun new-empty-buffer () 
   "Create a new empty buffer." 
   (interactive) 
@@ -88,11 +102,17 @@ See help of `format-time-string' for possible replacements")
     (funcall initial-major-mode) 
     (setq buffer-offer-save t)
     $buf))
-
+#+END_SRC
+*** Save all
+Not soemthing I use a lot, but I do use it when I have search and replaced a lot of files, and just want to save it all. 
+#+BEGIN_SRC emacs-lisp
 (defun save-all () 
   (interactive) 
   (save-some-buffers t))
-
+#+END_SRC
+*** Eshell New
+Eshell doesn't have a "give me another shell" interactive function for some weird reason. This function let me create a new one. 
+#+BEGIN_SRC emacs-lisp
 (defun eshell-new()
   "Open a new instance of eshell."
   (interactive)
@@ -100,30 +120,48 @@ See help of `format-time-string' for possible replacements")
 #+END_SRC
 
 ** GC
+I keep my GC limit to 8GB. It might seem extreme, but it works fine for me on my systems. It never gets close to that on my OS X or Linux systems, and memoery use is always ridicolus on my Windows work laptop. 
 #+BEGIN_SRC emacs-lisp
 (setq gc-cons-threshold 8000000000)
 #+END_SRC
 ** Undo limit
+This sets a very high limit on how much stuff emacs keeps in the kill ring. I hate loosing stuff from Copy Paste fuckups. Like with GC, this could probably be lower, but I don't bother with doing so before I have a real reason for it. 
 #+BEGIN_SRC emacs-lisp
 (setq undo-limit 1000000000 undo-strong-limit 1000000000)
 #+END_SRC
 ** Default Mode
+These two settings forces emacs to use text-mode as its default mode, used when emacs can't figure out what mode to use. It is probasbly not needed to use both of those settings.
 #+BEGIN_SRC emacs-lisp
 (setq initial-major-mode (quote text-mode))
 (setq-default major-mode 'text-mode)
 #+END_SRC
 ** Indent
+Sets emacs to not use tab as ident, and sets various two spaces per tab variables. And I enable electric ident mode which will ident a line to the previous one when you hit RET. 
 #+BEGIN_SRC emacs-lisp
 (setq tab-with 2 indent-tabs-mode nil js-indent-level 2)
 (electric-indent-mode +1)
 #+END_SRC
 ** OS X stuff
+Just some settings that make Emacs better under OS X
+
+*** Make it prettier
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
+#+END_SRC
+*** Use the native full screen
+#+BEGIN_SRC emacs-lisp
 (setq ns-use-native-fullscreen t)
+#+END_SRC
+*** Make Emacs ignore the right command and option
+This setting is really useful if you like me sometimes need to type characters that are under a option combo on OS X. This setting tells emacs to not do anything with the right option and command. 
+#+BEGIN_SRC emacs-lisp
 (when (eq system-type 'darwin)
   (setq mac-right-option-modifier 'none mac-right-command-modifier 'none))
+#+END_SRC
+*** Get path from shell
+Paths can be a little bit weird if you start emacs as an App on OS X. This package fixes it.
+#+BEGIN_SRC emacs-lisp
 (use-package 
   exec-path-from-shell 
   :ensure t 
@@ -376,7 +414,6 @@ See help of `format-time-string' for possible replacements")
 (use-package undo-tree :ensure t :config (global-undo-tree-mode))
 (use-package browse-kill-ring :ensure t)
 #+END_SRC
-
 
 ** UI
 Changes that are first and foremost UI changes
