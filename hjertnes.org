@@ -169,38 +169,44 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
   :config (exec-path-from-shell-initialize))
 #+END_SRC
 ** Backup files etc
+The default setup for emacs creates various lock and backup files and some auto-save stuff. This diables all of that.
 #+BEGIN_SRC emacs-lisp
 (setq create-lockfiles nil make-backup-files nil auto-save-default nil)
 #+END_SRC
-
-#+END_SRC
 ** Better SSH for TRAMP
+This makes using TRAMP over SSH better, don't remember the details.
 #+BEGIN_SRC emacs-lisp
 (setq tramp-default-method "sshx")
 #+END_SRC
 ** Syntax for Re-builder
+Re-builder is this awesome emacs feature where you can create a regexp search and replace and see where it will match. This sets the default regexp syntax to a less weird one. The default requires a ridicolus amount of backslashes. 
 #+BEGIN_SRC emacs-lisp
 (setq reb-re-syntax 'string)
 #+END_SRC
 ** X11 Clipboard integration
+Makes sure emacs and the X11 clipboard work better together.
 #+BEGIN_SRC emacs-lisp
 (setq select-enable-clipboard t)
 #+END_SRC
 ** Server mode
+Server modes enable you to use emacs client. Great if you want to send files to be edited on a running emacs instance from the commandline. 
 #+BEGIN_SRC emacs-lisp
 (server-mode +1)
 #+END_SRC
 ** Column numbers
+Showing column numbers and line numbers in the mode line
 #+BEGIN_SRC emacs-lisp
 (column-number-mode +1)
 #+END_SRC
 ** Autosave & autoload
+These two modes will make emacs auto save files, and load them from disk if the file changes. 
 #+BEGIN_SRC emacs-lisp
 (global-auto-revert-mode +1)
 (auto-save-visited-mode +1)
 #+END_SRC
 
 ** Pairs
+Electric pair mode will insert a matching symbol for pairs like ()[] etc. And smart parens is a superior way to working with them. 
 #+BEGIN_SRC emacs-lisp
 (electric-pair-mode +1)
 (use-package 
@@ -273,6 +279,7 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
 #+END_SRC
 
 ** OX Hugo
+A fantastic package that can turn a org document to markdown files that blog systems that hugo can use to generate a website. 
 #+BEGIN_SRC emacs-lisp
 (use-package 
   ox-hugo 
@@ -280,8 +287,8 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
   :init (setq org-hugo-front-matter-format 'yaml) 
   :after ox)
 #+END_SRC
-
 ** Highlight TODO comments
+This highlights todo comments in buffers. Really useful if you like me always want to deal with them if possible. 
 #+BEGIN_SRC emacs-lisp
 (use-package 
   hl-todo 
@@ -289,6 +296,7 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
   :config (hl-todo-mode +1))
 #+END_SRC
 ** Theme
+Loads my theme, currently solarized-dark
 #+BEGIN_SRC emacs-lisp
 (use-package
   solarized-theme
@@ -296,6 +304,7 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
   :ensure t)
 #+END_SRC
 ** Flycheck
+Flycheck is this awesome package that everything works with. It an show you warnings and errors in your code. 
 #+BEGIN_SRC emacs-lisp
 (use-package 
   flycheck 
@@ -303,9 +312,8 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
   :init (setq flycheck-disabled-checkers '(javascript-standard javascript-jshint)) 
   :config(global-flycheck-mode))
 #+END_SRC
-
-
 ** Projectile
+Projectile makes it a lot easier to switch between projects in Emacs. It keeps me a LOT saner at work.
 #+BEGIN_SRC emacs-lisp
 (use-package 
   projectile 
@@ -314,8 +322,8 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
   :config (progn (projectile-mode) 
 		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
 #+END_SRC
-
 ** Company
+A better autocomplete system than the built in one. Most major modes for emacs that have some kind of auto complete also integrates with company. 
 #+BEGIN_SRC emacs-lisp
 (use-package 
   company 
@@ -324,8 +332,8 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
   :config (progn(company-mode +1) 
 		(global-company-mode +1)))
 #+END_SRC
-
 ** Rainbow
+These two packages makes sure that symbols like [] {} etc and keywords (variables, functions etc) get different colours. Makes it a lot easier and faster to read and work with code. 
 #+BEGIN_SRC emacs-lisp
 (use-package 
   rainbow-delimiters
@@ -338,12 +346,18 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
 #+END_SRC
 
 ** Ivy
+Ivy provide a lot of the same functionality that Helm has, just that I like it better.
+*** Smex
+This package provide history for the M-x command, great if you need to run the same thing multiple times or re-do the thing you did 5 commands ago. 
 #+BEGIN_SRC emacs-lisp
 (use-package 
   smex 
   :ensure t 
   :config (smex-initialize))
-;; Ivy for completion buffers
+#+END_SRC
+*** Cousel
+This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counsel for stuff like M-x, selecting buffers, saarching etc . 
+#+BEGIN_SRC emacs-lisp
 (use-package 
   counsel 
   :ensure t 
@@ -358,13 +372,20 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
 		 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol) 
 		 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)) 
   :init (setq  ivy-initial-inputs-alist nil ivy-use-virtual-buffers t ivy-count-format "(%d/d)"))
-;; Integrate Ivy and Projectile
+
+#+END_SRC
+*** Counsel Projectile
+This package enables projectile commands using Ivy stuff. A lot nicer than the default.
+#+BEGIN_SRC emacs-lisp
 (use-package 
   counsel-projectile 
   :ensure t 
   :after (counsel projectile) 
   :config (counsel-projectile-mode +1))
-;; Ivy interface for tramp
+#+END_SRC
+*** Counsel Tramp
+This package enables tramp commands using Ivy stuff. A lot nicer than the default.
+#+BEGIN_SRC emacs-lisp
 (use-package 
   counsel-tramp 
   :ensure t 
@@ -374,6 +395,7 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
 #+END_SRC
 
 ** Yasnippet
+This package enables you do write snippests for stuff you type over and over and over. I don't use it a lot, but more than worth it. 
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
   :ensure t
@@ -384,7 +406,9 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
 #+END_SRC
 
 ** Ace
+These packages are awesome. Ace Jump is this voodoo thing that let you move really fast; M-x ace-jump and then hit u. It will now show you all places "u" is replaced with a-z" if you hit e you'll jump to the fifth occourance. While ace-window makes it A LOT easier to manage windows.
 #+BEGIN_SRC emacs-lisp
+;; TODO fix these keybindings
 (use-package 
   ace-jump-mode 
   :ensure t 
@@ -400,16 +424,18 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
 #+END_SRC
 
 ** Eshell
+Enables Z in eshell. It is this machine learning thing that learn from the directorys to go to and let you type less to go into them. 
 #+BEGIN_SRC emacs-lisp
 (use-package eshell-z :ensure t :config (add-hook 'eshell-mode-hook (defun my-eshell-mode-hook ()(require 'eshell-z))))
 #+END_SRC
 
 ** Search
+An awesome to search in a directory. 
 #+BEGIN_SRC emacs-lisp
 (use-package deadgrep :ensure t :bind (("<f5>". deadgrep)))
 #+END_SRC
-
 ** Undo
+Undo-tree makes undo works a little bit more like you expect, and it also has this awesome command to interactivly move through the history. And browse kill ring let you browse the current kill ring
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree :ensure t :config (global-undo-tree-mode))
 (use-package browse-kill-ring :ensure t)
@@ -418,6 +444,7 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
 ** UI
 Changes that are first and foremost UI changes
 *** Font
+I use Source Code Pro with different since on my different systems
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'default nil 
 		    :family "Source Code Pro" 
@@ -428,16 +455,19 @@ Changes that are first and foremost UI changes
 		    :width 'normal)
 #+END_SRC
 *** Mininmal UI
+No welcome screen on startup and no toolbar or scroll bars. 
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-message t initial-scratch-message nil)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 #+END_SRC
 *** Wrap lines
+I prefer my lines to wrap.
 #+BEGIN_SRC emacs-lisp
 (global-visual-line-mode 1)
 #+END_SRC
 *** Highlight matching parens
+Making emacs highlighting the other side of a pair makes coding a lot easier.
 #+BEGIN_SRC emacs-lisp
 (show-paren-mode 1)
 #+END_SRC
@@ -447,6 +477,7 @@ Enables you to highlight everything matching a search in the current buffer with
 (global-hi-lock-mode +1)
 #+END_SRC
 *** Indent Guide
+Shows markers for ident levels
 #+BEGIN_SRC emacs-lisp
 (use-package 
   indent-guide 
@@ -454,30 +485,35 @@ Enables you to highlight everything matching a search in the current buffer with
   :config (indent-guide-global-mode))
 #+END_SRC
 *** Line numbers
+Shows line numbers on the left of each buffer.
 #+BEGIN_SRC emacs-lisp
 (global-linum-mode 1)
 #+END_SRC
 *** Highlight current line
+Highlight the current line. All of it.
 #+BEGIN_SRC emacs-lisp
 (global-hl-line-mode 1)
 #+END_SRC
 *** Window divider
+Adds a divider between windows, that you can use to resize them. 
 #+BEGIN_SRC emacs-lisp
 (window-divider-mode 1)
 #+END_SRC
 ** Langauges
 *** Haskell
+Enables Haskell support, but I haven't tested it yet. 
 #+BEGIN_SRC emacs-lisp
 (use-package intero :ensure t :config (add-hook 'haskell-mode-hook 'intero-mode))
 #+END_SRC
 *** TaskPaper
+TaskPaper support.
 #+BEGIN_SRC emacs-lisp
 (use-package 
   taskpaper-mode 
   :ensure t)
 #+END_SRC
-
 *** Feature files
+Feature file, Cucumber, karate, call them what you will. 
 #+BEGIN_SRC emacs-lisp
 (use-package 
   feature-mode 
@@ -485,13 +521,14 @@ Enables you to highlight everything matching a search in the current buffer with
   :config (setq feature-default-langauge "fi"))
 #+END_SRC
 *** HTML
+HTML support
 #+BEGIN_SRC emacs-lisp
 (use-package 
   web-mode 
   :ensure)
 #+END_SRC
-
 *** JSON
+JSON support
 #+BEGIN_SRC emacs-lisp
 (use-package 
   json-mode 
@@ -499,6 +536,7 @@ Enables you to highlight everything matching a search in the current buffer with
 #+END_SRC
 
 *** JavaScript
+JS support. Not perfect, VS Code is probably better, but it works.
 #+BEGIN_SRC emacs-lisp
 (use-package 
   js2-mode 
@@ -521,7 +559,7 @@ Enables you to highlight everything matching a search in the current buffer with
 
 #+END_SRC
 *** C#
-
+C# support. It works and is pretty awesome. Use it most of the time
 #+BEGIN_SRC emacs-lisp
 (defun csharp-config () 
   (add-to-list 'company-backends #'company-omnisharp) 
@@ -547,6 +585,7 @@ Enables you to highlight everything matching a search in the current buffer with
 
 #+END_SRC
 *** Docker
+Support for Dockerfiles and docker-compose files
 #+BEGIN_SRC emacs-lisp
 (use-package 
   dockerfile-mode 
@@ -559,6 +598,7 @@ Enables you to highlight everything matching a search in the current buffer with
 #+END_SRC
 
 *** Org
+Org support
 #+BEGIN_SRC emacs-lisp
 (use-package 
   org 
@@ -567,6 +607,7 @@ Enables you to highlight everything matching a search in the current buffer with
   :pin org)
 #+END_SRC
 *** Clojure
+Clojure support. 
 #+BEGIN_SRC emacs-lisp
 (use-package 
   clojure-mode 
@@ -584,6 +625,7 @@ Enables you to highlight everything matching a search in the current buffer with
 #+END_SRC
 
 *** Markdown
+markdown support
 #+BEGIN_SRC emacs-lisp
 (use-package 
   markdown-mode 
@@ -596,10 +638,12 @@ Enables you to highlight everything matching a search in the current buffer with
   :init (setq markdown-command "multimarkdown"))
 #+END_SRC
 *** TOML
+TOML, the Hugo syntax. 
 #+BEGIN_SRC emacs-lisp
 (use-package toml-mode :ensure t)
 #+END_SRC
 *** Elisp
+Some utils for elisp.
 #+BEGIN_SRC emacs-lisp
 (use-package 
   package-lint 
@@ -610,7 +654,7 @@ Enables you to highlight everything matching a search in the current buffer with
 #+END_SRC
 ** Apps
 *** Email
-
+My Mu4e setup
 #+BEGIN_SRC emacs-lisp
 (use-package mu4e
   :when (is-linux)
@@ -634,6 +678,7 @@ Enables you to highlight everything matching a search in the current buffer with
 #+END_SRC
 
 *** File explorer
+Treemacs is the only good nerd tree style file explorer for emacs. It is like Neotree only that it works better. 
 #+BEGIN_SRC emacs-lisp
 
 (use-package 
@@ -703,6 +748,7 @@ Enables you to highlight everything matching a search in the current buffer with
 
 #+END_SRC
 *** Magit
+My favourite git client
 #+BEGIN_SRC emacs-lisp
 (use-package 
   magit 
@@ -711,6 +757,7 @@ Enables you to highlight everything matching a search in the current buffer with
 #+END_SRC
 
 *** Web browser
+I'm testing this out now and then, but not really good enough to be useful.
 #+BEGIN_SRC emacs-lisp
 (use-package w3m :ensure t :when (is-not-windows))
 #+END_SRC
