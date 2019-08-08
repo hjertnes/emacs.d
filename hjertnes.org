@@ -405,6 +405,11 @@ This package enables you do write snippests for stuff you type over and over and
   :bind (("M-s M-s" . yas-insert-snippet)("C-c y" . yas-expand)("C-c p" . yas-prev-field)("C-c n" . yas-next-field)))
 #+END_SRC
 
+** Avy
+#+BEGIN_SRC emacs-lisp
+(use-package avy :ensure t :config (avy-setup-default) (global-set-key (kbd "C-:") 'avy-goto-char))
+#+END_SRC
+
 ** Ace
 These packages are awesome. Ace Jump is this voodoo thing that let you move really fast; M-x ace-jump and then hit u. It will now show you all places "u" is replaced with a-z" if you hit e you'll jump to the fifth occourance. While ace-window makes it A LOT easier to manage windows.
 #+BEGIN_SRC emacs-lisp
