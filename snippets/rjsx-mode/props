@@ -1,0 +1,8 @@
+# key: props
+# --
+
+.propTypes = {
+};
+
+.defaultProps = {
+};
