@@ -345,6 +345,10 @@ These two packages makes sure that symbols like [] {} etc and keywords (variable
   :ensure t 
   :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
 #+END_SRC
+** Avy
+#+BEGIN_SRC emacs-lisp
+(use-package avy :ensure t)
+#+END_SRC
 
 ** Ivy
 Ivy provide a lot of the same functionality that Helm has, just that I like it better.
@@ -591,6 +595,7 @@ C# support. It works and is pretty awesome. Use it most of the time
 (use-package 
   omnisharp 
   :ensure t 
+  :hook ((before-save . omnisharp-code-format-entire-file))
   :init (setq omnisharp-server-executable-path(cond((is-windows)
 						    "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
 						   ((is-mac)  "~/bin/omnisharp") 
