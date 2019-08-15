@@ -452,7 +452,8 @@ Undo-tree makes undo works a little bit more like you expect, and it also has th
 #+BEGIN_SRC emacs-lisp
 (use-package elfeed
   :ensure t)
-(use-package elfeed-org :ensure t :config (elfeed-org))
+(use-package elfeed-goodies :ensure t :config (elfeed-goodies/setup) :after (elfeed))
+(use-package elfeed-org :ensure t :config (elfeed-org) :after (elfeed))
 #+END_SRC
 
 ** UI
