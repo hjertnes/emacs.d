@@ -1,3 +1,4 @@
+
 #+TITLE: Eivind Hjertnes' Emacs configuration
 * Introduction
 This is my Emacs configuration, I use it for more or less anything that require me to edit text. Everything from writing, to programming, file management and a lot of command line stuff and sometimes reading email. In August of 2019 I moved my config from a pile of well commented elisp files to this org document.
@@ -446,6 +447,15 @@ Undo-tree makes undo works a little bit more like you expect, and it also has th
 (use-package browse-kill-ring :ensure t)
 #+END_SRC
 
+** Feeds
+
+#+BEGIN_SRC emacs-lisp
+(use-package elfeed
+  :ensure t)
+(use-package elfeed-goodies :ensure t :config (elfeed-goodies/setup) :after (elfeed))
+(use-package elfeed-org :ensure t :config (elfeed-org) :after (elfeed))
+#+END_SRC
+
 ** UI
 Changes that are first and foremost UI changes
 *** Font
@@ -611,6 +621,10 @@ Org support
   :init (setq org-export-with-toc nil org-descriptive-links nil)
   :pin org)
 #+END_SRC
+#+BEGIN_SRC emacs-lisp
+(use-package org-journal :ensure t :init (setq org-journal-dir "~/txt/journal/" org-journal-file-format "%Y-%m-%d" org-journal-date-prefix "#+TITLE: " org-journal-date-format "%Y-%m-%d" org-journal-time-prefix "* " org-journal-time-format "%H:%M:%S") :when (is-not-windows))
+#+END_SRC
+
 *** Clojure
 Clojure support. 
 #+BEGIN_SRC emacs-lisp
