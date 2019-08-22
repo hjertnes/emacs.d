@@ -453,7 +453,8 @@ Undo-tree makes undo works a little bit more like you expect, and it also has th
 (use-package browse-kill-ring :ensure t)
 #+END_SRC
 
-** Feeds
+** Feed
+This is my current RSS / Atom feed reader of choice. I like it a lot, all my feeds are stored in a org file. And it is easy to manage them, and process new items. It takes me way less time to go through them all and send it to Firefox than my previous setup. 
 
 #+BEGIN_SRC emacs-lisp
 (use-package elfeed
@@ -462,7 +463,6 @@ Undo-tree makes undo works a little bit more like you expect, and it also has th
 (local-set-key "\C-p" 'elfeed-show-prev)
 ))
   :ensure t)
-(use-package elfeed-goodies :ensure t :config (elfeed-goodies/setup) :after (elfeed))
 (use-package elfeed-org :ensure t :config (elfeed-org) :after (elfeed))
 #+END_SRC
 
