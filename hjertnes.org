@@ -364,7 +364,7 @@ This package provide history for the M-x command, great if you need to run the s
 #+END_SRC
 *** Hl indent
 #+BEGIN_SRC emacs-lisp
-(use-package highlight-indentation :ensure t :config (prgn (highlight-indentation-mode) (highlight-indentation-current-column-mode)))
+(use-package highlight-indentation :ensure t :config (progn (highlight-indentation-mode) (highlight-indentation-current-column-mode)))
 #+END_SRC
 
 *** Restart Emacs
