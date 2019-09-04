@@ -9,15 +9,71 @@ Why? Because it felt like it made more sense to have my configuration in a form 
   (setq user-full-name "Eivind Hjertnes"
         user-mail-address "me@hjertnes.me")
 #+END_SRC
-* Title
+* Settings
+This section contains various settings that do not belong in any other section and don't require any third party packages
+** Title
 #+BEGIN_SRC emacs-lisp
 (setq frame-title-format '("The Weird Place"))
 #+END_SRC
 
-* Prettyfy symbols
+** Prettyfy symbols
 #+BEGIN_SRC emacs-lisp
 (global-prettify-symbols-mode 1)
 #+END_SRC
+** GC
+I keep my GC limit to 8GB. It might seem extreme, but it works fine for me on my systems. It never gets close to that on my OS X or Linux systems, and memoery use is always ridicolus on my Windows work laptop. 
+#+BEGIN_SRC emacs-lisp
+(setq gc-cons-threshold 8000000000)
+#+END_SRC
+** Default Mode
+These two settings forces emacs to use text-mode as its default mode, used when emacs can't figure out what mode to use. It is probasbly not needed to use both of those settings.
+#+BEGIN_SRC emacs-lisp
+(setq initial-major-mode (quote text-mode))
+(setq-default major-mode 'text-mode)
+#+END_SRC
+** Indent
+Sets emacs to not use tab as ident, and sets various two spaces per tab variables. And I enable electric ident mode which will ident a line to the previous one when you hit RET. 
+#+BEGIN_SRC emacs-lisp
+(setq tab-with 2 indent-tabs-mode nil js-indent-level 2)
+(electric-indent-mode +1)
+#+END_SRC
+** Backup files etc
+The default setup for emacs creates various lock and backup files and some auto-save stuff. This diables all of that.
+#+BEGIN_SRC emacs-lisp
+(setq create-lockfiles nil make-backup-files nil auto-save-default nil)
+#+END_SRC
+** Better SSH for TRAMP
+This makes using TRAMP over SSH better, don't remember the details.
+#+BEGIN_SRC emacs-lisp
+(setq tramp-default-method "sshx")
+#+END_SRC
+** Syntax for Re-builder
+Re-builder is this awesome emacs feature where you can create a regexp search and replace and see where it will match. This sets the default regexp syntax to a less weird one. The default requires a ridicolus amount of backslashes. 
+#+BEGIN_SRC emacs-lisp
+(setq reb-re-syntax 'string)
+#+END_SRC
+** X11 Clipboard integration
+Makes sure emacs and the X11 clipboard work better together.
+#+BEGIN_SRC emacs-lisp
+(setq select-enable-clipboard t)
+#+END_SRC
+n* Server mode
+Server modes enable you to use emacs client. Great if you want to send files to be edited on a running emacs instance from the commandline. 
+#+BEGIN_SRC emacs-lisp
+(server-mode +1)
+#+END_SRC
+** Column numbers
+Showing column numbers and line numbers in the mode line
+#+BEGIN_SRC emacs-lisp
+(column-number-mode +1)
+#+END_SRC
+** Autosave & autoload
+These two modes will make emacs auto save files, and load them from disk if the file changes. 
+#+BEGIN_SRC emacs-lisp
+(global-auto-revert-mode +1)
+(auto-save-visited-mode +1)
+#+END_SRC
+
 * Package manager
 One of the first things I do is to configure the Emacs package system to use all the package sources I know of, and to install use-package, request and org-plus-contrib; and then load use-package. 
 
@@ -133,28 +189,6 @@ Eshell doesn't have a "give me another shell" interactive function for some weir
   (eshell 'N))
 #+END_SRC
 
-* GC
-I keep my GC limit to 8GB. It might seem extreme, but it works fine for me on my systems. It never gets close to that on my OS X or Linux systems, and memoery use is always ridicolus on my Windows work laptop. 
-#+BEGIN_SRC emacs-lisp
-(setq gc-cons-threshold 8000000000)
-#+END_SRC
-* Undo limit
-This sets a very high limit on how much stuff emacs keeps in the kill ring. I hate loosing stuff from Copy Paste fuckups. Like with GC, this could probably be lower, but I don't bother with doing so before I have a real reason for it. 
-#+BEGIN_SRC emacs-lisp
-(setq undo-limit 1000000000 undo-strong-limit 1000000000)
-#+END_SRC
-* Default Mode
-These two settings forces emacs to use text-mode as its default mode, used when emacs can't figure out what mode to use. It is probasbly not needed to use both of those settings.
-#+BEGIN_SRC emacs-lisp
-(setq initial-major-mode (quote text-mode))
-(setq-default major-mode 'text-mode)
-#+END_SRC
-* Indent
-Sets emacs to not use tab as ident, and sets various two spaces per tab variables. And I enable electric ident mode which will ident a line to the previous one when you hit RET. 
-#+BEGIN_SRC emacs-lisp
-(setq tab-with 2 indent-tabs-mode nil js-indent-level 2)
-(electric-indent-mode +1)
-#+END_SRC
 * OS X stuff
 Just some settings that make Emacs better under OS X
 
@@ -182,43 +216,6 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
   :if (is-not-windows) 
   :config (exec-path-from-shell-initialize))
 #+END_SRC
-* Backup files etc
-The default setup for emacs creates various lock and backup files and some auto-save stuff. This diables all of that.
-#+BEGIN_SRC emacs-lisp
-(setq create-lockfiles nil make-backup-files nil auto-save-default nil)
-#+END_SRC
-* Better SSH for TRAMP
-This makes using TRAMP over SSH better, don't remember the details.
-#+BEGIN_SRC emacs-lisp
-(setq tramp-default-method "sshx")
-#+END_SRC
-* Syntax for Re-builder
-Re-builder is this awesome emacs feature where you can create a regexp search and replace and see where it will match. This sets the default regexp syntax to a less weird one. The default requires a ridicolus amount of backslashes. 
-#+BEGIN_SRC emacs-lisp
-(setq reb-re-syntax 'string)
-#+END_SRC
-* X11 Clipboard integration
-Makes sure emacs and the X11 clipboard work better together.
-#+BEGIN_SRC emacs-lisp
-(setq select-enable-clipboard t)
-#+END_SRC
-* Server mode
-Server modes enable you to use emacs client. Great if you want to send files to be edited on a running emacs instance from the commandline. 
-#+BEGIN_SRC emacs-lisp
-(server-mode +1)
-#+END_SRC
-* Column numbers
-Showing column numbers and line numbers in the mode line
-#+BEGIN_SRC emacs-lisp
-(column-number-mode +1)
-#+END_SRC
-* Autosave & autoload
-These two modes will make emacs auto save files, and load them from disk if the file changes. 
-#+BEGIN_SRC emacs-lisp
-(global-auto-revert-mode +1)
-(auto-save-visited-mode +1)
-#+END_SRC
-
 * Pairs
 Electric pair mode will insert a matching symbol for pairs like ()[] etc. And smart parens is a superior way to working with them. 
 #+BEGIN_SRC emacs-lisp
@@ -304,22 +301,6 @@ A fantastic package that can turn a org document to markdown files that blog sys
   ox-json
   :ensure t )
 #+END_SRC
-* Highlight TODO comments
-This highlights todo comments in buffers. Really useful if you like me always want to deal with them if possible. 
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  hl-todo 
-  :ensure t
-  :config (hl-todo-mode +1))
-#+END_SRC
-* Theme
-Loads my theme, currently solarized-dark
-#+BEGIN_SRC emacs-lisp
-(use-package
-  solarized-theme
-   :config (load-theme 'solarized-dark t)
-  :ensure t)
-#+END_SRC
 * Flycheck
 Flycheck is this awesome package that everything works with. It an show you warnings and errors in your code. 
 #+BEGIN_SRC emacs-lisp
@@ -350,22 +331,10 @@ A better autocomplete system than the built in one. Most major modes for emacs t
   :config (progn(company-mode +1) 
 		(global-company-mode +1)))
 #+END_SRC
-* Rainbow
-These two packages makes sure that symbols like [] {} etc and keywords (variables, functions etc) get different colours. Makes it a lot easier and faster to read and work with code. 
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  rainbow-delimiters
-  :ensure t 
-  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-(use-package 
-  rainbow-identifiers 
-  :ensure t 
-  :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
-#+END_SRC
 
 * Ivy
 Ivy provide a lot of the same functionality that Helm has, just that I like it better.
-*** Smex
+** Smex
 This package provide history for the M-x command, great if you need to run the same thing multiple times or re-do the thing you did 5 commands ago. 
 #+BEGIN_SRC emacs-lisp
 (use-package 
@@ -373,25 +342,7 @@ This package provide history for the M-x command, great if you need to run the s
   :ensure t 
   :config (smex-initialize))
 #+END_SRC
-*** Aggressive ident
-#+BEGIN_SRC emacs-lisp
-(use-package aggressive-indent :ensure t :config (global-aggressive-indent-mode 1))
-#+END_SRC
-
-*** Restart Emacs
-#+BEGIN_SRC emacs-lisp
-(use-package restart-emacs :ensure t)
-#+END_SRC
-*** Multiple cursors
-#+BEGIN_SRC emacs-lisp
-(use-package multiple-cursors :ensure t)
-#+END_SRC
-*** Pkg-info
-#+BEGIN_SRC emacs-lisp
-(use-package pkg-info :ensure t)
-#+END_SRC
-
-*** Cousel
+** Cousel
 This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counsel for stuff like M-x, selecting buffers, saarching etc . 
 #+BEGIN_SRC emacs-lisp
 
@@ -411,7 +362,7 @@ This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counse
   :init (setq  ivy-initial-inputs-alist nil ivy-use-virtual-buffers t ivy-count-format "(%d/d)"))
 
 #+END_SRC
-*** Counsel Projectile
+** Counsel Projectile
 This package enables projectile commands using Ivy stuff. A lot nicer than the default.
 #+BEGIN_SRC emacs-lisp
 (use-package 
@@ -420,7 +371,7 @@ This package enables projectile commands using Ivy stuff. A lot nicer than the d
   :after (counsel projectile) 
   :config (counsel-projectile-mode +1))
 #+END_SRC
-*** Counsel Tramp
+** Counsel Tramp
 This package enables tramp commands using Ivy stuff. A lot nicer than the default.
 #+BEGIN_SRC emacs-lisp
 (use-package 
@@ -429,6 +380,11 @@ This package enables tramp commands using Ivy stuff. A lot nicer than the defaul
   :after (counsel) 
   :init (setq tramp-default-method "ssh") 
   :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
+#+END_SRC
+
+** Aggressive ident
+#+BEGIN_SRC emacs-lisp
+(use-package aggressive-indent :ensure t :config (global-aggressive-indent-mode 1))
 #+END_SRC
 
 * Yasnippet
@@ -440,11 +396,6 @@ This package enables you do write snippests for stuff you type over and over and
   :config
   (yas-global-mode 1)
   :bind (("M-s M-s" . yas-insert-snippet)("C-c y" . yas-expand)("C-c p" . yas-prev-field)("C-c n" . yas-next-field)))
-#+END_SRC
-
-* Avy
-#+BEGIN_SRC emacs-lisp
-(use-package avy :ensure t :config (avy-setup-default) (global-set-key (kbd "C-:") 'avy-goto-char))
 #+END_SRC
 
 * Ace
@@ -465,37 +416,17 @@ These packages are awesome. Ace Jump is this voodoo thing that let you move real
   :config (global-set-key (kbd "M-o") 'ace-window))
 #+END_SRC
 
-* Eshell
-Enables Z in eshell. It is this machine learning thing that learn from the directorys to go to and let you type less to go into them. 
-#+BEGIN_SRC emacs-lisp
-(use-package eshell-z :ensure t :config (add-hook 'eshell-mode-hook (defun my-eshell-mode-hook ()(require 'eshell-z))))
-#+END_SRC
-
-* Search
-An awesome to search in a directory. 
-#+BEGIN_SRC emacs-lisp
-(use-package deadgrep :ensure t :bind (("<f5>". deadgrep)))
-#+END_SRC
 * Undo
 Undo-tree makes undo works a little bit more like you expect, and it also has this awesome command to interactivly move through the history. And browse kill ring let you browse the current kill ring
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree :ensure t :config (global-undo-tree-mode))
 (use-package browse-kill-ring :ensure t)
 #+END_SRC
-
-* Feed
-This is my current RSS / Atom feed reader of choice. I like it a lot, all my feeds are stored in a org file. And it is easy to manage them, and process new items. It takes me way less time to go through them all and send it to Firefox than my previous setup. 
-
+** Undo limit
+This sets a very high limit on how much stuff emacs keeps in the kill ring. I hate loosing stuff from Copy Paste fuckups. Like with GC, this could probably be lower, but I don't bother with doing so before I have a real reason for it. 
 #+BEGIN_SRC emacs-lisp
-(use-package elfeed
-  :init (add-hook 'elfeed-show-mode-hook (lambda()
-(local-set-key "\C-n" 'elfeed-show-next)
-(local-set-key "\C-p" 'elfeed-show-prev)
-))
-  :ensure t)
-(use-package elfeed-org :ensure t :config (elfeed-org) :after (elfeed))
+(setq undo-limit 1000000000 undo-strong-limit 1000000000)
 #+END_SRC
-
 * UI
 Changes that are first and foremost UI changes
 ** Font
@@ -555,7 +486,43 @@ Adds a divider between windows, that you can use to resize them.
 #+BEGIN_SRC emacs-lisp
 (window-divider-mode 1)
 #+END_SRC
+** Highlight TODO comments
+This highlights todo comments in buffers. Really useful if you like me always want to deal with them if possible. 
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  hl-todo 
+  :ensure t
+  :config (hl-todo-mode +1))
+#+END_SRC
+** Theme
+Loads my theme, currently solarized-dark
+#+BEGIN_SRC emacs-lisp
+(use-package
+  solarized-theme
+   :config (load-theme 'solarized-dark t)
+  :ensure t)
+#+END_SRC
+
+** Rainbow
+These two packages makes sure that symbols like [] {} etc and keywords (variables, functions etc) get different colours. Makes it a lot easier and faster to read and work with code. 
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  rainbow-delimiters
+  :ensure t 
+  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+(use-package 
+  rainbow-identifiers 
+  :ensure t 
+  :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
+#+END_SRC
 * Langauges
+** Rest
+#+BEGIN_SRC emacs-lisp
+(use-package restclient :ensure t)
+(use-package ob-restclient :ensure t :init(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((restclient . t))))
+#+END_SRC
 ** Haskell
 Enables Haskell support, but I haven't tested it yet. 
 #+BEGIN_SRC emacs-lisp
@@ -714,6 +681,24 @@ Some utils for elisp.
   :ensure t)
 #+END_SRC
 * Apps
+** Search
+An awesome to search in a directory. 
+#+BEGIN_SRC emacs-lisp
+(use-package deadgrep :ensure t :bind (("<f5>". deadgrep)))
+#+END_SRC
+** Feed
+This is my current RSS / Atom feed reader of choice. I like it a lot, all my feeds are stored in a org file. And it is easy to manage them, and process new items. It takes me way less time to go through them all and send it to Firefox than my previous setup. 
+
+#+BEGIN_SRC emacs-lisp
+(use-package elfeed
+  :init (add-hook 'elfeed-show-mode-hook (lambda()
+(local-set-key "\C-n" 'elfeed-show-next)
+(local-set-key "\C-p" 'elfeed-show-prev)
+))
+  :ensure t)
+(use-package elfeed-org :ensure t :config (elfeed-org) :after (elfeed))
+#+END_SRC
+
 ** Email
 My Mu4e setup
 #+BEGIN_SRC emacs-lisp
@@ -831,12 +816,30 @@ I'm testing this out now and then, but not really good enough to be useful.
         (case-fn . downcase))))
 
 #+END_SRC
-* Rest
+* Misc
+Just a place to put all of those "one liner" packages
+** Pkg-info
 #+BEGIN_SRC emacs-lisp
-(use-package restclient :ensure t)
-(use-package ob-restclient :ensure t :init(org-babel-do-load-languages
- 'org-babel-load-languages
- '((restclient . t))))
+(use-package pkg-info :ensure t)
+#+END_SRC
+** Eshell
+Enables Z in eshell. It is this machine learning thing that learn from the directorys to go to and let you type less to go into them. 
+#+BEGIN_SRC emacs-lisp
+(use-package eshell-z :ensure t :config (add-hook 'eshell-mode-hook (defun my-eshell-mode-hook ()(require 'eshell-z))))
+#+END_SRC
+
+** Avy
+#+BEGIN_SRC emacs-lisp
+(use-package avy :ensure t :config (avy-setup-default) (global-set-key (kbd "C-:") 'avy-goto-char))
 #+END_SRC
 
 
+
+** Restart Emacs
+#+BEGIN_SRC emacs-lisp
+(use-package restart-emacs :ensure t)
+#+END_SRC
+** Multiple cursors
+#+BEGIN_SRC emacs-lisp
+(use-package multiple-cursors :ensure t)
+#+END_SRC
