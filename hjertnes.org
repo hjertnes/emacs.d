@@ -646,7 +646,7 @@ Org support
 org-agenda-files '(  "~/txt/agenda/inbox.org" "~/txt/agenda/drafts.org" "~/txt/agenda/wishlist.org" "~/txt/agenda/gtd.org" )))
 #+END_SRC
 #+BEGIN_SRC emacs-lisp
-(use-package org-journal :ensure t :init (setq org-journal-dir "~/txt/journal/" org-journal-file-format "%Y-%m-%d" org-journal-date-prefix "#+TITLE: " org-journal-date-format "%Y-%m-%d" org-journal-time-prefix "* " org-journal-time-format "%H:%M:%S") :when (is-not-windows))
+(use-package org-journal :ensure t :init (setq org-journal-dir "~/txt/journal/" org-journal-file-format "%Y-%m-%d.org" org-journal-date-prefix "#+TITLE: " org-journal-date-format "%Y-%m-%d" org-journal-time-prefix "* " org-journal-time-format "%H:%M:%S") :when (is-not-windows))
 #+END_SRC
 
 *** Clojure
@@ -813,3 +813,12 @@ I'm testing this out now and then, but not really good enough to be useful.
         (case-fn . downcase))))
 
 #+END_SRC
+** Rest
+#+BEGIN_SRC emacs-lisp
+(use-package restclient :ensure t)
+(use-package ob-restclient :ensure t :init(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((restclient . t))))
+#+END_SRC
+
+
