@@ -129,7 +129,7 @@ See help of `format-time-string' for possible replacements")
 Interactive functions that I use from time to time to do stuff that isn't as easy as I like out of the box. 
 *** Quickly find config
 #+BEGIN_SRC emacs-lisp
-(defun find-config ()
+(defun open-config ()
     "Build the pillow fort!"
     (interactive)
     (find-file "~/.emacs.d/hjertnes.org"))
@@ -164,7 +164,7 @@ Micro.blog is my "social" media of choice. It is a tiny network tied together wi
 *** New Empty Buffer
 Stole this one from [[http://ergoemacs.org/emacs/emacs_new_empty_buffer.html][http://ergoemacs.org/emacs/emacs_new_empty_buffer.html]]. It is a small function that let me create a new "scratch" buffer. 
 #+BEGIN_SRC emacs-lisp
-(defun new-empty-buffer () 
+(defun new-buffer () 
   "Create a new empty buffer." 
   (interactive) 
   (let (($buf (generate-new-buffer "untitled"))) 
@@ -183,7 +183,7 @@ Not soemthing I use a lot, but I do use it when I have search and replaced a lot
 *** Eshell New
 Eshell doesn't have a "give me another shell" interactive function for some weird reason. This function let me create a new one. 
 #+BEGIN_SRC emacs-lisp
-(defun eshell-new()
+(defun new-eshell()
   "Open a new instance of eshell."
   (interactive)
   (eshell 'N))
@@ -191,7 +191,6 @@ Eshell doesn't have a "give me another shell" interactive function for some weir
 
 * OS X stuff
 Just some settings that make Emacs better under OS X
-
 *** Make it prettier
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -289,18 +288,6 @@ Electric pair mode will insert a matching symbol for pairs like ()[] etc. And sm
 		      smartparens-strict-mode-map)))
 #+END_SRC
 
-* OX Hugo
-A fantastic package that can turn a org document to markdown files that blog systems that hugo can use to generate a website. 
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  ox-hugo 
-  :ensure t 
-  :init (setq org-hugo-front-matter-format 'yaml) 
-  :after ox)
-(use-package 
-  ox-json
-  :ensure t )
-#+END_SRC
 * Flycheck
 Flycheck is this awesome package that everything works with. It an show you warnings and errors in your code. 
 #+BEGIN_SRC emacs-lisp
@@ -382,40 +369,6 @@ This package enables tramp commands using Ivy stuff. A lot nicer than the defaul
   :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
 #+END_SRC
 
-** Aggressive ident
-#+BEGIN_SRC emacs-lisp
-(use-package aggressive-indent :ensure t :config (global-aggressive-indent-mode 1))
-#+END_SRC
-
-* Yasnippet
-This package enables you do write snippests for stuff you type over and over and over. I don't use it a lot, but more than worth it. 
-#+BEGIN_SRC emacs-lisp
-(use-package yasnippet
-  :ensure t
-  :init (setq  yas-snippet-dirs '("~/.emacs.d/snippets"))
-  :config
-  (yas-global-mode 1)
-  :bind (("M-s M-s" . yas-insert-snippet)("C-c y" . yas-expand)("C-c p" . yas-prev-field)("C-c n" . yas-next-field)))
-#+END_SRC
-
-* Ace
-These packages are awesome. Ace Jump is this voodoo thing that let you move really fast; M-x ace-jump and then hit u. It will now show you all places "u" is replaced with a-z" if you hit e you'll jump to the fifth occourance. While ace-window makes it A LOT easier to manage windows.
-#+BEGIN_SRC emacs-lisp
-;; TODO fix these keybindings
-(use-package 
-  ace-jump-mode 
-  :ensure t 
-  :bind (("C-c SPC" . ace-jump-mode) 
-	 ("C-c C-u SPC" . ace-jump-char-mode) 
-	 ("C-c C-u C-u SPC" . ace-jump-line-mode)))
-;; ace-window: makes it easier to manage windows in emacs
-(use-package 
-  ace-window 
-  :ensure t 
-  :init (setq aw-dispatch-always t) 
-  :config (global-set-key (kbd "M-o") 'ace-window))
-#+END_SRC
-
 * Undo
 Undo-tree makes undo works a little bit more like you expect, and it also has this awesome command to interactivly move through the history. And browse kill ring let you browse the current kill ring
 #+BEGIN_SRC emacs-lisp
@@ -429,6 +382,14 @@ This sets a very high limit on how much stuff emacs keeps in the kill ring. I ha
 #+END_SRC
 * UI
 Changes that are first and foremost UI changes
+** Git gutter
+#+BEGIN_SRC emacs-lisp
+(use-package git-gutter
+  :ensure t
+  :config (global-git-gutter-mode 't)
+  :diminish git-gutter-mode)
+#+END_SRC
+
 ** Font
 I use Source Code Pro with different since on my different systems
 #+BEGIN_SRC emacs-lisp
@@ -516,6 +477,11 @@ These two packages makes sure that symbols like [] {} etc and keywords (variable
   :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
 #+END_SRC
 * Langauges
+** Powershell
+#+BEGIN_SRC emacs-lisp
+(use-package powershell :ensure t)
+#+END_SRC
+
 ** Rest
 #+BEGIN_SRC emacs-lisp
 (use-package restclient :ensure t)
@@ -827,14 +793,10 @@ Enables Z in eshell. It is this machine learning thing that learn from the direc
 #+BEGIN_SRC emacs-lisp
 (use-package eshell-z :ensure t :config (add-hook 'eshell-mode-hook (defun my-eshell-mode-hook ()(require 'eshell-z))))
 #+END_SRC
-
 ** Avy
 #+BEGIN_SRC emacs-lisp
 (use-package avy :ensure t :config (avy-setup-default) (global-set-key (kbd "C-:") 'avy-goto-char))
 #+END_SRC
-
-
-
 ** Restart Emacs
 #+BEGIN_SRC emacs-lisp
 (use-package restart-emacs :ensure t)
@@ -842,4 +804,53 @@ Enables Z in eshell. It is this machine learning thing that learn from the direc
 ** Multiple cursors
 #+BEGIN_SRC emacs-lisp
 (use-package multiple-cursors :ensure t)
+#+END_SRC
+** Golden Ratio
+#+BEGIN_SRC emacs-lisp
+(use-package golden-ratio :ensure t :config (golden-ratio-mode 1))
+#+END_SRC
+** Aggressive ident
+#+BEGIN_SRC emacs-lisp
+(use-package aggressive-indent :ensure t :config (global-aggressive-indent-mode 1))
+#+END_SRC
+
+** Yasnippet
+This package enables you do write snippests for stuff you type over and over and over. I don't use it a lot, but more than worth it. 
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+  :ensure t
+  :init (setq  yas-snippet-dirs '("~/.emacs.d/snippets"))
+  :config
+  (yas-global-mode 1)
+  :bind (("M-s M-s" . yas-insert-snippet)("C-c y" . yas-expand)("C-c p" . yas-prev-field)("C-c n" . yas-next-field)))
+#+END_SRC
+
+** Ace
+These packages are awesome. Ace Jump is this voodoo thing that let you move really fast; M-x ace-jump and then hit u. It will now show you all places "u" is replaced with a-z" if you hit e you'll jump to the fifth occourance. While ace-window makes it A LOT easier to manage windows.
+#+BEGIN_SRC emacs-lisp
+;; TODO fix these keybindings
+(use-package 
+  ace-jump-mode 
+  :ensure t 
+  :bind (("C-c SPC" . ace-jump-mode) 
+	 ("C-c C-u SPC" . ace-jump-char-mode) 
+	 ("C-c C-u C-u SPC" . ace-jump-line-mode)))
+;; ace-window: makes it easier to manage windows in emacs
+(use-package 
+  ace-window 
+  :ensure t 
+  :init (setq aw-dispatch-always t) 
+  :config (global-set-key (kbd "M-o") 'ace-window))
+#+END_SRC
+** OX Hugo
+A fantastic package that can turn a org document to markdown files that blog systems that hugo can use to generate a website. 
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  ox-hugo 
+  :ensure t 
+  :init (setq org-hugo-front-matter-format 'yaml) 
+  :after ox)
+(use-package 
+  ox-json
+  :ensure t )
 #+END_SRC
