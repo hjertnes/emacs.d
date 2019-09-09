@@ -807,14 +807,15 @@ Enables Z in eshell. It is this machine learning thing that learn from the direc
 #+END_SRC
 ** Golden Ratio
 #+BEGIN_SRC emacs-lisp
-(use-package golden-ratio :ensure t :config (golden-ratio-mode 1) :init (setq golden-ratio-extra-commands
+(use-package golden-ratio :ensure t :config (setq golden-ratio-extra-commands
             (append golden-ratio-extra-commands
                     '(ace-window
                       ace-delete-window
                       ace-select-window
                       ace-swap-window
                       ace-maximize-window
-                      avy-pop-mark))))
+                      avy-pop-mark)))
+(golden-ratio-mode 1))
 #+END_SRC
 
 ** Aggressive ident
