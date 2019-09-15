@@ -594,7 +594,7 @@ Org support
   org 
   :when (is-not-windows)
   :init (setq org-export-with-toc nil org-descriptive-links nil 
-org-agenda-files '(  "~/txt/agenda/inbox.org" "~/txt/agenda/drafts.org" "~/txt/agenda/wishlist.org" "~/txt/agenda/gtd.org" )))
+org-agenda-files '(  "~/txt/agenda/inbox.org" "~/txt/agenda/drafts.org" "~/txt/agenda/wishlist.org" "~/txt/agenda/gtd.org" "~/txt/agenda/drafts.org" )))
 #+END_SRC
 #+BEGIN_SRC emacs-lisp
 (use-package org-journal :ensure t :init (setq org-journal-dir "~/txt/journal/" org-journal-file-format "%Y-%m-%d.org" org-journal-date-prefix "#+TITLE: " org-journal-date-format "%Y-%m-%d" org-journal-time-prefix "* " org-journal-time-format "%H:%M:%S") :when (is-not-windows))
@@ -659,7 +659,7 @@ This is my current RSS / Atom feed reader of choice. I like it a lot, all my fee
 (use-package elfeed
   :init (add-hook 'elfeed-show-mode-hook (lambda()
 (local-set-key "\C-n" 'elfeed-show-next)
-(local-set-key "\C-p" 'elfeed-show-prev))
+(local-set-key "\C-p" 'elfeed-show-prev)))
 (setq elfeed-sort-order 'ascending)
   :ensure t)
 (use-package elfeed-org :ensure t :config (elfeed-org) :after (elfeed))
