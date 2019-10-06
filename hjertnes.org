@@ -568,9 +568,9 @@ C# support. It works and is pretty awesome. Use it most of the time
   :hook ((before-save . omnisharp-code-format-entire-file))
   :init (setq omnisharp-server-executable-path(cond((is-windows)
 						    "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
-						   ((is-mac)  "~/bin/omnisharp") 
+						   ((is-mac)  "~/bin/omnisharp/run") 
 						   ((is-linux)
-						    "/opt/omnisharp-roslyn/OmniSharp.exe"))) 
+						   "/opt/omnisharp-roslyn/run"))) 
   :config (csharp-config))
 
 #+END_SRC
@@ -862,4 +862,15 @@ A fantastic package that can turn a org document to markdown files that blog sys
 (use-package 
   ox-json
   :ensure t )
+#+END_SRC
+
+** Tabs
+Config for the new emacs27 tabs. 
+#+BEGIN_SRC emacs-lisp
+(when (version<= "27.0.50" emacs-version) 
+  (progn 
+    (setq tab-bar-show t) 
+    (tab-bar-mode t) 
+    (global-tab-line-mode)))g
+
 #+END_SRC
