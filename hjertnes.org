@@ -112,6 +112,8 @@ Various helper functions I use a few different places in my setup. Most of them 
   (eq system-type 'darwin))
 (defun is-linux () 
   (eq system-type 'gnu/linux))
+;; function i use to disable stuff
+(defun is-disabled () nil)
 (defvar current-date-time-format "%a %b %d %H:%M:%S %Z %Y" 
   "Format of date to insert with `insert-current-date-time' func
 See help of `format-time-string' for possible replacements")
@@ -212,7 +214,7 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
 (use-package 
   exec-path-from-shell 
   :ensure t 
-  :if (is-not-windows) 
+  :if (is-mac) 
   :config (exec-path-from-shell-initialize))
 #+END_SRC
 * Pairs
@@ -569,8 +571,8 @@ C# support. It works and is pretty awesome. Use it most of the time
   :init (setq omnisharp-server-executable-path(cond((is-windows)
 						    "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
 						   ((is-mac)  "~/bin/omnisharp/run") 
-						   ((is-linux)
-						   "/opt/omnisharp-roslyn/run"))) 
+						   ((is-linux) "~/bin/omnisharp/run")))
+						   
   :config (csharp-config))
 
 #+END_SRC
@@ -669,7 +671,7 @@ This is my current RSS / Atom feed reader of choice. I like it a lot, all my fee
 My Mu4e setup
 #+BEGIN_SRC emacs-lisp
 (use-package mu4e
-  :when (is-linux)
+  :when (is-disabled)
   :init (setq
 	 mu4e-maildir (expand-file-name "~/Mail")
  mu4e-drafts-folder "/Drafts"
