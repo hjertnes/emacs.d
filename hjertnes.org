@@ -11,6 +11,11 @@ Why? Because it felt like it made more sense to have my configuration in a form 
 #+END_SRC
 * Settings
 This section contains various settings that do not belong in any other section and don't require any third party packages
+** Default Dir
+#+BEGIN_SRC emacs-lisp
+(setq default-directory "~/")
+#+END_SRC
+
 ** Title
 #+BEGIN_SRC emacs-lisp
 (setq frame-title-format '("The Weird Place"))
