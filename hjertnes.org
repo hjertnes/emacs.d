@@ -105,8 +105,9 @@ Various helper functions I use a few different places in my setup. Most of them 
   (let* ((results (auth-source-search :host name)) 
 	 (result (car results)) 
 	 (secrets (plist-get result 
-			     :secret)) 
-	 (secret (first (aref (aref secrets 2) 0)))) secret)) 
+			     :secret))
+			     )
+			     (message (aref (aref secrets 2) 0))))
 ;; Check if current system is windows
 (defun is-windows () 
   (eq system-type 'windows-nt))
