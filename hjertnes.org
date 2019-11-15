@@ -746,11 +746,17 @@ Org support
 (use-package 
   org 
   :when (is-not-windows)
-  :init (setq org-export-with-toc nil org-descriptive-links nil 
-org-agenda-files '(  "~/txt/agenda/inbox.org" "~/txt/agenda/drafts.org" "~/txt/agenda/wishlist.org" "~/txt/agenda/gtd.org" "~/txt/agenda/drafts.org" )))
+  :init (setq org-export-with-toc nil org-descriptive-links nil org-agenda-files '("~/txt/notes/gtd.org" "~/txt/notes/wishlist.org")))
 #+END_SRC
 #+BEGIN_SRC emacs-lisp
-(use-package org-journal :ensure t :init (setq org-journal-dir "~/txt/journal/" org-journal-file-format "%Y-%m-%d.org" org-journal-date-prefix "#+TITLE: " org-journal-date-format "%Y-%m-%d" org-journal-time-prefix "* " org-journal-time-format "%H:%M:%S") :when (is-not-windows))
+(use-package org-journal :ensure t :init 
+(setq 
+org-journal-dir "~/txt/journal/" 
+org-journal-file-type 'yearly
+org-journal-file-format "%Y.org"
+org-journal-date-format "%Y-%m-%d" 
+org-journal-time-format "%H:%M:%S"
+) :when (is-not-windows))
 #+END_SRC
 
 ** Clojure
