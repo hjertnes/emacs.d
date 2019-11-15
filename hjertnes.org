@@ -490,7 +490,7 @@ This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counse
 (use-package 
   counsel 
   :ensure t 
-  :config (progn (ivy-mode 1) (counsel-mode 1)
+  :config (progn (ivy-mode 1) (counsel-mode 1) (setq  ivy-initial-inputs-alist nil ivy-use-virtual-buffers t ivy-count-format "(%d/d)")
 		 (global-set-key (kbd "C-x C-b") 'ivy-switch-buffer) 
 		 (global-set-key (kbd "C-s") 'swiper) 
 		 (global-set-key (kbd "M-x") 'counsel-M-x) 
@@ -499,8 +499,7 @@ This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counse
 		 (global-set-key (kbd "<f1> v") 'counsel-describe-variable) 
 		 (global-set-key (kbd "<f1> l") 'counsel-find-library) 
 		 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol) 
-		 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)) 
-  :init (setq  ivy-initial-inputs-alist nil ivy-use-virtual-buffers t ivy-count-format "(%d/d)"))
+		 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)))
 
 #+END_SRC
 ** Counsel Projectile
