@@ -135,6 +135,21 @@ See help of `format-time-string' for possible replacements")
 #+END_SRC
 * Interactive functions
 Interactive functions that I use from time to time to do stuff that isn't as easy as I like out of the box. 
+*** Calc eval region
+#+BEGIN_SRC emacs-lisp
+(defun calc-eval-region (arg beg end)
+  "Calculate the region and display the result in the echo area.
+With prefix ARG non-nil, insert the result at the end of region."
+  (interactive "P\nr")
+  (let* ((expr (buffer-substring-no-properties beg end))
+         (result (calc-eval expr)))
+    (if (null arg)
+        (message "%s = %s" expr result)
+      (goto-char end)
+      (save-excursion
+        (insert result)))))
+#+END_SRC
+
 *** Quickly find config
 #+BEGIN_SRC emacs-lisp
 (defun open-config ()
