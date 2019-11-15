@@ -3,8 +3,8 @@
 (org-babel-load-file "~/.emacs.d/hjertnes.org")
 
 ;; Place all the custom junk in a custom.el file
-(load (expand-file-name "custom.el" user-emacs-directory))
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 ;; Per computer overrides
 (load "~/.emacs.d/personal.el")
-
