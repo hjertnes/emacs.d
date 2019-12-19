@@ -1,3 +1,4 @@
+
 #+TITLE: Eivind Hjertnes' Emacs configuration
 * Introduction
 This is my Emacs configuration, I use it for more or less anything that require me to edit text. Everything from writing, to programming, file management and a lot of command line stuff and sometimes reading email. In August of 2019 I moved my config from a pile of well commented elisp files to this org document.
@@ -26,9 +27,9 @@ This section contains various settings that do not belong in any other section a
 (global-prettify-symbols-mode 1)
 #+END_SRC
 ** GC
-I keep my GC limit to 8GB. It might seem extreme, but it works fine for me on my systems. It never gets close to that on my OS X or Linux systems, and memoery use is always ridicolus on my Windows work laptop. 
+I keep my GC limit to 1gb
 #+BEGIN_SRC emacs-lisp
-(setq gc-cons-threshold 8000000000)
+(setq gc-cons-threshold 800000)
 #+END_SRC
 ** Default Mode
 These two settings forces emacs to use text-mode as its default mode, used when emacs can't figure out what mode to use. It is probasbly not needed to use both of those settings.
@@ -382,7 +383,7 @@ A better autocomplete system than the built in one. Most major modes for emacs t
 (use-package 
   company 
   :ensure t 
-  :init (setq company-dabbrev-downcase 0 company-idle-delay 0) 
+  :init (setq company-dabbrev-downcase 0 company-idle-delay 0 company-minimum-prefix-length 3)
   :config (progn(company-mode +1) 
 		(global-company-mode +1)))
 #+END_SRC
@@ -543,7 +544,37 @@ These two packages makes sure that symbols like [] {} etc and keywords (variable
   :ensure t 
   :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
 #+END_SRC
-* Langauges
+* Languages
+** Go
+- TODO get company mode to work, if not bring the LSP back and figure out how to disable flymake
+#+BEGIN_SRC emacs-lisp
+(use-package go-mode :ensure t)
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred))
+
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+;; Optional - provides fancier overlays.
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+;; company-lsp integrates company mode completion with lsp-mode.
+;; completion-at-point also works out of the box but doesn't support snippets.
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+
+
+
+#+END_SRC
 ** Powershell
 #+BEGIN_SRC emacs-lisp
 (use-package powershell :ensure t)
@@ -719,7 +750,8 @@ Some utils for elisp.
   elisp-format 
   :ensure t)
 #+END_SRC
-* Apps** Search
+* Apps
+** Search
 An awesome to search in a directory. 
 #+BEGIN_SRC emacs-lisp
 (use-package deadgrep :ensure t :bind (("<f5>". deadgrep)))
@@ -854,6 +886,22 @@ I'm testing this out now and then, but not really good enough to be useful.
         (case-fn . downcase))))
 
 #+END_SRC
+* Docker / Kubernetes
+#+BEGIN_SRC emacs-lisp
+(use-package kubernetes-tramp :ensure t)
+(use-package dockerfile-mode :ensure t)
+(use-package docker-tramp :ensure t) 
+(use-package docker-compose-mode :ensure t)
+(use-package docker
+  :ensure t
+  :bind ("C-c d" . docker))
+(use-package k8s-mode
+ :ensure t
+ :config
+ (setq k8s-search-documentation-browser-function 'browse-url-firefox)
+ :hook (k8s-mode . yas-minor-mode))
+#+END_SRC
+
 * Misc
 Just a place to put all of those "one liner" packages
 ** Pkg-info
