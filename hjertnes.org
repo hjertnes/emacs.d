@@ -1,4 +1,3 @@
-
 #+TITLE: Eivind Hjertnes' Emacs configuration
 * Introduction
 This is my Emacs configuration, I use it for more or less anything that require me to edit text. Everything from writing, to programming, file management and a lot of command line stuff and sometimes reading email. In August of 2019 I moved my config from a pile of well commented elisp files to this org document.
@@ -545,37 +544,56 @@ These two packages makes sure that symbols like [] {} etc and keywords (variable
   :ensure t 
   :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
 #+END_SRC
-* Languages
-** Go
-- TODO get company mode to work, if not bring the LSP back and figure out how to disable flymake
+** Nyan Mode
 #+BEGIN_SRC emacs-lisp
-(use-package go-mode :ensure t)
+(use-package nyan-mode :ensure t :config(nyan-mode +1))
+#+END_SRC
+* Languages
+
+** Go 
+#+BEGIN_SRC emacs-lisp
+(defun custom-go-mode ()
+             (flycheck-golangci-lint-setup)
+              (flycheck-mode t)
+)
+(setq gofmt-args '("-s"))
+(use-package go-mode
+:defer t
+:ensure t
+:mode ("\\.go\\'" . go-mode)
+:init
+  (add-hook 'go-mode-hook 'custom-go-mode))
+(setq lsp-gopls-staticcheck t)
+
+(setq lsp-eldoc-render-all t)
+(setq lsp-gopls-complete-unimported t)
 (use-package lsp-mode
   :ensure t
   :commands (lsp lsp-deferred)
   :hook (go-mode . lsp-deferred))
-
-;; Set up before-save hooks to format buffer and add/delete imports.
-;; Make sure you don't have other gofmt/goimports hooks enabled.
 (defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'gofmt-before-save t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+(setq flycheck-golangci-lint-enable-all t)
+(use-package flycheck-golangci-lint
+  :ensure t)
 
-;; Optional - provides fancier overlays.
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
-
-;; company-lsp integrates company mode completion with lsp-mode.
-;; completion-at-point also works out of the box but doesn't support snippets.
 (use-package company-lsp
   :ensure t
   :commands company-lsp)
-
-
-
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  :init
+)
+(setq 
+lsp-ui-imenu-enable t
+lsp-ui-sideline-enable t
+lsp-ui-doc-enable t
+lsp-ui-peek-enable t) 
 #+END_SRC
+
 ** Powershell
 #+BEGIN_SRC emacs-lisp
 (use-package powershell :ensure t)
@@ -916,7 +934,7 @@ Enables Z in eshell. It is this machine learning thing that learn from the direc
 #+END_SRC
 ** Avy
 #+BEGIN_SRC emacs-lisp
-(use-package avy :ensure t :config (avy-setup-default) (global-set-key (kbd "C-:") 'avy-goto-char))
+(use-package avy :ensure t :config (progn (global-set-key (kbd "C-:") 'avy-goto-char) (global-set-key (kbd "M-C-:") 'avy-goto-char-timer)))
 #+END_SRC
 ** Restart Emacs
 #+BEGIN_SRC emacs-lisp
