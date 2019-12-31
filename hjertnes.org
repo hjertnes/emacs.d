@@ -225,9 +225,10 @@ Just some settings that make Emacs better under OS X
 #+END_SRC
 *** Make Emacs ignore the right command and option
 This setting is really useful if you like me sometimes need to type characters that are under a option combo on OS X. This setting tells emacs to not do anything with the right option and command. 
+
 #+BEGIN_SRC emacs-lisp
 (when (eq system-type 'darwin)
-  (setq mac-right-option-modifier 'none mac-right-command-modifier 'none))
+  (setq mac-command-modifier 'super mac-right-option-modifier 'none mac-right-command-modifier 'none mac-pass-command-to-system nil))
 #+END_SRC
 *** Get path from shell
 Paths can be a little bit weird if you start emacs as an App on OS X. This package fixes it.
@@ -239,215 +240,6 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
   :config (exec-path-from-shell-initialize))
 #+END_SRC
 
-* Pairs
-Electric pair mode will insert a matching symbol for pairs like ()[] etc. And smart parens is a superior way to working with them. 
-#+BEGIN_SRC emacs-lisp
-(electric-pair-mode +1)
-(require 'smartparens-config) 
-(smartparens-mode)
-(smartparens-global-mode +1)
-(define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
-(define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
-
-(define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp)
-(define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp)
-(define-key smartparens-mode-map (kbd "C-S-d") 'sp-beginning-of-sexp)
-(define-key smartparens-mode-map (kbd "C-S-a") 'sp-end-of-sexp)
-
-(define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp)
-(define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp)
-(define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
-
-(define-key smartparens-mode-map (kbd "C-M-n") 'sp-forward-hybrid-sexp)
-(define-key smartparens-mode-map (kbd "C-M-p") 'sp-backward-hybrid-sexp)
-
-(define-key smartparens-mode-map (kbd "C-M-k") 'sp-kill-sexp)
-(define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp)
-
-(define-key smartparens-mode-map (kbd "M-<delete>") 'sp-unwrap-sexp)
-(define-key smartparens-mode-map (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
-
-(define-key smartparens-mode-map (kbd "C-<right>") 'sp-forward-slurp-sexp)
-(define-key smartparens-mode-map (kbd "C-<left>") 'sp-forward-barf-sexp)
-(define-key smartparens-mode-map (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
-(define-key smartparens-mode-map (kbd "C-M-<right>") 'sp-backward-barf-sexp)
-
-(define-key smartparens-mode-map (kbd "M-D") 'sp-splice-sexp)
-(define-key smartparens-mode-map (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
-(define-key smartparens-mode-map (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
-(define-key smartparens-mode-map (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around)
-
-(define-key smartparens-mode-map (kbd "C-]") 'sp-select-next-thing-exchange)
-(define-key smartparens-mode-map (kbd "C-<left_bracket>") 'sp-select-previous-thing)
-(define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing)
-
-(define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol)
-(define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
-
-(define-key smartparens-mode-map (kbd "C-\"") 'sp-change-inner)
-(define-key smartparens-mode-map (kbd "M-i") 'sp-change-enclosing)
-
-(bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
-(bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
-
-(bind-key "H-t" 'sp-prefix-tag-object smartparens-mode-map)
-(bind-key "H-p" 'sp-prefix-pair-object smartparens-mode-map)
-(bind-key "H-y" 'sp-prefix-symbol-object smartparens-mode-map)
-(bind-key "H-h" 'sp-highlight-current-sexp smartparens-mode-map)
-(bind-key "H-e" 'sp-prefix-save-excursion smartparens-mode-map)
-(bind-key "H-s c" 'sp-convolute-sexp smartparens-mode-map)
-(bind-key "H-s a" 'sp-absorb-sexp smartparens-mode-map)
-(bind-key "H-s e" 'sp-emit-sexp smartparens-mode-map)
-(bind-key "H-s p" 'sp-add-to-previous-sexp smartparens-mode-map)
-(bind-key "H-s n" 'sp-add-to-next-sexp smartparens-mode-map)
-(bind-key "H-s j" 'sp-join-sexp smartparens-mode-map)
-(bind-key "H-s s" 'sp-split-sexp smartparens-mode-map)
-(bind-key "H-s r" 'sp-rewrap-sexp smartparens-mode-map)
-(defvar hyp-s-x-map)
-(define-prefix-command 'hyp-s-x-map)
-(bind-key "H-s x" hyp-s-x-map smartparens-mode-map)
-(bind-key "H-s x x" 'sp-extract-before-sexp smartparens-mode-map)
-(bind-key "H-s x a" 'sp-extract-after-sexp smartparens-mode-map)
-(bind-key "H-s x s" 'sp-swap-enclosing-sexp smartparens-mode-map)
-
-(bind-key "C-x C-t" 'sp-transpose-hybrid-sexp smartparens-mode-map)
-
-(bind-key ";" 'sp-comment emacs-lisp-mode-map)
-
-(bind-key [remap c-electric-backspace] 'sp-backward-delete-char smartparens-strict-mode-map)
-
-;;;;;;;;;;;;;;;;;;
-;; pair management
-
-(sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-(bind-key "C-(" 'sp---wrap-with-40 minibuffer-local-map)
-
-(sp-with-modes 'org-mode
-  (sp-local-pair "=" "=" :wrap "C-="))
-
-(sp-with-modes 'web-mode
-  (sp-local-pair "{{#if" "{{/if")
-  (sp-local-pair "{{#unless" "{{/unless"))
-
-;;; lisp modes
-(sp-with-modes sp--lisp-modes
-  (sp-local-pair "(" nil
-                 :wrap "C-("
-                 :pre-handlers '(my-add-space-before-sexp-insertion)
-                 :post-handlers '(my-add-space-after-sexp-insertion)))
-
-(defun my-add-space-after-sexp-insertion (id action _context)
-  (when (eq action 'insert)
-    (save-excursion
-      (forward-char (sp-get-pair id :cl-l))
-      (when (or (eq (char-syntax (following-char)) ?w)
-                (looking-at (sp--get-opening-regexp)))
-        (insert " ")))))
-
-(defun my-add-space-before-sexp-insertion (id action _context)
-  (when (eq action 'insert)
-    (save-excursion
-      (backward-char (length id))
-      (when (or (eq (char-syntax (preceding-char)) ?w)
-                (and (looking-back (sp--get-closing-regexp))
-                     (not (eq (char-syntax (preceding-char)) ?'))))
-        (insert " ")))))
-
-	    
-#+END_SRC
-
-* Flycheck
-Flycheck is this awesome package that everything works with. It an show you warnings and errors in your code. 
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  flycheck 
-  :ensure t 
-  :init (setq flycheck-disabled-checkers '(javascript-standard javascript-jshint)) 
-  :config (when (is-not-windows) global-flycheck-mode))
-#+END_SRC
-
-* Projectile
-Projectile makes it a lot easier to switch between projects in Emacs. It keeps me a LOT saner at work.
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  projectile 
-  :ensure t 
-  :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy projectile-project-search-path '("~/Code/")) 
-  :config (progn (projectile-mode) 
-		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
-#+END_SRC
-* Company
-A better autocomplete system than the built in one. Most major modes for emacs that have some kind of auto complete also integrates with company. 
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  company 
-  :ensure t 
-  :init (setq company-dabbrev-downcase 0 company-idle-delay 0 company-minimum-prefix-length 3)
-  :config (progn(company-mode +1) 
-		(global-company-mode +1)))
-#+END_SRC
-
-* Ivy
-Ivy provide a lot of the same functionality that Helm has, just that I like it better.
-** Smex
-This package provide history for the M-x command, great if you need to run the same thing multiple times or re-do the thing you did 5 commands ago. 
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  smex 
-  :ensure t 
-  :config (smex-initialize))
-#+END_SRC
-
-** Cousel
-This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counsel for stuff like M-x, selecting buffers, saarching etc . 
-#+BEGIN_SRC emacs-lisp
-(use-package ivy-rich :ensure t :config (progn (ivy-rich-mode 1)(setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)))
-(use-package 
-  counsel 
-  :ensure t 
-  :config (progn (ivy-mode 1) (counsel-mode 1) (setq  ivy-initial-inputs-alist nil ivy-use-virtual-buffers t ivy-count-format "(%d/d)")
-		 (global-set-key (kbd "C-x C-b") 'ivy-switch-buffer) 
-		 (global-set-key (kbd "C-s") 'swiper-isearch) 
-		 (global-set-key (kbd "M-x") 'counsel-M-x) 
-		 (global-set-key (kbd "C-x C-f") 'counsel-find-file) 
-		 (global-set-key (kbd "<f1> f") 'counsel-describe-function) 
-		 (global-set-key (kbd "<f1> v") 'counsel-describe-variable) 
-		 (global-set-key (kbd "<f1> l") 'counsel-find-library) 
-		 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol) 
-		 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)))
-
-#+END_SRC
-** Counsel Projectile
-This package enables projectile commands using Ivy stuff. A lot nicer than the default.
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  counsel-projectile 
-  :ensure t 
-  :after (counsel projectile) 
-  :config (counsel-projectile-mode +1))
-#+END_SRC
-** Counsel Tramp
-This package enables tramp commands using Ivy stuff. A lot nicer than the default.
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  counsel-tramp 
-  :ensure t 
-  :after (counsel) 
-  :init (setq tramp-default-method "ssh") 
-  :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
-#+END_SRC
-
-* Undo
-Undo-tree makes undo works a little bit more like you expect, and it also has this awesome command to interactivly move through the history. And browse kill ring let you browse the current kill ring
-#+BEGIN_SRC emacs-lisp
-(use-package undo-tree :ensure t :config (global-undo-tree-mode))
-(use-package browse-kill-ring :ensure t)
-#+END_SRC
-** Undo limit
-This sets a very high limit on how much stuff emacs keeps in the kill ring. I hate loosing stuff from Copy Paste fuckups. Like with GC, this could probably be lower, but I don't bother with doing so before I have a real reason for it. 
-#+BEGIN_SRC emacs-lisp
-(setq undo-limit 1000000000 undo-strong-limit 1000000000)
-#+END_SRC
 * UI
 Changes that are first and foremost UI changes
 ** Git gutter
@@ -529,7 +321,7 @@ Loads my theme, usually either solarized dark or dracula. Currently dracula
 (use-package
   solarized-theme
 ;   :config (load-theme 'solarized-dark t)
-  :ensure t)
+  :ensure )
 
 (use-package dracula-theme 
 :config (load-theme 'dracula)
@@ -553,9 +345,117 @@ These two packages makes sure that symbols like [] {} etc and keywords (variable
 #+BEGIN_SRC emacs-lisp
 (use-package nyan-mode :ensure t :config(nyan-mode +1))
 #+END_SRC
-* Languages
+** Flycheck
+Flycheck is this awesome package that everything works with. It an show you warnings and errors in your code. 
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  flycheck 
+  :ensure t 
+  :init (setq flycheck-disabled-checkers '(javascript-standard javascript-jshint)) 
+  :config (when (is-not-windows) global-flycheck-mode))
+#+END_SRC
 
-** Go 
+** Projectile
+Projectile makes it a lot easier to switch between projects in Emacs. It keeps me a LOT saner at work.
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  projectile 
+  :ensure t 
+  :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy projectile-project-search-path '("~/Code/")) 
+  :config (progn (projectile-mode) 
+		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
+#+END_SRC
+** Company
+A better autocomplete system than the built in one. Most major modes for emacs that have some kind of auto complete also integrates with company. 
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  company 
+  :ensure t 
+  :init (setq company-dabbrev-downcase 0 company-idle-delay 0 company-minimum-prefix-length 3)
+  :config (progn(company-mode +1) 
+		(global-company-mode +1)))
+#+END_SRC
+** LSP
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred))
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+(setq 
+lsp-ui-imenu-enable t
+lsp-ui-sideline-enable t
+lsp-ui-doc-enable t
+lsp-ui-peek-enable t) 
+(setq lsp-eldoc-render-all t)
+#+END_SRC
+** Ivy
+   Ivy provide a lot of the same functionality that Helm has, just that I like it better.
+*** Smex
+This package provide history for the M-x command, great if you need to run the same thing multiple times or re-do the thing you did 5 commands ago. 
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  smex 
+  :ensure t 
+  :config (smex-initialize))
+#+END_SRC
+
+*** Cousel
+This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counsel for stuff like M-x, selecting buffers, saarching etc . 
+#+BEGIN_SRC emacs-lisp
+(use-package ivy-rich :ensure t :config (progn (ivy-rich-mode 1)(setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)))
+(use-package 
+  counsel 
+  :ensure t 
+  :config (progn (ivy-mode 1) (counsel-mode 1) (setq  ivy-initial-inputs-alist nil ivy-use-virtual-buffers t ivy-count-format "(%d/d)")
+		 (global-set-key (kbd "C-x C-b") 'ivy-switch-buffer) 
+		 (global-set-key (kbd "C-s") 'swiper-isearch) 
+		 (global-set-key (kbd "M-x") 'counsel-M-x) 
+		 (global-set-key (kbd "C-x C-f") 'counsel-find-file) 
+		 (global-set-key (kbd "<f1> f") 'counsel-describe-function) 
+		 (global-set-key (kbd "<f1> v") 'counsel-describe-variable) 
+		 (global-set-key (kbd "<f1> l") 'counsel-find-library) 
+		 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol) 
+		 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)))
+
+#+END_SRC
+*** Counsel Projectile
+This package enables projectile commands using Ivy stuff. A lot nicer than the default.
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  counsel-projectile 
+  :ensure t 
+  :after (counsel projectile) 
+  :config (counsel-projectile-mode +1))
+#+END_SRC
+*** Counsel Tramp
+This package enables tramp commands using Ivy stuff. A lot nicer than the default.
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  counsel-tramp 
+  :ensure t 
+  :after (counsel) 
+  :init (setq tramp-default-method "ssh") 
+  :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
+#+END_SRC
+
+*** Posframe
+* Languages
+** Docker / Kubernetes
+#+BEGIN_SRC emacs-lisp
+(use-package dockerfile-mode :ensure t)
+(use-package docker-compose-mode :ensure t)
+(use-package k8s-mode
+ :ensure t
+ :config
+ (setq k8s-search-documentation-browser-function 'browse-url-firefox)
+ :hook (k8s-mode . yas-minor-mode))
+** Go
 #+BEGIN_SRC emacs-lisp
 (defun custom-go-mode ()
              (flycheck-golangci-lint-setup)
@@ -569,13 +469,8 @@ These two packages makes sure that symbols like [] {} etc and keywords (variable
 :init
   (add-hook 'go-mode-hook 'custom-go-mode))
 (setq lsp-gopls-staticcheck t)
-
-(setq lsp-eldoc-render-all t)
 (setq lsp-gopls-complete-unimported t)
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :hook (go-mode . lsp-deferred))
+
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'gofmt-before-save t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
@@ -584,21 +479,8 @@ These two packages makes sure that symbols like [] {} etc and keywords (variable
 (use-package flycheck-golangci-lint
   :ensure t)
 
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode
-  :init
-)
-(setq 
-lsp-ui-imenu-enable t
-lsp-ui-sideline-enable t
-lsp-ui-doc-enable t
-lsp-ui-peek-enable t) 
-#+END_SRC
 
+#+END_SRC
 ** Powershell
 #+BEGIN_SRC emacs-lisp
 (use-package powershell :ensure t)
@@ -615,21 +497,6 @@ lsp-ui-peek-enable t)
 Enables Haskell support, but I haven't tested it yet. 
 #+BEGIN_SRC emacs-lisp
 (use-package intero :ensure t :config (add-hook 'haskell-mode-hook 'intero-mode))
-#+END_SRC
-** TaskPaper
-TaskPaper support.
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  taskpaper-mode 
-  :ensure t)
-#+END_SRC
-** Feature files
-Feature file, Cucumber, karate, call them what you will. 
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  feature-mode 
-  :ensure t 
-  :config (setq feature-default-langauge "fi"))
 #+END_SRC
 ** HTML
 HTML support
@@ -696,25 +563,13 @@ C# support. It works and is pretty awesome. Use it most of the time
   :config (csharp-config))
 
 #+END_SRC
-** Docker
-Support for Dockerfiles and docker-compose files
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  dockerfile-mode 
-  :ensure t 
-  :config (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
-;; Docker-compose files
-(use-package 
-  docker-compose-mode 
-  :ensure t)
-#+END_SRC
-
 ** Org
 Org support
 #+BEGIN_SRC emacs-lisp
 (use-package 
   org 
   :when (is-not-windows)
+  :bind (("C-c c" . 'org-capture))
   :init (setq org-export-with-toc nil org-descriptive-links nil org-agenda-files '("~/txt/notes/gtd.org" "~/txt/notes/wishlist.org")))
 #+END_SRC
 #+BEGIN_SRC emacs-lisp
@@ -727,23 +582,13 @@ org-journal-date-format "%Y-%m-%d"
 org-journal-time-format "%H:%M:%S"
 ) :when (is-not-windows))
 #+END_SRC
-
-** Clojure
-Clojure support. 
+*** Capture
+#+TITLE: 
 #+BEGIN_SRC emacs-lisp
-(use-package 
-  clojure-mode 
-  :ensure t)
-;; Clojure Repl integration and much more
-(use-package 
-  cider 
-  :ensure t 
-  :config (progn (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion) 
-		 (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion) 
-		 (add-hook 'after-save-hook (lambda() 
-					      (when (eq major-mode 'clojure-mode) 
-						(cider-load-buffer
-						 ))))))
+(use-package org-cliplink :ensure t :config (setq org-capture-templates
+   '(("K" "Cliplink capture task" entry (file "~/txt/notes/inbox.org")
+      "* TODO %(org-cliplink-capture) \n" :empty-lines 0))))
+
 #+END_SRC
 
 ** Markdown
@@ -792,101 +637,6 @@ This is my current RSS / Atom feed reader of choice. I like it a lot, all my fee
   :ensure t)
 (use-package elfeed-org :ensure t :config (elfeed-org) :after (elfeed))
 #+END_SRC
-
-** Email
-My Mu4e setup
-#+BEGIN_SRC emacs-lisp
-(use-package mu4e
-  :when (is-disabled)
-  :init (setq
-	 mu4e-maildir (expand-file-name "~/Mail")
- mu4e-drafts-folder "/Drafts"
- mu4e-refile-folder "/Archive"
- mu4e-sent-folder   "/Sent Items"
- mu4e-trash-folder  "/Trash"
- mu4e-get-mail-command "mbsync -a"
- user-mail-address "me@hjertnes.me"
- user-full-name  "Eivind Hjertnes"
- smtpmail-default-smtp-server "smtp.fastmail.com"
- smtpmail-smtp-server "smtp.fastmail.com"
- smtpmail-smtp-service 587
- mu4e-bookmarks
- `(
-   ("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
-   ("maildir:/INBOX" "Inbox" ?i)
-   )))
-#+END_SRC
-
-** File explorer
-Treemacs is the only good nerd tree style file explorer for emacs. It is like Neotree only that it works better. 
-#+BEGIN_SRC emacs-lisp
-
-(use-package 
-  treemacs 
-  :ensure t 
-  :defer t 
-  :init (with-eval-after-load 'winum (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)) 
-  :config (progn 
-	    (setq treemacs-collapse-dirs                 (if (executable-find "python3") 3 0)
-		  treemacs-deferred-git-apply-delay      0.5 treemacs-display-in-side-window t
-		  treemacs-eldoc-display                 t treemacs-file-event-delay 5000
-		  treemacs-file-follow-delay             0.2 treemacs-follow-after-init t
-		  treemacs-git-command-pipe              "" treemacs-goto-tag-strategy
-		  'refetch-index treemacs-indentation                   2
-		  treemacs-indentation-string            " " treemacs-is-never-other-window nil
-		  treemacs-max-git-entries               5000 treemacs-no-png-images nil
-		  treemacs-no-delete-other-windows       t treemacs-project-follow-cleanup nil
-		  treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist"
-									   user-emacs-directory)
-		  treemacs-recenter-distance             0.1 treemacs-recenter-after-file-follow nil
-		  treemacs-recenter-after-tag-follow     nil treemacs-recenter-after-project-jump
-		  'always treemacs-recenter-after-project-expand 'on-distance treemacs-show-cursor
-		  nil treemacs-show-hidden-files             t treemacs-silent-filewatch nil
-		  treemacs-silent-refresh                nil treemacs-sorting 'alphabetic-desc
-		  treemacs-space-between-root-nodes      t treemacs-tag-follow-cleanup            t
-		  treemacs-tag-follow-delay 1.5 treemacs-width                         35)
-
-	    ;; The default width and height of the icons is 22 pixels. If you are
-	    ;; using a Hi-DPI display, uncomment this to double the icon size.
-	    ;;(treemacs-resize-icons 44)
-	    (treemacs-follow-modep t) 
-	    (treemacs-filewatch-mode t) 
-	    (treemacs-fringe-indicator-mode t) 
-	    (pcase (cons (not (null (executable-find "git"))) 
-			 (not (null (executable-find "python3")))) 
-	      (`(t . t) 
-	       (treemacs-git-mode 'deferred)) 
-	      (`(t . _) 
-	       (treemacs-git-mode 'simple)))) 
-  :bind (:map global-map
-	      ("M-0"       . treemacs-select-window) 
-	      ("C-x t 1"   . treemacs-delete-other-windows) 
-	      ("C-x t t"   . treemacs) 
-	      ("C-x t B"   . treemacs-bookmark) 
-	      ("C-x t C-t" . treemacs-find-file) 
-	      ("C-x t M-t" . treemacs-find-tag)))
-
-
-(use-package 
-  treemacs-projectile 
-  :after treemacs 
-  projectile 
-  :ensure t)
-
-(use-package 
-  treemacs-icons-dired 
-  :after treemacs 
-  dired 
-  :ensure t 
-  :config (treemacs-icons-dired-mode))
-
-(use-package 
-  treemacs-magit 
-  :after treemacs 
-  magit 
-  :ensure t)
-
-#+END_SRC
 ** Magit
 My favourite git client
 #+BEGIN_SRC emacs-lisp
@@ -894,12 +644,6 @@ My favourite git client
   magit 
   :init (setq magit-completing-read-function 'ivy-completing-read) 
   :ensure t)
-#+END_SRC
-
-** Web browser
-I'm testing this out now and then, but not really good enough to be useful.
-#+BEGIN_SRC emacs-lisp
-(use-package w3m :ensure t :when (is-not-windows))
 #+END_SRC
 
 ** Deft
@@ -910,24 +654,9 @@ I'm testing this out now and then, but not really good enough to be useful.
         (case-fn . downcase))))
 
 #+END_SRC
-* Docker / Kubernetes
-#+BEGIN_SRC emacs-lisp
-(use-package kubernetes-tramp :ensure t)
-(use-package dockerfile-mode :ensure t)
-(use-package docker-tramp :ensure t) 
-(use-package docker-compose-mode :ensure t)
-(use-package docker
-  :ensure t
-  :bind ("C-c d" . docker))
-(use-package k8s-mode
- :ensure t
- :config
- (setq k8s-search-documentation-browser-function 'browse-url-firefox)
- :hook (k8s-mode . yas-minor-mode))
 #+END_SRC
-
 * Misc
-Just a place to put all of those "one liner" packages
+Just a place to put every that doesn't fit anywhere else
 ** Pkg-info
 #+BEGIN_SRC emacs-lisp
 (use-package pkg-info :ensure t)
@@ -966,7 +695,6 @@ Enables Z in eshell. It is this machine learning thing that learn from the direc
 #+BEGIN_SRC emacs-lisp
 (use-package aggressive-indent :ensure t :config (global-aggressive-indent-mode 1))
 #+END_SRC
-
 ** Yasnippet
 This package enables you do write snippests for stuff you type over and over and over. I don't use it a lot, but more than worth it. 
 #+BEGIN_SRC emacs-lisp
@@ -978,17 +706,9 @@ This package enables you do write snippests for stuff you type over and over and
   :bind (("M-s M-s" . yas-insert-snippet)("C-c y" . yas-expand)("C-c p" . yas-prev-field)("C-c n" . yas-next-field)))
 #+END_SRC
 
-** Ace
-These packages are awesome. Ace Jump is this voodoo thing that let you move really fast; M-x ace-jump and then hit u. It will now show you all places "u" is replaced with a-z" if you hit e you'll jump to the fifth occourance. While ace-window makes it A LOT easier to manage windows.
+** Ace-window
+Makes it easier to manage windows
 #+BEGIN_SRC emacs-lisp
-;; TODO fix these keybindings
-(use-package 
-  ace-jump-mode 
-  :ensure t 
-  :bind (("C-c SPC" . ace-jump-mode) 
-	 ("C-c C-u SPC" . ace-jump-char-mode) 
-	 ("C-c C-u C-u SPC" . ace-jump-line-mode)))
-;; ace-window: makes it easier to manage windows in emacs
 (use-package 
   ace-window 
   :ensure t 
@@ -1017,4 +737,54 @@ Config for the new emacs27 tabs.
     (tab-bar-mode t) 
     (global-tab-line-mode)))
 
+#+END_SRC
+
+** Undo
+Undo-tree makes undo works a little bit more like you expect, and it also has this awesome command to interactivly move through the history. And browse kill ring let you browse the current kill ring
+#+BEGIN_SRC emacs-lisp
+(use-package undo-tree :ensure t :config (global-undo-tree-mode))
+(use-package browse-kill-ring :ensure t)
+#+END_SRC
+*** Undo limit
+This sets a very high limit on how much stuff emacs keeps in the kill ring. I hate loosing stuff from Copy Paste fuckups. Like with GC, this could probably be lower, but I don't bother with doing so before I have a real reason for it. 
+#+BEGIN_SRC emacs-lisp
+(setq undo-limit 1000000000 undo-strong-limit 1000000000)
+#+END_SRC
+** Pairs
+Electric pair mode will insert a matching symbol for pairs like ()[] etc. And smart parens is a superior way to working with them. 
+#+BEGIN_SRC emacs-lisp
+  (electric-pair-mode +1)
+  (require 'smartparens-config) 
+  (smartparens-mode)
+  (smartparens-global-mode +1)
+  (define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp)
+  (define-key smartparens-mode-map (kbd "C-s-d") 'sp-beginning-of-sexp)
+  (define-key smartparens-mode-map (kbd "C-s-a") 'sp-end-of-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-n") 'sp-forward-hybrid-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-p") 'sp-backward-hybrid-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-k") 'sp-kill-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp)
+  (define-key smartparens-mode-map (kbd "M-<delete>") 'sp-unwrap-sexp)
+  (define-key smartparens-mode-map (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
+  (define-key smartparens-mode-map (kbd "C-<right>") 'sp-forward-slurp-sexp)
+  (define-key smartparens-mode-map (kbd "C-<left>") 'sp-forward-barf-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+  (define-key smartparens-mode-map (kbd "M-D") 'sp-splice-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
+  (define-key smartparens-mode-map (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
+  (define-key smartparens-mode-map (kbd "C-s-<backspace>") 'sp-splice-sexp-killing-around)
+  (define-key smartparens-mode-map (kbd "C-]") 'sp-select-next-thing-exchange)
+  (define-key smartparens-mode-map (kbd "C-<left_bracket>") 'sp-select-previous-thing)
+  (define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing)
+  (define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol)
+  (define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
+  (bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
+  (bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
 #+END_SRC
