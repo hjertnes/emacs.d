@@ -524,12 +524,17 @@ This highlights todo comments in buffers. Really useful if you like me always wa
   :config (hl-todo-mode +1))
 #+END_SRC
 ** Theme
-Loads my theme, currently solarized-dark
+Loads my theme, usually either solarized dark or dracula. Currently dracula
 #+BEGIN_SRC emacs-lisp
 (use-package
   solarized-theme
-   :config (load-theme 'solarized-dark t)
+;   :config (load-theme 'solarized-dark t)
   :ensure t)
+
+(use-package dracula-theme 
+:config (load-theme 'dracula)
+:ensure t)
+
 #+END_SRC
 
 ** Rainbow
