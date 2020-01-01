@@ -302,19 +302,6 @@ Highlight the current line. All of it.
 #+BEGIN_SRC emacs-lisp
 (global-hl-line-mode 1)
 #+END_SRC
-** Window divider
-Adds a divider between windows, that you can use to resize them. 
-#+BEGIN_SRC emacs-lisp
-(window-divider-mode 1)
-#+END_SRC
-** Highlight TODO comments
-This highlights todo comments in buffers. Really useful if you like me always want to deal with them if possible. 
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  hl-todo 
-  :ensure t
-  :config (hl-todo-mode +1))
-#+END_SRC
 ** Theme
 Loads my theme, usually either solarized dark or dracula. Currently dracula
 #+BEGIN_SRC emacs-lisp
@@ -630,11 +617,7 @@ My favourite git client
 #+END_SRC
 #+END_SRC
 * Misc
-Just a place to put every that doesn't fit anywhere else
-** Pkg-info
-#+BEGIN_SRC emacs-lisp
-(use-package pkg-info :ensure t)
-#+END_SRC
+  Just a place to put every that doesn't fit anywhere else
 ** Eshell
 Enables Z in eshell. It is this machine learning thing that learn from the directorys to go to and let you type less to go into them. 
 #+BEGIN_SRC emacs-lisp
@@ -647,10 +630,6 @@ Enables Z in eshell. It is this machine learning thing that learn from the direc
 ** Restart Emacs
 #+BEGIN_SRC emacs-lisp
 (use-package restart-emacs :ensure t)
-#+END_SRC
-** Multiple cursors
-#+BEGIN_SRC emacs-lisp
-(use-package multiple-cursors :ensure t)
 #+END_SRC
 ** Golden Ratio
 #+BEGIN_SRC emacs-lisp
@@ -697,11 +676,7 @@ A fantastic package that can turn a org document to markdown files that blog sys
   :ensure t 
   :init (setq org-hugo-front-matter-format 'yaml) 
   :after ox)
-(use-package 
-  ox-json
-  :ensure t )
 #+END_SRC
-
 ** Tabs
 Config for the new emacs27 tabs. 
 #+BEGIN_SRC emacs-lisp
@@ -714,10 +689,9 @@ Config for the new emacs27 tabs.
 #+END_SRC
 
 ** Undo
-Undo-tree makes undo works a little bit more like you expect, and it also has this awesome command to interactivly move through the history. And browse kill ring let you browse the current kill ring
+Undo-tree makes undo works a little bit more like you expect, and it also has this awesome command to interactivly move through the history.
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree :ensure t :config (global-undo-tree-mode))
-(use-package browse-kill-ring :ensure t)
 #+END_SRC
 *** Undo limit
 This sets a very high limit on how much stuff emacs keeps in the kill ring. I hate loosing stuff from Copy Paste fuckups. Like with GC, this could probably be lower, but I don't bother with doing so before I have a real reason for it. 
