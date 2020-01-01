@@ -443,8 +443,6 @@ This package enables tramp commands using Ivy stuff. A lot nicer than the defaul
   :init (setq tramp-default-method "ssh") 
   :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
 #+END_SRC
-
-*** Posframe
 * Languages
 ** Docker / Kubernetes
 #+BEGIN_SRC emacs-lisp
@@ -455,6 +453,7 @@ This package enables tramp commands using Ivy stuff. A lot nicer than the defaul
  :config
  (setq k8s-search-documentation-browser-function 'browse-url-firefox)
  :hook (k8s-mode . yas-minor-mode))
+#+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
 (defun custom-go-mode ()
@@ -478,25 +477,13 @@ This package enables tramp commands using Ivy stuff. A lot nicer than the defaul
 (setq flycheck-golangci-lint-enable-all t)
 (use-package flycheck-golangci-lint
   :ensure t)
-
-
 #+END_SRC
-** Powershell
-#+BEGIN_SRC emacs-lisp
-(use-package powershell :ensure t)
-#+END_SRC
-
 ** Rest
 #+BEGIN_SRC emacs-lisp
 (use-package restclient :ensure t)
 (use-package ob-restclient :ensure t :init(org-babel-do-load-languages
  'org-babel-load-languages
  '((restclient . t))))
-#+END_SRC
-** Haskell
-Enables Haskell support, but I haven't tested it yet. 
-#+BEGIN_SRC emacs-lisp
-(use-package intero :ensure t :config (add-hook 'haskell-mode-hook 'intero-mode))
 #+END_SRC
 ** HTML
 HTML support
@@ -586,24 +573,11 @@ org-journal-time-format "%H:%M:%S"
 #+TITLE: 
 #+BEGIN_SRC emacs-lisp
 (use-package org-cliplink :ensure t :config (setq org-capture-templates
-   '(("K" "Cliplink capture task" entry (file "~/txt/notes/inbox.org")
+   '(("k" "Cliplink capture task" entry (file "~/txt/notes/inbox.org")
       "* TODO %(org-cliplink-capture) \n" :empty-lines 0))))
 
 #+END_SRC
 
-** Markdown
-markdown support
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  markdown-mode 
-  :ensure t 
-  :commands (markdown-mode gfm-mode) 
-  :mode (("README\\.md\\'" . gfm-mode) 
-	 ("\\.txt\\'" . markdown-mode) 
-	 ("\\.md\\'" . markdown-mode) 
-	 ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
-#+END_SRC
 ** TOML
 TOML, the Hugo syntax. 
 #+BEGIN_SRC emacs-lisp
