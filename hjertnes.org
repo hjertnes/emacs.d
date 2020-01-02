@@ -554,7 +554,8 @@ org-journal-file-type 'yearly
 org-journal-file-format "%Y.org"
 org-journal-date-format "%Y-%m-%d" 
 org-journal-time-format "%H:%M:%S"
-) :when (is-not-windows))
+) :when (is-not-windows)
+:bind (("C-c j j" . 'org-journal-new-entry)))
 #+END_SRC
 *** Capture
 #+TITLE: 
