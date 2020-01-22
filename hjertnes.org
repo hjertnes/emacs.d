@@ -26,9 +26,10 @@ This section contains various settings that do not belong in any other section a
 (global-prettify-symbols-mode 1)
 #+END_SRC
 ** GC
-I keep my GC limit to 1gb
+
 #+BEGIN_SRC emacs-lisp
-(setq gc-cons-threshold 800000)
+;(setq gc-cons-threshold 800000)
+(setq gc-cons-percentage 0.25)
 #+END_SRC
 ** Default Mode
 These two settings forces emacs to use text-mode as its default mode, used when emacs can't figure out what mode to use. It is probasbly not needed to use both of those settings.
@@ -254,10 +255,11 @@ Changes that are first and foremost UI changes
 I use Source Code Pro with different since on my different systems
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'default nil 
-		    :family "Source Code Pro" 
-		    :height (cond ((is-windows) 100)
-				  ((is-linux) 100) 
-				  ((is-mac) 140)) 
+		    ;:family "Source Code Pro" 
+:family "JetBrains Mono"
+		    :height (cond ((is-windows) 90)
+				  ((is-linux) 90) 
+				  ((is-mac) 130)) 
 		    :weight 'normal 
 		    :width 'normal)
 #+END_SRC
@@ -348,7 +350,7 @@ Projectile makes it a lot easier to switch between projects in Emacs. It keeps m
 (use-package 
   projectile 
   :ensure t 
-  :init (setq projectile-indexing-method 'alien projectile-completion-system 'ivy projectile-project-search-path '("~/Code/")) 
+  :init (setq projectile-completion-system 'ivy projectile-project-search-path '("~/Code/" "~/go/src")) 
   :config (progn (projectile-mode) 
 		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
 #+END_SRC
@@ -544,8 +546,9 @@ Org support
   org 
   :when (is-not-windows)
   :bind (("C-c c" . 'org-capture))
-  :init (setq org-export-with-toc nil org-descriptive-links nil org-agenda-files '("~/txt/notes/gtd.org" "~/txt/notes/wishlist.org")))
+  :init (setq org-export-with-toc nil org-descriptive-links nil org-agenda-files '("~/txt/notes/gtd.org" "~/txt/notes/wishlist.org" org-startup-with-inline-images t)))
 #+END_SRC
+*** Journal
 #+BEGIN_SRC emacs-lisp
 (use-package org-journal :ensure t :init 
 (setq 
@@ -564,6 +567,11 @@ org-journal-time-format "%H:%M:%S"
    '(("k" "Cliplink capture task" entry (file "~/txt/notes/inbox.org")
       "* TODO %(org-cliplink-capture) \n" :empty-lines 0))))
 
+#+END_SRC
+
+*** Wiki links
+#+BEGIN_SRC emacs-lisp
+(use-package wiki-nav :ensure t :config (global-wiki-nav-mode 1))
 #+END_SRC
 
 ** TOML
