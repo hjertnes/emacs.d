@@ -7,7 +7,6 @@
 ** [[http://blog.jaredsinclair.com/rss?1][Jared Sinclair]]
 ** [[http://brettterpstra.com/atom.xml][BrettTerpstra.com]]
 ** [[http://daringfireball.net/index.xml][Daring Fireball]]
-** [[http://feedpress.me/collindonnell][Collin Donnell]]
 ** [[http://feedpress.me/sixcolors-direct][Six Colors (Direct Links)]]
 ** [[http://feeds.feedburner.com/Explosm][Explosm.net]]
 ** [[http://feeds.feedburner.com/nrkbeta-alt][NRKbeta]]
@@ -21,7 +20,6 @@
 ** [[http://jvns.ca/atom.xml][Julia Evans]]
 ** [[http://macdrifter.com/feeds/all.atom.xml][Macdrifter]]
 ** [[http://macsparky.com/blog?format=rss][MacSparky]]
-** [[http://micro.welltempered.net/feed.xml][Jean MacDonald]]
 ** [[http://mjtsai.com/blog/feed/][Michael Tsai]]
 ** [[http://om.co/feed/][Om Malik]]
 ** [[http://planet.clojure.in/atom.xml][Planet Clojure]]
@@ -35,7 +33,6 @@
 ** [[http://www.dieselsweeties.com/ds-unifeed.xml][Diesel Sweeties webcomic by rstevens]]
 ** [[http://www.loopinsight.com/feed/][The Loop]]
 ** [[http://www.macstories.net/feed/][MacStories]]
-** [[http://www.manton.org/rss.xml][Manton Reece]]
 ** [[http://www.marco.org/rss][Marco.org]]
 ** [[http://www.modernemacs.com/index.xml][Modern Emacs on Modern Emacs]]
 ** [[http://www.ohjoysextoy.com/feed/][Oh Joy Sex Toy]]
@@ -82,4 +79,5 @@
 ** [[https://www.rousette.org.uk/index.xml][but she's a girl...]]
 ** [[https://www.yogabycandace.com/blog?format=RSS][Blog - YOGABYCANDACE]]
 ** [[https://micro.blog/feeds/hjertnes.xml][Micro.blog - hjertnes timeline]] :mb:
-
+** [[https://www.kode24.no/?lab_viewport=rss][Kode24]]
+&& [[https://feeds.feedburner.com/codinghorror]]
