@@ -76,6 +76,7 @@ Showing column numbers and line numbers in the mode line
 ** Autosave & autoload
 These two modes will make emacs auto save files, and load them from disk if the file changes. 
 #+BEGIN_SRC emacs-lisp
+(setq auto-save-visited-interval 10)
 (global-auto-revert-mode +1)
 (auto-save-visited-mode +1)
 #+END_SRC
@@ -92,7 +93,7 @@ Use-package will be used to load, install and configure more or less all other p
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
 (dolist (package 
-	 '(use-package smartparens 
+	 '(use-package smartparens quelpa
 	    request)) 
   (unless (package-installed-p package) 
     (package-install package)))
@@ -315,7 +316,21 @@ Loads my theme, usually either solarized dark or dracula. Currently dracula
 (use-package dracula-theme 
 :config (load-theme 'dracula)
 :ensure t)
+#+END_SRC
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (load-theme 'doom-one t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
 
+** Doom Modeline
+#+BEGIN_SRC emacs-lisp
+(use-package doom-modeline
+      :ensure t
+      :hook (after-init . doom-modeline-mode))
 #+END_SRC
 
 ** Rainbow
@@ -446,7 +461,7 @@ This package enables tramp commands using Ivy stuff. A lot nicer than the defaul
 ** Go
 #+BEGIN_SRC emacs-lisp
 (defun custom-go-mode ()
-             (flycheck-golangci-lint-setup)
+;             (flycheck-golangci-lint-setup)
               (flycheck-mode t)
 )
 (setq gofmt-args '("-s"))
@@ -464,8 +479,8 @@ This package enables tramp commands using Ivy stuff. A lot nicer than the defaul
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 (setq flycheck-golangci-lint-enable-all t)
-(use-package flycheck-golangci-lint
-  :ensure t)
+;(use-package flycheck-golangci-lint
+;  :ensure t)
 #+END_SRC
 ** Rest
 #+BEGIN_SRC emacs-lisp
@@ -548,11 +563,16 @@ Org support
   :bind (("C-c c" . 'org-capture))
   :init (setq org-export-with-toc nil org-descriptive-links nil org-agenda-files '("~/txt/notes/gtd.org" "~/txt/notes/wishlist.org" org-startup-with-inline-images t)))
 #+END_SRC
+*** HTML Export
+#+BEGIN_SRC emacs-lisp
+(use-package htmlize :ensure t)
+#+END_SRC
+
 *** Journal
 #+BEGIN_SRC emacs-lisp
 (use-package org-journal :ensure t :init 
 (setq 
-org-journal-dir "~/txt/journal/" 
+org-journal-dir "~/txt/notes/journal/" 
 org-journal-file-type 'yearly
 org-journal-file-format "%Y.org"
 org-journal-date-format "%Y-%m-%d" 
@@ -616,14 +636,25 @@ My favourite git client
   :ensure t)
 #+END_SRC
 
-** Deft
+** Deft & org-roam
 #+BEGIN_SRC emacs-lisp
-(use-package deft :ensure t :when (is-not-windows) :init (setq deft-extentions '("org") deft-directory "~/txt/notes" deft-use-filename-as-title t deft-use-filter-string-for-filename t deft-default-extension "org" deft-org-mode-title-prefix t deft-file-naming-rules
+(use-package deft :ensure t   :bind
+  ("<f7>" . deft) :when (is-not-windows) :init (setq deft-extentions '("org") deft-directory "~/txt/notes" deft-use-filename-as-title t deft-use-filter-string-for-filename t deft-default-extension "org" deft-org-mode-title-prefix t deft-recursive t deft-file-naming-rules
       '((noslash . "-")
         (nospace . "-")
         (case-fn . downcase))))
 
 #+END_SRC
+First this to be able to install from git repos
+#+BEGIN_SRC emacs-lisp
+(quelpa
+ '(quelpa-use-package
+   :fetcher git
+   :url "https://github.com/quelpa/quelpa-use-package.git"))
+(require 'quelpa-use-package)
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
+(use-package org-roam :quelpa (org-roam :fetcher github :repo "jethrokuan/org-roam") :when (is-not-windows) :custom   (org-roam-directory (expand-file-name "~/txt/notes/")))
 #+END_SRC
 * Misc
   Just a place to put every that doesn't fit anywhere else
@@ -744,4 +775,9 @@ Electric pair mode will insert a matching symbol for pairs like ()[] etc. And sm
   (define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
   (bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
   (bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
+#+END_SRC
+
+** Multiple cursors
+#+BEGIN_SRC emacs-lisp
+(use-package multiple-cursors :ensure t)
 #+END_SRC
