@@ -23,7 +23,7 @@ This section contains various settings that do not belong in any other section a
 
 ** Prettyfy symbols
 #+BEGIN_SRC emacs-lisp
-(global-prettify-symbols-mode 1)
+;(global-prettify-symbols-mode 1)
 #+END_SRC
 ** GC
 
