@@ -1,4 +1,4 @@
-;; Place all the custom junk in a custom.el file
+;; Place All The Custom junk in a custom.el file
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 

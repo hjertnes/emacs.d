@@ -11,6 +11,11 @@ Why? Because it felt like it made more sense to have my configuration in a form 
 #+END_SRC
 * Settings
 This section contains various settings that do not belong in any other section and don't require any third party packages
+** Disable package sign verify
+#+BEGIN_SRC emacs-lisp
+(setq package-check-signature nil)
+#+END_SRC
+
 ** Default Dir
 #+BEGIN_SRC emacs-lisp
 (setq default-directory "~/")
@@ -755,4 +760,11 @@ Electric pair mode will insert a matching symbol for pairs like ()[] etc. And sm
 ** Multiple cursors
 #+BEGIN_SRC emacs-lisp
 (use-package multiple-cursors :ensure t)
+#+END_SRC
+** Mastodon
+#+BEGIN_SRC emacs-lisp
+(setq mastodon-instance-url "https://dog.estate")
+(setq mastodon-toot--default-visibility "public")
+(use-package emojify :ensure t)
+(use-package mastodon :ensure t)
 #+END_SRC
