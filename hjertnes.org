@@ -11,7 +11,6 @@ Why? Because it felt like it made more sense to have my configuration in a form 
 #+END_SRC
 * Settings
 This section contains various settings that do not belong in any other section and don't require any third party packages
-
 ** Default Dir
 #+BEGIN_SRC emacs-lisp
 (setq default-directory "~/")
@@ -177,7 +176,15 @@ Eshell doesn't have a "give me another shell" interactive function for some weir
   (eshell 'N))
 #+END_SRC
 
+*** Go to my code directory
+#+BEGIN_SRC emacs-lisp
+(defun open-code ()
+  (interactive)  
+  (dired "~/Code"))
+#+END_SRC
+
 * OS X stuff
+
 Just some settings that make Emacs better under OS X
 *** Make it prettier
 #+BEGIN_SRC emacs-lisp
@@ -207,14 +214,6 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
 
 * UI
 Changes that are first and foremost UI changes
-** Git gutter
-#+BEGIN_SRC emacs-lisp
-(use-package git-gutter
-  :ensure t
-  :config (global-git-gutter-mode 't)
-  :diminish git-gutter-mode)
-#+END_SRC
-
 ** Font
    I use Jet Brains Mono with different since on my different systems
 #+BEGIN_SRC emacs-lisp
@@ -264,7 +263,8 @@ Highlight the current line. All of it.
 #+END_SRC
 ** Theme
 #+BEGIN_SRC emacs-lisp
-(load-theme 'deeper-blue)
+(use-package afternoon-theme :ensure t :config (load-theme 'afternoon t))
+
 #+END_SRC
 
 ** Rainbow
@@ -345,16 +345,6 @@ This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counse
 		 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol) 
 		 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)))
 
-#+END_SRC
-*** Counsel Tramp
-This package enables tramp commands using Ivy stuff. A lot nicer than the default.
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  counsel-tramp 
-  :ensure t 
-  :after (counsel) 
-  :init (setq tramp-default-method "ssh") 
-  :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
 #+END_SRC
 * Languages
 ** Go
