@@ -22,52 +22,48 @@ This section contains various settings that do not belong in any other section a
 #+END_SRC
 
 ** GC
-
 #+BEGIN_SRC emacs-lisp
 (setq gc-cons-percentage 0.25)
 #+END_SRC
+
 ** Default Mode
 These two settings forces emacs to use text-mode as its default mode, used when emacs can't figure out what mode to use. It is probasbly not needed to use both of those settings.
 #+BEGIN_SRC emacs-lisp
 (setq initial-major-mode (quote text-mode))
 (setq-default major-mode 'text-mode)
 #+END_SRC
+
 ** Indent
 Sets emacs to not use tab as ident, and sets various two spaces per tab variables. And I enable electric ident mode which will ident a line to the previous one when you hit RET. 
 #+BEGIN_SRC emacs-lisp
 (setq tab-with 2 indent-tabs-mode nil js-indent-level 2)
 (electric-indent-mode +1)
 #+END_SRC
+
 ** Backup files etc
 The default setup for emacs creates various lock and backup files and some auto-save stuff. This diables all of that.
 #+BEGIN_SRC emacs-lisp
 (setq create-lockfiles nil make-backup-files nil auto-save-default nil)
 #+END_SRC
-** Better SSH for TRAMP
-This makes using TRAMP over SSH better, don't remember the details.
-#+BEGIN_SRC emacs-lisp
-(setq tramp-default-method "sshx")
-#+END_SRC
-** Syntax for Re-builder
-Re-builder is this awesome emacs feature where you can create a regexp search and replace and see where it will match. This sets the default regexp syntax to a less weird one. The default requires a ridicolus amount of backslashes. 
-#+BEGIN_SRC emacs-lisp
-(setq reb-re-syntax 'string)
-#+END_SRC
+
 ** X11 Clipboard integration
 Makes sure emacs and the X11 clipboard work better together.
 #+BEGIN_SRC emacs-lisp
 (setq select-enable-clipboard t)
 #+END_SRC
+
 ** Server mode
 Server modes enable you to use emacs client. Great if you want to send files to be edited on a running emacs instance from the commandline. 
 #+BEGIN_SRC emacs-lisp
 (server-mode +1)
 #+END_SRC
+
 ** Column numbers
 Showing column numbers and line numbers in the mode line
 #+BEGIN_SRC emacs-lisp
 (column-number-mode +1)
 #+END_SRC
+
 ** Autosave & autoload
 These two modes will make emacs auto save files, and load them from disk if the file changes. 
 #+BEGIN_SRC emacs-lisp
@@ -88,8 +84,7 @@ Use-package will be used to load, install and configure more or less all other p
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
 (dolist (package 
-	 '(use-package smartparens
-	    request)) 
+	 '(use-package smartparens request))
   (unless (package-installed-p package) 
     (package-install package)))
 (eval-when-compile 
@@ -102,11 +97,7 @@ Various helper functions I use a few different places in my setup. Most of them 
   (eq system-type 'darwin))
 (defun is-linux () 
   (eq system-type 'gnu/linux))
-;; function i use to disable stuff
-(defvar current-date-time-format "%a %b %d %H:%M:%S %Z %Y" 
-  "Format of date to insert with `insert-current-date-time' func
-See help of `format-time-string' for possible replacements")
-
+(defvar current-date-time-format "%a %b %d %H:%M:%S %Z %Y")
 (defun get-url()
   (format-time-string "/%Y/%m/%d/"))
 (defun get-datestring()
@@ -176,7 +167,6 @@ Eshell doesn't have a "give me another shell" interactive function for some weir
 #+END_SRC
 
 * OS X stuff
-
 Just some settings that make Emacs better under OS X
 *** Make it prettier
 #+BEGIN_SRC emacs-lisp
@@ -187,6 +177,7 @@ Just some settings that make Emacs better under OS X
 #+BEGIN_SRC emacs-lisp
 (setq ns-use-native-fullscreen t)
 #+END_SRC
+
 *** Make Emacs ignore the right command and option
 This setting is really useful if you like me sometimes need to type characters that are under a option combo on OS X. This setting tells emacs to not do anything with the right option and command. 
 
@@ -225,7 +216,6 @@ No welcome screen on startup and no toolbar or scroll bars.
 (tool-bar-mode -1)
 #+END_SRC
 ** Wrap lines
-I prefer my lines to wrap.
 #+BEGIN_SRC emacs-lisp
 (global-visual-line-mode 1)
 #+END_SRC
@@ -286,8 +276,7 @@ A better autocomplete system than the built in one. Most major modes for emacs t
   company 
   :ensure t 
   :init (setq company-dabbrev-downcase 0 company-idle-delay 0 company-minimum-prefix-length 3)
-  :config (progn(company-mode +1) 
-		(global-company-mode +1)))
+  :config (global-company-mode +1))
 #+END_SRC
 ** LSP
 #+BEGIN_SRC emacs-lisp
@@ -367,16 +356,12 @@ This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counse
 ** HTML
 HTML support
 #+BEGIN_SRC emacs-lisp
-(use-package 
-  web-mode 
-  :ensure)
+(use-package   web-mode   :ensure t)
 #+END_SRC
 ** JSON
 JSON support
 #+BEGIN_SRC emacs-lisp
-(use-package 
-  json-mode 
-  :ensure)
+(use-package   json-mode   :ensure)
 #+END_SRC
 
 ** Org
@@ -393,15 +378,7 @@ Org support
 
 *** Journal
 #+BEGIN_SRC emacs-lisp
-(use-package org-journal :ensure t :init 
-(setq 
-org-journal-dir "~/txt/notes/journal/" 
-org-journal-file-type 'yearly
-org-journal-file-format "%Y.org"
-org-journal-date-format "%Y-%m-%d" 
-org-journal-time-format "%H:%M:%S"
-) 
-:bind (("C-c j j" . 'org-journal-new-entry)))
+(use-package org-journal :ensure t :init (setq org-journal-dir "~/txt/notes/journal/" org-journal-file-type 'yearlyorg-journal-file-format "%Y.org"org-journal-date-format "%Y-%m-%d" org-journal-time-format "%H:%M:%S") :bind (("C-c j j" . 'org-journal-new-entry)))
 #+END_SRC
 
 ** TOML
@@ -490,12 +467,9 @@ A fantastic package that can turn a org document to markdown files that blog sys
 ** Tabs
 Config for the new emacs27 tabs. 
 #+BEGIN_SRC emacs-lisp
-(when (version<= "27.0.50" emacs-version) 
-  (progn 
-    (setq tab-bar-show t) 
-    (tab-bar-mode t) 
-    (global-tab-line-mode)))
-
+(setq tab-bar-show t) 
+(tab-bar-mode t) 
+(global-tab-line-mode)))
 #+END_SRC
 
 ** Undo
