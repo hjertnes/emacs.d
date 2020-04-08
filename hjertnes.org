@@ -11,10 +11,6 @@ Why? Because it felt like it made more sense to have my configuration in a form 
 #+END_SRC
 * Settings
 This section contains various settings that do not belong in any other section and don't require any third party packages
-** Disable package sign verify
-#+BEGIN_SRC emacs-lisp
-(setq package-check-signature nil)
-#+END_SRC
 
 ** Default Dir
 #+BEGIN_SRC emacs-lisp
@@ -26,14 +22,9 @@ This section contains various settings that do not belong in any other section a
 (setq frame-title-format '("The Weird Place"))
 #+END_SRC
 
-** Prettyfy symbols
-#+BEGIN_SRC emacs-lisp
-;(global-prettify-symbols-mode 1)
-#+END_SRC
 ** GC
 
 #+BEGIN_SRC emacs-lisp
-;(setq gc-cons-threshold 800000)
 (setq gc-cons-percentage 0.25)
 #+END_SRC
 ** Default Mode
@@ -68,7 +59,7 @@ Makes sure emacs and the X11 clipboard work better together.
 #+BEGIN_SRC emacs-lisp
 (setq select-enable-clipboard t)
 #+END_SRC
-n* Server mode
+** Server mode
 Server modes enable you to use emacs client. Great if you want to send files to be edited on a running emacs instance from the commandline. 
 #+BEGIN_SRC emacs-lisp
 (server-mode +1)
@@ -98,7 +89,7 @@ Use-package will be used to load, install and configure more or less all other p
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
 (dolist (package 
-	 '(use-package smartparens quelpa
+	 '(use-package smartparens
 	    request)) 
   (unless (package-installed-p package) 
     (package-install package)))
@@ -115,12 +106,6 @@ Various helper functions I use a few different places in my setup. Most of them 
 			     :secret))
 			     )
 			     (message (aref (aref secrets 2) 0))))
-;; Check if current system is windows
-(defun is-windows () 
-  (eq system-type 'windows-nt))
-;; Check if current system is not windows
-(defun is-not-windows () 
-  (not (eq system-type 'windows-nt)))
 (defun is-mac () 
   (eq system-type 'darwin))
 (defun is-linux () 
@@ -164,33 +149,6 @@ With prefix ARG non-nil, insert the result at the end of region."
     (interactive)
     (find-file "~/.emacs.d/hjertnes.org"))
 #+END_SRC
-
-*** Post to Micro.blog
-Micro.blog is my "social" media of choice. It is a tiny network tied together with blogs and rss feeds. This is a tiny function I use to post from emacs.
-#+BEGIN_SRC emacs-lisp
-(require 'request)
-(defun microblog () 
-  "Post without title." 
-  (interactive) 
-  (if (yes-or-no-p "Are you sure you want to post this? ")
-      (progn
-      (switch-to-buffer (org-md-export-as-markdown))
-      (request "https://micro.blog/micropub" 
-	       :type "POST" 
-	       :data `(("h"."entry")
-		       ("content" .
-			,(buffer-substring-no-properties 
-			  (point-min) 
-			  (point-max))))
-	       :headers `(("Authorization" . ,(format "Bearer %s" (get-password "microblog"))))
-	       :success (cl-function (lambda 
-				       (&key 
-					data
-					&allow-other-keys)
-				       (message "Success")))))))
-
-#+END_SRC
-
 *** New Empty Buffer
 Stole this one from [[http://ergoemacs.org/emacs/emacs_new_empty_buffer.html][http://ergoemacs.org/emacs/emacs_new_empty_buffer.html]]. It is a small function that let me create a new "scratch" buffer. 
 #+BEGIN_SRC emacs-lisp
@@ -258,12 +216,11 @@ Changes that are first and foremost UI changes
 #+END_SRC
 
 ** Font
-I use Source Code Pro with different since on my different systems
+   I use Jet Brains Mono with different since on my different systems
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'default nil 
-		    ;:family "Source Code Pro" 
 :family "JetBrains Mono"
-		    :height (cond ((is-windows) 90)
+		    :height (cond 
 				  ((is-linux) 90) 
 				  ((is-mac) 130)) 
 		    :weight 'normal 
@@ -300,42 +257,14 @@ Shows markers for ident levels
   :ensure t 
   :config (indent-guide-global-mode))
 #+END_SRC
-** Line numbers
-Shows line numbers on the left of each buffer.
-#+BEGIN_SRC emacs-lisp
-(global-display-line-numbers-mode 1)
-#+END_SRC
 ** Highlight current line
 Highlight the current line. All of it.
 #+BEGIN_SRC emacs-lisp
 (global-hl-line-mode 1)
 #+END_SRC
 ** Theme
-Loads my theme, usually either solarized dark or dracula. Currently dracula
 #+BEGIN_SRC emacs-lisp
-(use-package
-  solarized-theme
-;   :config (load-theme 'solarized-dark t)
-  :ensure )
-
-(use-package dracula-theme 
-:config (load-theme 'dracula)
-:ensure t)
-#+END_SRC
-(use-package doom-themes
-  :ensure t
-  :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
-  (load-theme 'doom-one t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
-
-** Doom Modeline
-#+BEGIN_SRC emacs-lisp
-(use-package doom-modeline
-      :ensure t
-      :hook (after-init . doom-modeline-mode))
+(load-theme 'deeper-blue)
 #+END_SRC
 
 ** Rainbow
@@ -350,10 +279,6 @@ These two packages makes sure that symbols like [] {} etc and keywords (variable
   :ensure t 
   :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
 #+END_SRC
-** Nyan Mode
-#+BEGIN_SRC emacs-lisp
-(use-package nyan-mode :ensure t :config(nyan-mode +1))
-#+END_SRC
 ** Flycheck
 Flycheck is this awesome package that everything works with. It an show you warnings and errors in your code. 
 #+BEGIN_SRC emacs-lisp
@@ -362,16 +287,6 @@ Flycheck is this awesome package that everything works with. It an show you warn
   :ensure t)
 #+END_SRC
 
-** Projectile
-Projectile makes it a lot easier to switch between projects in Emacs. It keeps me a LOT saner at work.
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  projectile 
-  :ensure t 
-  :init (setq projectile-completion-system 'ivy projectile-project-search-path '("~/Code/" "~/go/src")) 
-  :config (progn (projectile-mode) 
-		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
-#+END_SRC
 ** Company
 A better autocomplete system than the built in one. Most major modes for emacs that have some kind of auto complete also integrates with company. 
 #+BEGIN_SRC emacs-lisp
@@ -431,15 +346,6 @@ This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counse
 		 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)))
 
 #+END_SRC
-*** Counsel Projectile
-This package enables projectile commands using Ivy stuff. A lot nicer than the default.
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  counsel-projectile 
-  :ensure t 
-  :after (counsel projectile) 
-  :config (counsel-projectile-mode +1))
-#+END_SRC
 *** Counsel Tramp
 This package enables tramp commands using Ivy stuff. A lot nicer than the default.
 #+BEGIN_SRC emacs-lisp
@@ -451,16 +357,6 @@ This package enables tramp commands using Ivy stuff. A lot nicer than the defaul
   :config (define-key global-map (kbd "C-c s") 'counsel-tramp))
 #+END_SRC
 * Languages
-** Docker / Kubernetes
-#+BEGIN_SRC emacs-lisp
-(use-package dockerfile-mode :ensure t)
-(use-package docker-compose-mode :ensure t)
-(use-package k8s-mode
- :ensure t
- :config
- (setq k8s-search-documentation-browser-function 'browse-url-firefox)
- :hook (k8s-mode . yas-minor-mode))
-#+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
 (defun custom-go-mode ()
@@ -485,13 +381,7 @@ This package enables tramp commands using Ivy stuff. A lot nicer than the defaul
 ;(use-package flycheck-golangci-lint
 ;  :ensure t)
 #+END_SRC
-** Rest
-#+BEGIN_SRC emacs-lisp
-(use-package restclient :ensure t)
-(use-package ob-restclient :ensure t :init(org-babel-do-load-languages
- 'org-babel-load-languages
- '((restclient . t))))
-#+END_SRC
+
 ** HTML
 HTML support
 #+BEGIN_SRC emacs-lisp
@@ -507,41 +397,12 @@ JSON support
   :ensure)
 #+END_SRC
 
-** C#
-C# support. It works and is pretty awesome. Use it most of the time
-#+BEGIN_SRC emacs-lisp
-(defun csharp-config () 
-  (add-to-list 'company-backends #'company-omnisharp) 
-  (add-hook 'csharp-mode-hook (lambda() 
-				(omnisharp-mode) 
-				(company-mode) 
-				(flycheck-mode) 
-				(setq indent-tabs-mode nil company-idle-delay .1
-				      c-syntactic-indentation t c-basic-offset 4 truncate-lines t
-				      tab-width 4) 
-				(local-set-key (kbd "C-c r r")
-					       'omnisharp-run-code-action-refactoring) 
-				(local-set-key (kbd "C-c C-c") 'recompile))))
-(use-package 
-  omnisharp 
-  :ensure t 
-  :hook ((before-save . omnisharp-code-format-entire-file))
-  :init (setq omnisharp-server-executable-path(cond((is-windows)
-						    "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe") 
-						   ((is-mac)  "~/bin/omnisharp/run") 
-						   ((is-linux) "~/bin/omnisharp/run")))
-						   
-  :config (csharp-config))
-
-#+END_SRC
 ** Org
 Org support
 #+BEGIN_SRC emacs-lisp
 (use-package 
   org 
-  :when (is-not-windows)
-  :bind (("C-c c" . 'org-capture))
-  :init (setq org-export-with-toc nil org-descriptive-links nil org-agenda-files '("~/txt/notes/gtd.org" "~/txt/notes/wishlist.org" org-startup-with-inline-images t)))
+  :init (setq org-export-with-toc nil org-descriptive-links nil org-startup-with-inline-images t))
 #+END_SRC
 *** HTML Export
 #+BEGIN_SRC emacs-lisp
@@ -557,21 +418,8 @@ org-journal-file-type 'yearly
 org-journal-file-format "%Y.org"
 org-journal-date-format "%Y-%m-%d" 
 org-journal-time-format "%H:%M:%S"
-) :when (is-not-windows)
+) 
 :bind (("C-c j j" . 'org-journal-new-entry)))
-#+END_SRC
-*** Capture
-#+TITLE: 
-#+BEGIN_SRC emacs-lisp
-(use-package org-cliplink :ensure t :config (setq org-capture-templates
-   '(("k" "Cliplink capture task" entry (file "~/txt/notes/inbox.org")
-      "* TODO %(org-cliplink-capture) \n" :empty-lines 0))))
-
-#+END_SRC
-
-*** Wiki links
-#+BEGIN_SRC emacs-lisp
-(use-package wiki-nav :ensure t :config (global-wiki-nav-mode 1))
 #+END_SRC
 
 ** TOML
@@ -583,29 +431,19 @@ TOML, the Hugo syntax.
 Some utils for elisp.
 #+BEGIN_SRC emacs-lisp
 (use-package 
-  package-lint 
-  :ensure t)
-(use-package 
   elisp-format 
   :ensure t)
 #+END_SRC
+** Svelte
+#+BEGIN_SRC emacs-lisp
+(use-package svelte-mode :ensure t)
+#+END_SRC
+
 * Apps
 ** Search
 An awesome to search in a directory. 
 #+BEGIN_SRC emacs-lisp
 (use-package deadgrep :ensure t :bind (("<f5>". deadgrep)))
-#+END_SRC
-** Feed
-This is my current RSS / Atom feed reader of choice. I like it a lot, all my feeds are stored in a org file. And it is easy to manage them, and process new items. It takes me way less time to go through them all and send it to Firefox than my previous setup. 
-
-#+BEGIN_SRC emacs-lisp
-(use-package elfeed
-  :init (add-hook 'elfeed-show-mode-hook (lambda()
-(local-set-key "\C-n" 'elfeed-show-next)
-(local-set-key "\C-p" 'elfeed-show-prev)))
-(setq elfeed-sort-order 'ascending)
-  :ensure t)
-(use-package elfeed-org :ensure t :config (elfeed-org) :after (elfeed))
 #+END_SRC
 ** Magit
 My favourite git client
@@ -615,41 +453,11 @@ My favourite git client
   :init (setq magit-completing-read-function 'ivy-completing-read) 
   :ensure t)
 #+END_SRC
-
-** Deft & org-roam
-#+BEGIN_SRC emacs-lisp
-(use-package deft :ensure t   :bind
-  ("<f7>" . deft) :when (is-not-windows) :init (setq deft-extentions '("org") deft-directory "~/txt/notes" deft-use-filename-as-title t deft-use-filter-string-for-filename t deft-default-extension "org" deft-org-mode-title-prefix t deft-recursive t deft-file-naming-rules
-      '((noslash . "-")
-        (nospace . "-")
-        (case-fn . downcase))))
-
-#+END_SRC
-First this to be able to install from git repos
-#+BEGIN_SRC emacs-lisp
-(quelpa
- '(quelpa-use-package
-   :fetcher git
-   :url "https://github.com/quelpa/quelpa-use-package.git"))
-(require 'quelpa-use-package)
-#+END_SRC
-#+BEGIN_SRC emacs-lisp
-(use-package org-roam :quelpa (org-roam :fetcher github :repo "jethrokuan/org-roam") :when (is-not-windows) :custom   (org-roam-directory (expand-file-name "~/txt/notes/")))
-#+END_SRC
 * Misc
   Just a place to put every that doesn't fit anywhere else
-** Eshell
-Enables Z in eshell. It is this machine learning thing that learn from the directorys to go to and let you type less to go into them. 
-#+BEGIN_SRC emacs-lisp
-(use-package eshell-z :ensure t :config (add-hook 'eshell-mode-hook (defun my-eshell-mode-hook ()(require 'eshell-z))))
-#+END_SRC
 ** Avy
 #+BEGIN_SRC emacs-lisp
 (use-package avy :ensure t :config (progn (global-set-key (kbd "C-:") 'avy-goto-char) (global-set-key (kbd "M-C-:") 'avy-goto-char-timer)))
-#+END_SRC
-** Restart Emacs
-#+BEGIN_SRC emacs-lisp
-(use-package restart-emacs :ensure t)
 #+END_SRC
 ** Golden Ratio
 #+BEGIN_SRC emacs-lisp
@@ -760,11 +568,4 @@ Electric pair mode will insert a matching symbol for pairs like ()[] etc. And sm
 ** Multiple cursors
 #+BEGIN_SRC emacs-lisp
 (use-package multiple-cursors :ensure t)
-#+END_SRC
-** Mastodon
-#+BEGIN_SRC emacs-lisp
-(setq mastodon-instance-url "https://dog.estate")
-(setq mastodon-toot--default-visibility "public")
-(use-package emojify :ensure t)
-(use-package mastodon :ensure t)
 #+END_SRC

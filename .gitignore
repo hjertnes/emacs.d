@@ -1,4 +1,6 @@
 auto-save-list
+emojis
+quelpa
 eshell
 projectile-bookmarks.eld
 recentf
@@ -18,3 +20,8 @@ custom.el~
 hjertnes.el
 hjertnes.el~
 org-journal.cache
+.DS_Store
+.lsp-session-v1
+.mc-lists.el
+bookmarks
+mastodon.plstore
