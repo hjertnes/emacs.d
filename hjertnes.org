@@ -98,19 +98,11 @@ Use-package will be used to load, install and configure more or less all other p
 * Helper functions
 Various helper functions I use a few different places in my setup. Most of them do stuff like reading passwords from auth-info, predicates for figuring out what kind of system it is or isn't and a few date related functions I use in my yasnippets
 #+BEGIN_SRC emacs-lisp
-(defun get-password (name) 
-  (let* ((results (auth-source-search :host name)) 
-	 (result (car results)) 
-	 (secrets (plist-get result 
-			     :secret))
-			     )
-			     (message (aref (aref secrets 2) 0))))
 (defun is-mac () 
   (eq system-type 'darwin))
 (defun is-linux () 
   (eq system-type 'gnu/linux))
 ;; function i use to disable stuff
-(defun is-disabled () nil)
 (defvar current-date-time-format "%a %b %d %H:%M:%S %Z %Y" 
   "Format of date to insert with `insert-current-date-time' func
 See help of `format-time-string' for possible replacements")
@@ -523,36 +515,6 @@ Electric pair mode will insert a matching symbol for pairs like ()[] etc. And sm
   (require 'smartparens-config) 
   (smartparens-mode)
   (smartparens-global-mode +1)
-  (define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp)
-  (define-key smartparens-mode-map (kbd "C-s-d") 'sp-beginning-of-sexp)
-  (define-key smartparens-mode-map (kbd "C-s-a") 'sp-end-of-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-n") 'sp-forward-hybrid-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-p") 'sp-backward-hybrid-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-k") 'sp-kill-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp)
-  (define-key smartparens-mode-map (kbd "M-<delete>") 'sp-unwrap-sexp)
-  (define-key smartparens-mode-map (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
-  (define-key smartparens-mode-map (kbd "C-<right>") 'sp-forward-slurp-sexp)
-  (define-key smartparens-mode-map (kbd "C-<left>") 'sp-forward-barf-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-<right>") 'sp-backward-barf-sexp)
-  (define-key smartparens-mode-map (kbd "M-D") 'sp-splice-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
-  (define-key smartparens-mode-map (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
-  (define-key smartparens-mode-map (kbd "C-s-<backspace>") 'sp-splice-sexp-killing-around)
-  (define-key smartparens-mode-map (kbd "C-]") 'sp-select-next-thing-exchange)
-  (define-key smartparens-mode-map (kbd "C-<left_bracket>") 'sp-select-previous-thing)
-  (define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing)
-  (define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol)
-  (define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
-  (bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
-  (bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
 #+END_SRC
 
 ** Multiple cursors
