@@ -72,6 +72,10 @@ These two modes will make emacs auto save files, and load them from disk if the 
 (auto-save-visited-mode +1)
 #+END_SRC
 
+** Disable package sign verify
+#+BEGIN_SRC emacs-lisp
+(setq package-check-signature nil)
+#+END_SRC
 * Package manager
 One of the first things I do is to configure the Emacs package system to use all the package sources I know of, and to install use-package, request and org-plus-contrib; and then load use-package. 
 
@@ -157,13 +161,6 @@ Eshell doesn't have a "give me another shell" interactive function for some weir
   "Open a new instance of eshell."
   (interactive)
   (eshell 'N))
-#+END_SRC
-
-*** Go to my code directory
-#+BEGIN_SRC emacs-lisp
-(defun open-code ()
-  (interactive)  
-  (dired "~/Code"))
 #+END_SRC
 
 * OS X stuff
@@ -514,4 +511,8 @@ Electric pair mode will insert a matching symbol for pairs like ()[] etc. And sm
 ** Multiple cursors
 #+BEGIN_SRC emacs-lisp
 (use-package multiple-cursors :ensure t)
+#+END_SRC
+** Restart Emacs
+#+BEGIN_SRC emacs-lisp
+(use-package restart-emacs :ensure t)
 #+END_SRC
