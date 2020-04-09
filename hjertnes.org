@@ -327,6 +327,26 @@ This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counse
 		 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)))
 
 #+END_SRC
+** Projectile
+Projectile makes it a lot easier to switch between projects in Emacs. It keeps me a LOT saner at work.
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  projectile 
+  :ensure t 
+  :init (setq projectile-completion-system 'ivy projectile-project-search-path '("~/Code/" "~/go/src")) 
+  :config (progn (projectile-mode) 
+		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
+
+#+END_SRC
+*** Counsel Projectile
+This package enables projectile commands using Ivy stuff. A lot nicer than the default.
+#+BEGIN_SRC emacs-lisp
+(use-package 
+  counsel-projectile 
+  :ensure t 
+  :after (counsel projectile) 
+  :config (counsel-projectile-mode +1))
+#+END_SRC
 * Languages
 ** Go
 #+BEGIN_SRC emacs-lisp
@@ -378,7 +398,7 @@ Org support
 
 *** Journal
 #+BEGIN_SRC emacs-lisp
-(use-package org-journal :ensure t :init (setq org-journal-dir "~/txt/notes/journal/" org-journal-file-type 'yearlyorg-journal-file-format "%Y.org"org-journal-date-format "%Y-%m-%d" org-journal-time-format "%H:%M:%S") :bind (("C-c j j" . 'org-journal-new-entry)))
+(use-package org-journal :ensure t :init (setq org-journal-dir "~/txt/notes/journal/" org-journal-file-type 'yearly org-journal-file-format "%Y.org" org-journal-date-format "%Y-%m-%d" org-journal-time-format "%H:%M:%S") :bind (("C-c j j" . 'org-journal-new-entry)))
 #+END_SRC
 
 ** TOML
@@ -469,7 +489,7 @@ Config for the new emacs27 tabs.
 #+BEGIN_SRC emacs-lisp
 (setq tab-bar-show t) 
 (tab-bar-mode t) 
-(global-tab-line-mode)))
+(global-tab-line-mode)
 #+END_SRC
 
 ** Undo
