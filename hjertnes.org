@@ -414,8 +414,20 @@ Some utils for elisp.
 #+BEGIN_SRC emacs-lisp
 (use-package svelte-mode :ensure t)
 #+END_SRC
-
+** Yaml
+#+BEGIN_SRC emacs-lisp
+(use-package yaml-mode :ensure t)
+#+END_SRC
 * Apps
+** Mastodon
+#+BEGIN_SRC emacs-lisp
+(use-package mastodon
+  :ensure t
+:init (setq mastodon-instance-url "https://dog.estate"))
+#+END_SRC
+
+#+RESULTS:
+
 ** Search
 An awesome to search in a directory. 
 #+BEGIN_SRC emacs-lisp
