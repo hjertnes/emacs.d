@@ -493,6 +493,15 @@ A fantastic package that can turn a org document to markdown files that blog sys
   :init (setq org-hugo-front-matter-format 'yaml) 
   :after ox)
 #+END_SRC
+#+BEGIN_SRC emacs-lisp
+(use-package org-superstar :ensure t :config (org-superstar-mode 1))
+#+END_SRC
+
+#+RESULTS:
+: t
+
+
+
 ** Tabs
 Config for the new emacs27 tabs. 
 #+BEGIN_SRC emacs-lisp
