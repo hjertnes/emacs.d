@@ -241,10 +241,14 @@ Highlight the current line. All of it.
 (global-hl-line-mode 1)
 #+END_SRC
 ** Theme
+I currently use a modified version of Dracula, based on the palette of Dracula Pro.
 #+BEGIN_SRC emacs-lisp
-(use-package afternoon-theme :ensure t :config (load-theme 'afternoon t))
+;(use-package afternoon-theme :ensure t :config (load-theme 'afternoon t))
+(load "~/Code/emacs.d-private/dracula-theme.el")
+(load-theme 'dracula t)
 
 #+END_SRC
+
 
 ** Rainbow
 These two packages makes sure that symbols like [] {} etc and keywords (variables, functions etc) get different colours. Makes it a lot easier and faster to read and work with code. 
