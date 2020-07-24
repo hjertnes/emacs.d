@@ -249,6 +249,10 @@ I currently use a modified version of Dracula, based on the palette of Dracula P
 
 #+END_SRC
 
+** Emoji
+#+BEGIN_SRC emacs-lisp
+(use-package emojify :ensure t :config (global-emojify-mode))
+#+END_SRC
 
 ** Rainbow
 These two packages makes sure that symbols like [] {} etc and keywords (variables, functions etc) get different colours. Makes it a lot easier and faster to read and work with code. 
@@ -276,28 +280,10 @@ A better autocomplete system than the built in one. Most major modes for emacs t
 (use-package 
   company 
   :ensure t 
-  :init (setq company-dabbrev-downcase 0 company-idle-delay 0 company-minimum-prefix-length 3)
+  :init (setq company-dabbrev-downcase 0 company-idle-delay 0 company-minimum-prefix-length 1)
   :config (global-company-mode +1))
 #+END_SRC
-** LSP
-#+BEGIN_SRC emacs-lisp
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :hook (go-mode . lsp-deferred))
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
-(setq 
-lsp-ui-imenu-enable t
-lsp-ui-sideline-enable t
-lsp-ui-doc-enable t
-lsp-ui-peek-enable t) 
-(setq lsp-eldoc-render-all t)
-#+END_SRC
+
 ** Ivy
    Ivy provide a lot of the same functionality that Helm has, just that I like it better.
 *** Smex
@@ -334,7 +320,7 @@ Projectile makes it a lot easier to switch between projects in Emacs. It keeps m
 (use-package 
   projectile 
   :ensure t 
-  :init (setq projectile-completion-system 'ivy projectile-project-search-path '("~/Code/" "~/go/src")) 
+  :init (setq projectile-completion-system 'ivy projectile-project-search-path '("~/Code/" )) 
   :config (progn (projectile-mode) 
 		 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)))
 
@@ -349,31 +335,6 @@ This package enables projectile commands using Ivy stuff. A lot nicer than the d
   :config (counsel-projectile-mode +1))
 #+END_SRC
 * Languages
-** Go
-#+BEGIN_SRC emacs-lisp
-(defun custom-go-mode ()
-;             (flycheck-golangci-lint-setup)
-              (flycheck-mode t)
-)
-(setq gofmt-args '("-s"))
-(use-package go-mode
-:defer t
-:ensure t
-:mode ("\\.go\\'" . go-mode)
-:init
-  (add-hook 'go-mode-hook 'custom-go-mode))
-(setq lsp-gopls-staticcheck t)
-(setq lsp-gopls-complete-unimported t)
-
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'gofmt-before-save t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-(setq flycheck-golangci-lint-enable-all t)
-;(use-package flycheck-golangci-lint
-;  :ensure t)
-#+END_SRC
-
 ** HTML
 HTML support
 #+BEGIN_SRC emacs-lisp
@@ -422,6 +383,52 @@ Some utils for elisp.
 #+BEGIN_SRC emacs-lisp
 (use-package yaml-mode :ensure t)
 #+END_SRC
+** LSP
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred))
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+(setq 
+lsp-auto-configure nil
+lsp-ui-imenu-enable t
+lsp-ui-sideline-enable t
+lsp-ui-doc-enable t
+lsp-ui-peek-enable t
+lsp-eldoc-render-all t)
+#+END_SRC
+** Golang
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-go)
+(use-package go-mode
+:defer t
+:ensure t
+:mode ("\\.go\\'" . go-mode))
+
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'gofmt-before-save t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+
+(setq 
+flycheck-golangci-lint-enable-all t
+gofmt-args '("-s")
+lsp-gopls-staticcheck t
+lsp-gopls-complete-unimported t)
+#+END_SRC
+** Caddyfile
+#+BEGIN_SRC emacs-lisp
+(use-package caddyfile-mode :ensure t)
+#+END_SRC
+
 * Apps
 ** Mastodon
 #+BEGIN_SRC emacs-lisp
@@ -540,4 +547,4 @@ Electric pair mode will insert a matching symbol for pairs like ()[] etc. And sm
 ** Restart Emacs
 #+BEGIN_SRC emacs-lisp
 (use-package restart-emacs :ensure t)
-#+END_SRC
+#+
