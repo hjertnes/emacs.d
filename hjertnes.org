@@ -85,7 +85,6 @@ Use-package will be used to load, install and configure more or less all other p
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/") 
 			 ("marmalade" . "http://marmalade-repo.org/packages/") 
 			 ("melpa" . "http://melpa.org/packages/")))
-(package-initialize)
 (unless package-archive-contents (package-refresh-contents))
 (dolist (package 
 	 '(use-package smartparens request))
@@ -429,6 +428,11 @@ lsp-gopls-complete-unimported t)
 (use-package caddyfile-mode :ensure t)
 #+END_SRC
 
+** Taskpaper
+#+BEGIN_SRC emacs-lisp
+(use-package taskpaper-mode :ensure t)
+#+END_SRC
+
 * Apps
 ** Mastodon
 #+BEGIN_SRC emacs-lisp
@@ -547,4 +551,63 @@ Electric pair mode will insert a matching symbol for pairs like ()[] etc. And sm
 ** Restart Emacs
 #+BEGIN_SRC emacs-lisp
 (use-package restart-emacs :ensure t)
-#+
+#+END_SRC
+
+* Roam
+#+BEGIN_SRC emacs-lisp
+(use-package deft
+  :ensure t
+  :after org
+  :bind
+  ("C-c n d" . deft)
+  :custom
+  (deft-recursive t)
+  (deft-use-filter-string-for-filename t)
+  (deft-default-extension "org")
+  (deft-directory "~/txt/roam"))
+(setq org-roam-directory "~/txt/roam/" org-roam-tag-sources '(prop all-directories))
+(use-package org-roam
+      :ensure t
+      :hook
+      (after-init . org-roam-mode)
+      :custom
+
+      :bind (:map org-roam-mode-map
+              (("C-c n l" . org-roam)
+               ("C-c n f" . org-roam-find-file)
+               ("C-c n g" . org-roam-graph-show))
+              :map org-mode-map
+              (("C-c n i" . org-roam-insert))
+              (("C-c n I" . org-roam-insert-immediate))))
+(use-package company-org-roam
+  :ensure t
+  :config
+  (push 'company-org-roam company-backends))
+(use-package org-roam-server
+  :ensure t
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8888
+        org-roam-server-authenticate nil
+        org-roam-server-export-inline-images t
+        org-roam-server-serve-files nil
+        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20))
+#+END_SRC
+
+#+RESULTS:
+: t
+
+* New Stuff (need to organized)
+#+BEGIN_SRC emacs-lisp
+(use-package which-key :ensure t :config (which-key-mode))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package nyan-mode :ensure t :config (nyan-mode +1))
+#+END_SRC
+

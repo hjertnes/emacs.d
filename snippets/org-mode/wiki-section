@@ -1,0 +1,7 @@
+# key: wiki-section
+# --
+
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: $1
+:EXPORT_FILE_NAME: $2
+:END:
