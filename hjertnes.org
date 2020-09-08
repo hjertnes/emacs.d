@@ -469,22 +469,11 @@ My favourite git client
 ** Roam
 My current personal wiki / note experiment
 #+BEGIN_SRC emacs-lisp
-(use-package deft
-  :ensure t
-  :after org
-  :bind
-  ("C-c n d" . deft)
-  :custom
-  (deft-recursive t)
-  (deft-use-filter-string-for-filename t)
-  (deft-default-extension "org")
-  (deft-directory "~/txt/roam"))
 (setq org-roam-directory "~/txt/roam/" org-roam-tag-sources '(prop all-directories))
 (use-package org-roam
       :ensure t
       :hook
       (after-init . org-roam-mode)
-      :custom
 
       :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
@@ -565,7 +554,7 @@ A fantastic package that can turn a org document to markdown files that blog sys
   :after ox)
 #+END_SRC
 #+BEGIN_SRC emacs-lisp
-(use-package org-superstar :ensure t :config (org-superstar-mode 1))
+(use-package org-superstar :ensure t :config (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 #+END_SRC
 
 #+RESULTS:
