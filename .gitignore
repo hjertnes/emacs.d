@@ -25,3 +25,4 @@ org-journal.cache
 .mc-lists.el
 bookmarks
 mastodon.plstore
+.org-id-locations
