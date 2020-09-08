@@ -248,7 +248,16 @@ I currently use modus operandi. A very accessible light theme
 (load-theme 'modus-operandi)
 #+END_SRC
 
+** Which key
+Shows keyboard shortcut hints as I type
 
+#+BEGIN_SRC emacs-lisp
+(use-package which-key :ensure t :config (which-key-mode))
+#+END_SRC
+** Shows a cute had showing scroll position 
+#+BEGIN_SRC emacs-lisp
+(use-package nyan-mode :ensure t :config (nyan-mode +1))
+#+END_SRC
 ** Emoji
 #+BEGIN_SRC emacs-lisp
 (use-package emojify :ensure t :config (global-emojify-mode))
@@ -457,6 +466,52 @@ My favourite git client
   :init (setq magit-completing-read-function 'ivy-completing-read) 
   :ensure t)
 #+END_SRC
+** Roam
+My current personal wiki / note experiment
+#+BEGIN_SRC emacs-lisp
+(use-package deft
+  :ensure t
+  :after org
+  :bind
+  ("C-c n d" . deft)
+  :custom
+  (deft-recursive t)
+  (deft-use-filter-string-for-filename t)
+  (deft-default-extension "org")
+  (deft-directory "~/txt/roam"))
+(setq org-roam-directory "~/txt/roam/" org-roam-tag-sources '(prop all-directories))
+(use-package org-roam
+      :ensure t
+      :hook
+      (after-init . org-roam-mode)
+      :custom
+
+      :bind (:map org-roam-mode-map
+              (("C-c n l" . org-roam)
+               ("C-c n f" . org-roam-find-file)
+               ("C-c n g" . org-roam-graph-show))
+              :map org-mode-map
+              (("C-c n i" . org-roam-insert))
+              (("C-c n I" . org-roam-insert-immediate))))
+(use-package company-org-roam
+ :ensure t
+  :config
+  (push 'company-org-roam company-backends))
+(use-package org-roam-server
+  :ensure t
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8888
+        org-roam-server-authenticate nil
+        org-roam-server-export-inline-images t
+        org-roam-server-serve-files nil
+        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20))
+#+END_SRC
 * Misc
   Just a place to put every that doesn't fit anywhere else
 ** Avy
@@ -517,7 +572,6 @@ A fantastic package that can turn a org document to markdown files that blog sys
 : t
 
 
-
 ** Tabs
 Config for the new emacs27 tabs. 
 #+BEGIN_SRC emacs-lisp
@@ -554,61 +608,6 @@ Electric pair mode will insert a matching symbol for pairs like ()[] etc. And sm
 (use-package restart-emacs :ensure t)
 #+END_SRC
 
-* Roam
-#+BEGIN_SRC emacs-lisp
-(use-package deft
-  :ensure t
-  :after org
-  :bind
-  ("C-c n d" . deft)
-  :custom
-  (deft-recursive t)
-  (deft-use-filter-string-for-filename t)
-  (deft-default-extension "org")
-  (deft-directory "~/txt/roam"))
-(setq org-roam-directory "~/txt/roam/" org-roam-tag-sources '(prop all-directories))
-(use-package org-roam
-      :ensure t
-      :hook
-      (after-init . org-roam-mode)
-      :custom
 
-      :bind (:map org-roam-mode-map
-              (("C-c n l" . org-roam)
-               ("C-c n f" . org-roam-find-file)
-               ("C-c n g" . org-roam-graph-show))
-              :map org-mode-map
-              (("C-c n i" . org-roam-insert))
-              (("C-c n I" . org-roam-insert-immediate))))
-;(use-package company-org-roam
-; :ensure t
-;  :config
-;  (push 'company-org-roam company-backends))
-(use-package org-roam-server
-  :ensure t
-  :config
-  (setq org-roam-server-host "127.0.0.1"
-        org-roam-server-port 8888
-        org-roam-server-authenticate nil
-        org-roam-server-export-inline-images t
-        org-roam-server-serve-files nil
-        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
-        org-roam-server-network-poll t
-        org-roam-server-network-arrows nil
-        org-roam-server-network-label-truncate t
-        org-roam-server-network-label-truncate-length 60
-        org-roam-server-network-label-wrap-length 20))
-#+END_SRC
 
-#+RESULTS:
-: t
-
-* New Stuff (need to organized)
-#+BEGIN_SRC emacs-lisp
-(use-package which-key :ensure t :config (which-key-mode))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(use-package nyan-mode :ensure t :config (nyan-mode +1))
-#+END_SRC
 
