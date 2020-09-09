@@ -29,7 +29,7 @@ This section contains various settings that do not belong in any other section a
 ** Default Mode
 These two settings forces emacs to use text-mode as its default mode, used when emacs can't figure out what mode to use. It is probasbly not needed to use both of those settings.
 #+BEGIN_SRC emacs-lisp
-(setq initial-major-mode (quote text-mode))
+(setq initial-major-mode  'text-mode)
 (setq-default major-mode 'text-mode)
 #+END_SRC
 
@@ -344,6 +344,38 @@ This package enables projectile commands using Ivy stuff. A lot nicer than the d
   :config (counsel-projectile-mode +1))
 #+END_SRC
 * Languages
+** C#
+#+BEGIN_SRC emacs-lisp
+(use-package omnisharp :ensure t :config (eval-after-load
+  'company
+  '(add-to-list 'company-backends #'company-omnisharp))
+
+(defun my-csharp-mode-setup ()
+  (omnisharp-mode)
+  (company-mode)
+  (flycheck-mode)
+
+  (setq indent-tabs-mode nil)
+  (setq c-syntactic-indentation t)
+  (c-set-style "ellemtel")
+  (setq c-basic-offset 4)
+  (setq truncate-lines t)
+  (setq tab-width 4)
+  (setq evil-shift-width 4)
+
+  ;csharp-mode README.md recommends this too
+  ;(electric-pair-mode 1)       ;; Emacs 24
+  ;(electric-pair-local-mode 1) ;; Emacs 25
+
+  (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
+  (local-set-key (kbd "C-c C-c") 'recompile))
+
+(add-hook 'csharp-mode-hook 'my-csharp-mode-setup t))
+#+END_SRC
+
+#+RESULTS:
+: t
+
 ** HTML
 HTML support
 #+BEGIN_SRC emacs-lisp
@@ -559,7 +591,6 @@ A fantastic package that can turn a org document to markdown files that blog sys
 
 #+RESULTS:
 : t
-
 
 ** Tabs
 Config for the new emacs27 tabs. 
