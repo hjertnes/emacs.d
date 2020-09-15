@@ -167,7 +167,7 @@ Just some settings that make Emacs better under OS X
 *** Make it prettier
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-(add-to-list 'default-frame-alist '(ns-appearance . dark))
+(add-to-list 'default-frame-alist '(ns-appearance . light))
 #+END_SRC
 *** Use the native full screen
 #+BEGIN_SRC emacs-lisp
@@ -533,6 +533,14 @@ My current personal wiki / note experiment
         org-roam-server-network-label-truncate-length 60
         org-roam-server-network-label-wrap-length 20))
 #+END_SRC
+** Gopher
+#+BEGIN_SRC emacs-lisp
+(use-package elpher :ensure t)
+#+END_SRC
+
+#+RESULTS:
+
+
 * Misc
   Just a place to put every that doesn't fit anywhere else
 ** Avy
