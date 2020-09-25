@@ -514,10 +514,7 @@ My current personal wiki / note experiment
               :map org-mode-map
               (("C-c n i" . org-roam-insert))
               (("C-c n I" . org-roam-insert-immediate))))
-(use-package company-org-roam
- :ensure t
-  :config
-  (push 'company-org-roam company-backends))
+
 (use-package org-roam-server
   :ensure t
   :config
