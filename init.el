@@ -1,4 +1,4 @@
-;; Place All The Custom junk in a custom.el file
+;; Place All The Custom junk in a custom.el 
 (defun create-if-not-exist(filename)
   (if (not(file-exists-p filename))
       (make-empty-file filename)))

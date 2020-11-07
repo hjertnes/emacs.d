@@ -11,6 +11,7 @@ Why? Because it felt like it made more sense to have my configuration in a form 
 #+END_SRC
 * Settings
 This section contains various settings that do not belong in any other section and don't require any third party packages
+
 ** Default Dir
 #+BEGIN_SRC emacs-lisp
 (setq default-directory "~/")
@@ -22,6 +23,8 @@ This section contains various settings that do not belong in any other section a
 #+END_SRC
 
 ** GC
+This sets the memory limit of GC to 25% of total memory
+
 #+BEGIN_SRC emacs-lisp
 (setq gc-cons-percentage 0.25)
 #+END_SRC
@@ -37,7 +40,6 @@ These two settings forces emacs to use text-mode as its default mode, used when 
 Sets emacs to not use tab as ident, and sets various two spaces per tab variables. And I enable electric ident mode which will ident a line to the previous one when you hit RET. 
 #+BEGIN_SRC emacs-lisp
 (setq tab-with 2 indent-tabs-mode nil js-indent-level 2)
-(electric-indent-mode +1)
 #+END_SRC
 
 ** Backup files etc
@@ -73,6 +75,7 @@ These two modes will make emacs auto save files, and load them from disk if the 
 #+END_SRC
 
 ** Disable package sign verify
+This disabled verification of package signature, probably a bad idea, but useful in some cases, like when running non released version of Emacs.
 #+BEGIN_SRC emacs-lisp
 (setq package-check-signature nil)
 #+END_SRC
@@ -85,6 +88,7 @@ Use-package will be used to load, install and configure more or less all other p
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/") 
 			 ("marmalade" . "http://marmalade-repo.org/packages/") 
 			 ("melpa" . "http://melpa.org/packages/")))
+(package-initialize)
 (unless package-archive-contents (package-refresh-contents))
 (dolist (package 
 	 '(use-package smartparens request))
@@ -112,7 +116,8 @@ Various helper functions I use a few different places in my setup. Most of them 
 #+END_SRC
 * Interactive functions
 Interactive functions that I use from time to time to do stuff that isn't as easy as I like out of the box. 
-*** Calc eval region
+** Calc eval region
+A simple function to just mark some math and show the result in the message area 
 #+BEGIN_SRC emacs-lisp
 (defun calc-eval-region (arg beg end)
   "Calculate the region and display the result in the echo area.
@@ -127,14 +132,15 @@ With prefix ARG non-nil, insert the result at the end of region."
         (insert result)))))
 #+END_SRC
 
-*** Quickly find config
+** Quickly find config
+A function to quickly open this file
 #+BEGIN_SRC emacs-lisp
 (defun open-config ()
     "Build the pillow fort!"
     (interactive)
     (find-file "~/.emacs.d/hjertnes.org"))
 #+END_SRC
-*** New Empty Buffer
+** New Empty Buffer
 Stole this one from [[http://ergoemacs.org/emacs/emacs_new_empty_buffer.html][http://ergoemacs.org/emacs/emacs_new_empty_buffer.html]]. It is a small function that let me create a new "scratch" buffer. 
 #+BEGIN_SRC emacs-lisp
 (defun new-buffer () 
@@ -146,14 +152,14 @@ Stole this one from [[http://ergoemacs.org/emacs/emacs_new_empty_buffer.html][ht
     (setq buffer-offer-save t)
     $buf))
 #+END_SRC
-*** Save all
+** Save all
 Not soemthing I use a lot, but I do use it when I have search and replaced a lot of files, and just want to save it all. 
 #+BEGIN_SRC emacs-lisp
 (defun save-all () 
   (interactive) 
   (save-some-buffers t))
 #+END_SRC
-*** Eshell New
+** Eshell New
 Eshell doesn't have a "give me another shell" interactive function for some weird reason. This function let me create a new one. 
 #+BEGIN_SRC emacs-lisp
 (defun new-eshell()
@@ -164,24 +170,24 @@ Eshell doesn't have a "give me another shell" interactive function for some weir
 
 * OS X stuff
 Just some settings that make Emacs better under OS X
-*** Make it prettier
+** Make it prettier
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . light))
 #+END_SRC
-*** Use the native full screen
+** Use the native full screen
 #+BEGIN_SRC emacs-lisp
 (setq ns-use-native-fullscreen t)
 #+END_SRC
 
-*** Make Emacs ignore the right command and option
+** Make Emacs ignore the right command and option
 This setting is really useful if you like me sometimes need to type characters that are under a option combo on OS X. This setting tells emacs to not do anything with the right option and command. 
 
 #+BEGIN_SRC emacs-lisp
 (when (eq system-type 'darwin)
   (setq mac-command-modifier 'super mac-right-option-modifier 'none mac-right-command-modifier 'none mac-pass-command-to-system nil))
 #+END_SRC
-*** Get path from shell
+** Get path from shell
 Paths can be a little bit weird if you start emacs as an App on OS X. This package fixes it.
 #+BEGIN_SRC emacs-lisp
 (use-package 
@@ -194,7 +200,7 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
 * UI
 Changes that are first and foremost UI changes
 ** Font
-   I use Jet Brains Mono with different since on my different systems
+   I use JetBrains Mono with different since on my different systems
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'default nil 
 :family "JetBrains Mono"
@@ -212,6 +218,7 @@ No welcome screen on startup and no toolbar or scroll bars.
 (tool-bar-mode -1)
 #+END_SRC
 ** Wrap lines
+Makes lines wrap over to the next
 #+BEGIN_SRC emacs-lisp
 (global-visual-line-mode 1)
 #+END_SRC
@@ -254,11 +261,13 @@ Shows keyboard shortcut hints as I type
 #+BEGIN_SRC emacs-lisp
 (use-package which-key :ensure t :config (which-key-mode))
 #+END_SRC
-** Shows a cute had showing scroll position 
+** Shows a cute cat showing scroll position 
+The Eli thing
 #+BEGIN_SRC emacs-lisp
 (use-package nyan-mode :ensure t :config (nyan-mode +1))
 #+END_SRC
 ** Emoji
+Shows emojis
 #+BEGIN_SRC emacs-lisp
 (use-package emojify :ensure t :config (global-emojify-mode))
 #+END_SRC
@@ -307,6 +316,7 @@ This package provide history for the M-x command, great if you need to run the s
 *** Cousel
 This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counsel for stuff like M-x, selecting buffers, saarching etc . 
 #+BEGIN_SRC emacs-lisp
+(setq ivy-use-selectable-prompt t)
 (use-package ivy-rich :ensure t :config (progn (ivy-rich-mode 1)(setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)))
 (use-package 
   counsel 
@@ -345,6 +355,7 @@ This package enables projectile commands using Ivy stuff. A lot nicer than the d
 #+END_SRC
 * Languages
 ** C#
+Adds support for C#
 #+BEGIN_SRC emacs-lisp
 (use-package omnisharp :ensure t :config (eval-after-load
   'company
@@ -417,14 +428,17 @@ Some utils for elisp.
   :ensure t)
 #+END_SRC
 ** Svelte
+Adds support for Svelte
 #+BEGIN_SRC emacs-lisp
 (use-package svelte-mode :ensure t)
 #+END_SRC
 ** Yaml
+Adds support YAML
 #+BEGIN_SRC emacs-lisp
 (use-package yaml-mode :ensure t)
 #+END_SRC
 ** LSP
+Language Server Protocol can power autocomplete and other functionality for many different languages
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode
   :ensure t
@@ -446,6 +460,7 @@ lsp-ui-peek-enable t
 lsp-eldoc-render-all t)
 #+END_SRC
 ** Golang
+Adds support for Golang
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-go)
 (use-package go-mode
@@ -466,17 +481,20 @@ lsp-gopls-staticcheck t
 lsp-gopls-complete-unimported t)
 #+END_SRC
 ** Caddyfile
+Adds support for Caddyfile
 #+BEGIN_SRC emacs-lisp
 (use-package caddyfile-mode :ensure t)
 #+END_SRC
 
 ** Taskpaper
+Adds support for task paper
 #+BEGIN_SRC emacs-lisp
 (use-package taskpaper-mode :ensure t)
 #+END_SRC
 
 * Apps
 ** Mastodon
+A mastodon client
 #+BEGIN_SRC emacs-lisp
 (use-package mastodon
   :ensure t
@@ -501,7 +519,8 @@ My favourite git client
 ** Roam
 My current personal wiki / note experiment
 #+BEGIN_SRC emacs-lisp
-(setq org-roam-directory "~/txt/roam/" org-roam-tag-sources '(prop all-directories))
+
+(setq org-roam-link-auto-replace t org-roam-directory (file-truename "~/txt/roam/") org-roam-tag-sources '(prop all-directories))
 (use-package org-roam
       :ensure t
       :hook
@@ -530,6 +549,10 @@ My current personal wiki / note experiment
         org-roam-server-network-label-truncate-length 60
         org-roam-server-network-label-wrap-length 20))
 #+END_SRC
+
+#+RESULTS:
+: t
+
 ** Gopher
 #+BEGIN_SRC emacs-lisp
 (use-package elpher :ensure t)
@@ -537,14 +560,15 @@ My current personal wiki / note experiment
 
 #+RESULTS:
 
-
 * Misc
   Just a place to put every that doesn't fit anywhere else
 ** Avy
+A way to quickly jump arround in a buffer.
 #+BEGIN_SRC emacs-lisp
 (use-package avy :ensure t :config (progn (global-set-key (kbd "C-:") 'avy-goto-char) (global-set-key (kbd "M-C-:") 'avy-goto-char-timer)))
 #+END_SRC
 ** Golden Ratio
+A mode that automagically resizes windows based on the golden ratio
 #+BEGIN_SRC emacs-lisp
 (use-package golden-ratio :ensure t :config (setq golden-ratio-extra-commands
             (append golden-ratio-extra-commands
@@ -558,6 +582,7 @@ My current personal wiki / note experiment
 #+END_SRC
 
 ** Aggressive ident
+Makes indent work more like expected
 #+BEGIN_SRC emacs-lisp
 (use-package aggressive-indent :ensure t :config (global-aggressive-indent-mode 1))
 #+END_SRC
@@ -625,14 +650,29 @@ Electric pair mode will insert a matching symbol for pairs like ()[] etc. And sm
 #+END_SRC
 
 ** Multiple cursors
+A package that adds multiple cursors to Emacs. Let's you place multiple cursors based on various parameters and edit all of them as if they were a single line.
 #+BEGIN_SRC emacs-lisp
 (use-package multiple-cursors :ensure t)
 #+END_SRC
 ** Restart Emacs
+Makes it really easy to restart emacs
 #+BEGIN_SRC emacs-lisp
 (use-package restart-emacs :ensure t)
 #+END_SRC
 
+** Wakatime
+Logs stats to wakatime
+#+BEGIN_SRC emacs-lisp
+(use-package wakatime-mode :ensure t :config (global-wakatime-mode))
+#+END_SRC
 
+#+RESULTS:
+: t
+** Crux
+Adds various very useful functions
+#+BEGIN_SRC emacs-lisp
+(use-package crux :ensure t :config (crux-reopen-as-root-mode))
+#+END_SRC
 
-
+#+RESULTS:
+: t
