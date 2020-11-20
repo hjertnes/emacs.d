@@ -249,12 +249,14 @@ Highlight the current line. All of it.
 ** Theme
 I currently use modus operandi. A very accessible light theme
 #+BEGIN_SRC emacs-lisp
-(load "~/Code/emacs.d-private/dracula-theme.el")
+;(load "~/Code/emacs.d-private/dracula-theme.el")
 ;(load-theme 'dracula t)
-(use-package modus-operandi-theme :ensure t)
+;(use-package modus-operandi-theme :ensure t)
 ;(load-theme 'modus-operandi)
-(use-package modus-vivendi-theme :ensure t)
-(load-theme 'modus-vivendi)
+;'(use-package modus-vivendi-theme :ensure t)
+;(load-theme 'modus-vivendi)
+(use-package solarized-theme :ensure t)
+(load-theme 'solarized-light t)
 #+END_SRC
 
 #+RESULTS:
@@ -526,6 +528,14 @@ My current personal wiki / note experiment
 #+BEGIN_SRC emacs-lisp
 
 (setq org-roam-link-auto-replace t org-roam-directory (file-truename "~/txt/roam/") org-roam-tag-sources '(prop all-directories))
+(setq org-roam-dailies-directory "Daily Notes/")
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+         #'org-roam-capture--get-point
+         "* %?"
+         :file-name "Daily Notes/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n\n")))
+
 (use-package org-roam
       :ensure t
       :hook
