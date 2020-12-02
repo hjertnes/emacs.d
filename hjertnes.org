@@ -249,19 +249,13 @@ Highlight the current line. All of it.
 ** Theme
 I currently use modus operandi. A very accessible light theme
 #+BEGIN_SRC emacs-lisp
-;(load "~/Code/emacs.d-private/dracula-theme.el")
-;(load-theme 'dracula t)
-;(use-package modus-operandi-theme :ensure t)
-;(load-theme 'modus-operandi)
-;'(use-package modus-vivendi-theme :ensure t)
-;(load-theme 'modus-vivendi)
+(load "~/Code/emacs.d-private/dracula-theme.el")
+;(use-package dracula-theme :ensure t)
+(use-package modus-operandi-theme :ensure t)
+(use-package modus-vivendi-theme :ensure t)
 (use-package solarized-theme :ensure t)
-(load-theme 'solarized-light t)
+(load-theme 'dracula t)
 #+END_SRC
-
-#+RESULTS:
-: t
-
 ** Which key
 Shows keyboard shortcut hints as I type
 
