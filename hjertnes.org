@@ -250,12 +250,11 @@ Highlight the current line. All of it.
 I currently use modus operandi. A very accessible light theme
 #+BEGIN_SRC emacs-lisp
 (load "~/Code/emacs.d-private/dracula-theme.el")
-;(use-package dracula-theme :ensure t)
+
 (use-package modus-operandi-theme :ensure t)
 (use-package modus-vivendi-theme :ensure t)
 (use-package solarized-theme :ensure t)
 (load-theme 'dracula t)
-#+END_SRC
 ** Which key
 Shows keyboard shortcut hints as I type
 
