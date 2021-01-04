@@ -168,6 +168,16 @@ Eshell doesn't have a "give me another shell" interactive function for some weir
   (eshell 'N))
 #+END_SRC
 
+** Kill all buffers
+#+BEGIN_SRC emacs-lisp
+(defun close-all-buffers ()
+(interactive)
+  (mapc 'kill-buffer (buffer-list)))
+#+END_SRC
+
+#+RESULTS:
+: close-all-buffers
+
 * OS X stuff
 Just some settings that make Emacs better under OS X
 ** Make it prettier
@@ -255,6 +265,8 @@ I currently use modus operandi. A very accessible light theme
 (use-package modus-vivendi-theme :ensure t)
 (use-package solarized-theme :ensure t)
 (load-theme 'dracula t)
+#+END_SRC
+
 ** Which key
 Shows keyboard shortcut hints as I type
 
