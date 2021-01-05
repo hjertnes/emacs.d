@@ -182,9 +182,12 @@ Eshell doesn't have a "give me another shell" interactive function for some weir
 Just some settings that make Emacs better under OS X
 ** Make it prettier
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . light))
 #+END_SRC
+
+
+
+
 ** Use the native full screen
 #+BEGIN_SRC emacs-lisp
 (setq ns-use-native-fullscreen t)
