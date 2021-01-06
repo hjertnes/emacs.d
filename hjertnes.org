@@ -168,25 +168,12 @@ Eshell doesn't have a "give me another shell" interactive function for some weir
   (eshell 'N))
 #+END_SRC
 
-** Kill all buffers
-#+BEGIN_SRC emacs-lisp
-(defun close-all-buffers ()
-(interactive)
-  (mapc 'kill-buffer (buffer-list)))
-#+END_SRC
-
-#+RESULTS:
-: close-all-buffers
-
 * OS X stuff
 Just some settings that make Emacs better under OS X
 ** Make it prettier
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist '(ns-appearance . light))
 #+END_SRC
-
-
-
 
 ** Use the native full screen
 #+BEGIN_SRC emacs-lisp
@@ -262,13 +249,24 @@ Highlight the current line. All of it.
 ** Theme
 I currently use modus operandi. A very accessible light theme
 #+BEGIN_SRC emacs-lisp
-(load "~/Code/emacs.d-private/dracula-theme.el")
-
+;(load "~/Code/emacs.d-private/dracula-theme.el")
+;(use-package dracula-theme :ensure t)
 (use-package modus-operandi-theme :ensure t)
 (use-package modus-vivendi-theme :ensure t)
 (use-package solarized-theme :ensure t)
-(load-theme 'dracula t)
+(use-package doom-themes :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-outrun-electric t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
+;(load-theme 'dracula t)
 #+END_SRC
+
+#+RESULTS:
+: t
 
 ** Which key
 Shows keyboard shortcut hints as I type
