@@ -203,13 +203,16 @@ Changes that are first and foremost UI changes
    I use JetBrains Mono with different since on my different systems
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'default nil 
-:family "JetBrains Mono"
+:family "Dank Mono"
 		    :height (cond 
 				  ((is-linux) 90) 
-				  ((is-mac) 130)) 
+				  ((is-mac) 150)) 
 		    :weight 'normal 
 		    :width 'normal)
 #+END_SRC
+
+#+RESULTS:
+
 ** Mininmal UI
 No welcome screen on startup and no toolbar or scroll bars. 
 #+BEGIN_SRC emacs-lisp
