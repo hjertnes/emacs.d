@@ -453,49 +453,6 @@ Adds support YAML
 #+BEGIN_SRC emacs-lisp
 (use-package yaml-mode :ensure t)
 #+END_SRC
-** LSP
-Language Server Protocol can power autocomplete and other functionality for many different languages
-#+BEGIN_SRC emacs-lisp
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :hook (go-mode . lsp-deferred))
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
-
-(setq 
-lsp-auto-configure nil
-lsp-ui-imenu-enable t
-lsp-ui-sideline-enable t
-lsp-ui-doc-enable t
-lsp-ui-peek-enable t
-lsp-eldoc-render-all t)
-#+END_SRC
-** Golang
-Adds support for Golang
-#+BEGIN_SRC emacs-lisp
-(use-package lsp-go)
-(use-package go-mode
-:defer t
-:ensure t
-:mode ("\\.go\\'" . go-mode))
-
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'gofmt-before-save t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-
-
-(setq 
-flycheck-golangci-lint-enable-all t
-gofmt-args '("-s")
-lsp-gopls-staticcheck t
-lsp-gopls-complete-unimported t)
-#+END_SRC
 ** Caddyfile
 Adds support for Caddyfile
 #+BEGIN_SRC emacs-lisp

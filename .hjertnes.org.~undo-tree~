@@ -1,0 +1,130 @@
+(undo-tree-save-format-version . 1)
+"8cf11946506c742bcfb545048542e0bc20fe77bd"
+[nil nil nil nil (25384 21848 542698 0) 0 nil]
+([nil nil ((#("** Golang" 0 1 (fontified t face org-superstar-leading composition (1 1 [32 8228])) 1 2 (fontified t face (org-superstar-header-bullet org-level-2) composition (2 1 [9675])) 2 3 (fontified t face org-level-2) 3 9 (fontified t face org-level-2)) . 15470) (undo-tree-id73 . -9) (undo-tree-id74 . -9) (t 25384 20932 612684 671000)) nil (25384 21848 542697 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t)) . 15470) (undo-tree-id71 . -1) (undo-tree-id72 . -1)) nil (25384 21848 542694 0) 0 nil])
+([nil nil ((#("Adds support for Golang" 0 23 (fontified t)) . 15470) (undo-tree-id70 . -23)) nil (25384 21848 542691 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t)) . 15470) (undo-tree-id68 . -1) (undo-tree-id69 . -1)) nil (25384 21848 542689 0) 0 nil])
+([nil nil ((#("#+BEGIN_SRC emacs-lisp" 0 22 (fontified t font-lock-fontified t font-lock-multiline t face org-block-begin-line)) . 15470) (undo-tree-id67 . -22)) nil (25384 21848 542687 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil)) . 15470) (undo-tree-id65 . -1) (undo-tree-id66 . -1)) nil (25384 21848 542685 0) 0 nil])
+([nil nil ((#("(use-package lsp-go)" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t) 1 12 (fontified t font-lock-fontified t help-echo nil src-block t) 12 13 (fontified t font-lock-fontified t help-echo nil src-block t) 13 19 (fontified t font-lock-fontified t help-echo nil src-block t) 19 20 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id60 . 20) (undo-tree-id61 . -1) (undo-tree-id62 . 1) (undo-tree-id63 . -20) (undo-tree-id64 . -20)) nil (25384 21848 542681 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id58 . -1) (undo-tree-id59 . -1)) nil (25384 21848 542675 0) 0 nil])
+([nil nil ((#("(use-package go-mode" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t) 1 12 (fontified t font-lock-fontified t help-echo nil src-block t) 12 13 (fontified t font-lock-fontified t help-echo nil src-block t) 13 20 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id55 . 20) (undo-tree-id56 . -1) (undo-tree-id57 . -20)) nil (25384 21848 542672 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id53 . -1) (undo-tree-id54 . -1)) nil (25384 21848 542669 0) 0 nil])
+([nil nil ((#(":defer t" 0 6 (fontified t font-lock-fontified t help-echo nil src-block t) 6 7 (fontified t font-lock-fontified t help-echo nil src-block t) 7 8 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id52 . -8)) nil (25384 21848 542666 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id50 . -1) (undo-tree-id51 . -1)) nil (25384 21848 542665 0) 0 nil])
+([nil nil ((#(":ensure t" 0 7 (fontified t font-lock-fontified t help-echo nil src-block t) 7 8 (fontified t font-lock-fontified t help-echo nil src-block t) 8 9 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id49 . -9)) nil (25384 21848 542662 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id47 . -1) (undo-tree-id48 . -1)) nil (25384 21848 542660 0) 0 nil])
+([nil nil ((#(":mode (\"\\\\.go\\\\'\" . go-mode))" 0 5 (fontified t font-lock-fontified t help-echo nil src-block t) 5 6 (fontified t font-lock-fontified t help-echo nil src-block t) 6 7 (fontified t font-lock-fontified t help-echo nil src-block t) 7 17 (fontified t font-lock-fontified t help-echo nil src-block t) 17 18 (fontified t font-lock-fontified t help-echo nil src-block t) 18 19 (fontified t font-lock-fontified t help-echo nil src-block t) 19 20 (fontified t font-lock-fontified t help-echo nil src-block t) 20 27 (fontified t font-lock-fontified t help-echo nil src-block t) 27 28 (fontified t font-lock-fontified t help-echo nil src-block t) 28 29 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id46 . -29)) nil (25384 21848 542657 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id44 . -1) (undo-tree-id45 . -1)) nil (25384 21848 542655 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id42 . -1) (undo-tree-id43 . -1)) nil (25384 21848 542653 0) 0 nil])
+([nil nil ((#("(defun lsp-go-install-save-hooks ()" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t) 1 6 (fontified t font-lock-fontified t help-echo nil src-block t) 6 7 (fontified t font-lock-fontified t help-echo nil src-block t) 7 32 (fontified t font-lock-fontified t help-echo nil src-block t) 32 33 (fontified t font-lock-fontified t help-echo nil src-block t) 33 34 (fontified t font-lock-fontified t help-echo nil src-block t) 34 35 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id39 . 35) (undo-tree-id40 . -1) (undo-tree-id41 . -35)) nil (25384 21848 542650 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id37 . -1) (undo-tree-id38 . -1)) nil (25384 21848 542646 0) 0 nil])
+([nil nil ((#("  (add-hook 'before-save-hook #'gofmt-before-save t t)" 0 2 (fontified t font-lock-fontified t help-echo nil src-block t) 2 3 (fontified t font-lock-fontified t help-echo nil src-block t) 3 11 (fontified t font-lock-fontified t help-echo nil src-block t) 11 13 (fontified t font-lock-fontified t help-echo nil src-block t) 13 29 (fontified t font-lock-fontified t help-echo nil src-block t) 29 32 (fontified t font-lock-fontified t help-echo nil src-block t) 32 49 (fontified t font-lock-fontified t help-echo nil src-block t) 49 50 (fontified t font-lock-fontified t help-echo nil src-block t) 50 51 (fontified t font-lock-fontified t help-echo nil src-block t) 51 52 (fontified t font-lock-fontified t help-echo nil src-block t) 52 53 (fontified t font-lock-fontified t help-echo nil src-block t) 53 54 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id36 . -54)) nil (25384 21848 542644 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id34 . -1) (undo-tree-id35 . -1)) nil (25384 21848 542642 0) 0 nil])
+([nil nil ((#("  (add-hook 'before-save-hook #'lsp-organize-imports t t))" 0 2 (fontified t font-lock-fontified t help-echo nil src-block t) 2 3 (fontified t font-lock-fontified t help-echo nil src-block t) 3 11 (fontified t font-lock-fontified t help-echo nil src-block t) 11 13 (fontified t font-lock-fontified t help-echo nil src-block t) 13 29 (fontified t font-lock-fontified t help-echo nil src-block t) 29 32 (fontified t font-lock-fontified t help-echo nil src-block t) 32 52 (fontified t font-lock-fontified t help-echo nil src-block t) 52 53 (fontified t font-lock-fontified t help-echo nil src-block t) 53 54 (fontified t font-lock-fontified t help-echo nil src-block t) 54 55 (fontified t font-lock-fontified t help-echo nil src-block t) 55 56 (fontified t font-lock-fontified t help-echo nil src-block t) 56 57 (fontified t font-lock-fontified t help-echo nil src-block t) 57 58 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id33 . -58)) nil (25384 21848 542640 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id31 . -1) (undo-tree-id32 . -1)) nil (25384 21848 542638 0) 0 nil])
+([nil nil ((#("(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t) 1 9 (fontified t font-lock-fontified t help-echo nil src-block t) 9 11 (fontified t font-lock-fontified t help-echo nil src-block t) 11 23 (fontified t font-lock-fontified t help-echo nil src-block t) 23 26 (fontified t font-lock-fontified t help-echo nil src-block t) 26 51 (fontified t font-lock-fontified t help-echo nil src-block t) 51 52 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id26 . 52) (undo-tree-id27 . -1) (undo-tree-id28 . 1) (undo-tree-id29 . -52) (undo-tree-id30 . -52)) nil (25384 21848 542635 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id24 . -1) (undo-tree-id25 . -1)) nil (25384 21848 542629 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id22 . -1) (undo-tree-id23 . -1)) nil (25384 21848 542627 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id20 . -1) (undo-tree-id21 . -1)) nil (25384 21848 542624 0) 0 nil])
+([nil nil ((#("(setq " 0 1 (fontified t font-lock-fontified t help-echo nil src-block t) 1 5 (fontified t font-lock-fontified t help-echo nil src-block t) 5 6 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id17 . 6) (undo-tree-id18 . -1) (undo-tree-id19 . -6)) nil (25384 21848 542621 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id15 . -1) (undo-tree-id16 . -1)) nil (25384 21848 542617 0) 0 nil])
+([nil nil ((#("flycheck-golangci-lint-enable-all t" 0 33 (fontified t font-lock-fontified t help-echo nil src-block t) 33 34 (fontified t font-lock-fontified t help-echo nil src-block t) 34 35 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id14 . -35)) nil (25384 21848 542615 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id12 . -1) (undo-tree-id13 . -1)) nil (25384 21848 542613 0) 0 nil])
+([nil nil ((#("gofmt-args '(\"-s\")" 0 10 (fontified t font-lock-fontified t help-echo nil src-block t) 10 12 (fontified t font-lock-fontified t help-echo nil src-block t) 12 13 (fontified t font-lock-fontified t help-echo nil src-block t) 13 17 (fontified t font-lock-fontified t help-echo nil src-block t) 17 18 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id11 . -18)) nil (25384 21848 542610 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id9 . -1) (undo-tree-id10 . -1)) nil (25384 21848 542608 0) 0 nil])
+([nil nil ((#("lsp-gopls-staticcheck t" 0 21 (fontified t font-lock-fontified t help-echo nil src-block t) 21 22 (fontified t font-lock-fontified t help-echo nil src-block t) 22 23 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id8 . -23)) nil (25384 21848 542606 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id6 . -1) (undo-tree-id7 . -1)) nil (25384 21848 542604 0) 0 nil])
+([nil nil ((#("lsp-gopls-complete-unimported t)" 0 29 (fontified t font-lock-fontified t help-echo nil src-block t) 29 30 (fontified t font-lock-fontified t help-echo nil src-block t) 30 31 (fontified t font-lock-fontified t help-echo nil src-block t) 31 32 (fontified t font-lock-fontified t help-echo nil src-block t)) . 15470) (undo-tree-id5 . -32)) nil (25384 21848 542601 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t src-block t)) . 15470) (undo-tree-id3 . -1) (undo-tree-id4 . -1)) nil (25384 21848 542599 0) 0 nil])
+([nil nil ((#("#+END_SRC" 0 9 (fontified t font-lock-fontified t face org-meta-line)) . 15470) (undo-tree-id2 . -9)) nil (25384 21848 542595 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t)) . 15470) (undo-tree-id0 . -1) (undo-tree-id1 . -1)) nil (25384 21848 542590 0) 0 nil])
+([nil nil ((#("** LSP" 0 1 (fontified t face org-superstar-leading composition (1 1 [32 8228])) 1 2 (fontified t face (org-superstar-header-bullet org-level-2) composition (2 1 [9675])) 2 3 (fontified t face org-level-2) 3 6 (fontified t face org-level-2)) . 14968) (undo-tree-id154 . -6) (undo-tree-id155 . -6) (undo-tree-id156 . -6) (undo-tree-id157 . -6) (t 25384 21848 546442 972000)) nil (25384 21863 101508 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t)) . 14968) (undo-tree-id152 . -1) (undo-tree-id153 . -1)) nil (25384 21863 101502 0) 0 nil])
+([nil nil ((#("Language Server Protocol can power autocomplete and other functionality for " 0 76 (fontified t)) . 14968) (undo-tree-id151 . -76)) nil (25384 21863 101500 0) 0 nil])
+([nil nil ((#("many different languages" 0 24 (fontified t)) . 14968) (undo-tree-id150 . -24)) nil (25384 21863 101498 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t)) . 14968) (undo-tree-id148 . -1) (undo-tree-id149 . -1)) nil (25384 21863 101496 0) 0 nil])
+([nil nil ((#("#+BEGIN_SRC emacs-lisp" 0 22 (fontified t font-lock-fontified t font-lock-multiline t face org-block-begin-line)) . 14968) (undo-tree-id147 . -22)) nil (25384 21863 101493 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil)) . 14968) (undo-tree-id145 . -1) (undo-tree-id146 . -1)) nil (25384 21863 101491 0) 0 nil])
+([nil nil ((#("(use-package lsp-mode" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t) 1 12 (fontified t font-lock-fontified t help-echo nil src-block t) 12 13 (fontified t font-lock-fontified t help-echo nil src-block t) 13 21 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id142 . 21) (undo-tree-id143 . -1) (undo-tree-id144 . -21)) nil (25384 21863 101489 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id140 . -1) (undo-tree-id141 . -1)) nil (25384 21863 101484 0) 0 nil])
+([nil nil ((#("  :ensure t" 0 2 (fontified t font-lock-fontified t help-echo nil src-block t) 2 9 (fontified t font-lock-fontified t help-echo nil src-block t) 9 10 (fontified t font-lock-fontified t help-echo nil src-block t) 10 11 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id139 . -11)) nil (25384 21863 101481 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id137 . -1) (undo-tree-id138 . -1)) nil (25384 21863 101479 0) 0 nil])
+([nil nil ((#("  :commands (lsp lsp-deferred)" 0 2 (fontified t font-lock-fontified t help-echo nil src-block t) 2 11 (fontified t font-lock-fontified t help-echo nil src-block t) 11 12 (fontified t font-lock-fontified t help-echo nil src-block t) 12 13 (fontified t font-lock-fontified t help-echo nil src-block t) 13 16 (fontified t font-lock-fontified t help-echo nil src-block t) 16 17 (fontified t font-lock-fontified t help-echo nil src-block t) 17 29 (fontified t font-lock-fontified t help-echo nil src-block t) 29 30 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id136 . -30)) nil (25384 21863 101476 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id134 . -1) (undo-tree-id135 . -1)) nil (25384 21863 101470 0) 0 nil])
+([nil nil ((#("  :hook (go-mode . lsp-deferred))" 0 2 (fontified t font-lock-fontified t help-echo nil src-block t) 2 7 (fontified t font-lock-fontified t help-echo nil src-block t) 7 8 (fontified t font-lock-fontified t help-echo nil src-block t) 8 9 (fontified t font-lock-fontified t help-echo nil src-block t) 9 16 (fontified t font-lock-fontified t help-echo nil src-block t) 16 17 (fontified t font-lock-fontified t help-echo nil src-block t) 17 18 (fontified t font-lock-fontified t help-echo nil src-block t) 18 19 (fontified t font-lock-fontified t help-echo nil src-block t) 19 31 (fontified t font-lock-fontified t help-echo nil src-block t) 31 32 (fontified t font-lock-fontified t help-echo nil src-block t) 32 33 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id133 . -33)) nil (25384 21863 101467 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id131 . -1) (undo-tree-id132 . -1)) nil (25384 21863 101465 0) 0 nil])
+([nil nil ((#("(use-package company-lsp" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t) 1 12 (fontified t font-lock-fontified t help-echo nil src-block t) 12 13 (fontified t font-lock-fontified t help-echo nil src-block t) 13 24 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id128 . 24) (undo-tree-id129 . -1) (undo-tree-id130 . -24)) nil (25384 21863 101462 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id126 . -1) (undo-tree-id127 . -1)) nil (25384 21863 101458 0) 0 nil])
+([nil nil ((#("  :ensure t" 0 2 (fontified t font-lock-fontified t help-echo nil src-block t) 2 9 (fontified t font-lock-fontified t help-echo nil src-block t) 9 10 (fontified t font-lock-fontified t help-echo nil src-block t) 10 11 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id125 . -11)) nil (25384 21863 101455 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id123 . -1) (undo-tree-id124 . -1)) nil (25384 21863 101453 0) 0 nil])
+([nil nil ((#("  :commands company-lsp)" 0 2 (fontified t font-lock-fontified t help-echo nil src-block t) 2 11 (fontified t font-lock-fontified t help-echo nil src-block t) 11 12 (fontified t font-lock-fontified t help-echo nil src-block t) 12 23 (fontified t font-lock-fontified t help-echo nil src-block t) 23 24 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id122 . -24)) nil (25384 21863 101451 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id120 . -1) (undo-tree-id121 . -1)) nil (25384 21863 101449 0) 0 nil])
+([nil nil ((#("(use-package lsp-ui" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t) 1 12 (fontified t font-lock-fontified t help-echo nil src-block t) 12 13 (fontified t font-lock-fontified t help-echo nil src-block t) 13 19 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id117 . 19) (undo-tree-id118 . -1) (undo-tree-id119 . -19)) nil (25384 21863 101446 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id115 . -1) (undo-tree-id116 . -1)) nil (25384 21863 101443 0) 0 nil])
+([nil nil ((#("  :ensure t" 0 2 (fontified t font-lock-fontified t help-echo nil src-block t) 2 9 (fontified t font-lock-fontified t help-echo nil src-block t) 9 10 (fontified t font-lock-fontified t help-echo nil src-block t) 10 11 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id114 . -11)) nil (25384 21863 101440 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id112 . -1) (undo-tree-id113 . -1)) nil (25384 21863 101438 0) 0 nil])
+([nil nil ((#("  :commands lsp-ui-mode)" 0 2 (fontified t font-lock-fontified t help-echo nil src-block t) 2 11 (fontified t font-lock-fontified t help-echo nil src-block t) 11 12 (fontified t font-lock-fontified t help-echo nil src-block t) 12 23 (fontified t font-lock-fontified t help-echo nil src-block t) 23 24 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id111 . -24)) nil (25384 21863 101435 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id109 . -1) (undo-tree-id110 . -1)) nil (25384 21863 101434 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id107 . -1) (undo-tree-id108 . -1)) nil (25384 21863 101431 0) 0 nil])
+([nil nil ((#("(setq " 0 1 (fontified t font-lock-fontified t help-echo nil src-block t) 1 5 (fontified t font-lock-fontified t help-echo nil src-block t) 5 6 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id104 . 6) (undo-tree-id105 . -1) (undo-tree-id106 . -6)) nil (25384 21863 101429 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id101 . -1) (undo-tree-id102 . -1) (undo-tree-id103 . -1)) nil (25384 21863 101425 0) 0 nil])
+([nil nil ((#("lsp-auto-configure nil" 0 18 (fontified t font-lock-fontified t help-echo nil src-block t) 18 19 (fontified t font-lock-fontified t help-echo nil src-block t) 19 22 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id100 . -22)) nil (25384 21863 101421 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id98 . -1) (undo-tree-id99 . -1)) nil (25384 21863 101420 0) 0 nil])
+([nil nil ((#("lsp-ui-imenu-enable t" 0 19 (fontified t font-lock-fontified t help-echo nil src-block t) 19 20 (fontified t font-lock-fontified t help-echo nil src-block t) 20 21 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id97 . -21)) nil (25384 21863 101417 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id95 . -1) (undo-tree-id96 . -1)) nil (25384 21863 101415 0) 0 nil])
+([nil nil ((#("lsp-ui-sideline-enable t" 0 22 (fontified t font-lock-fontified t help-echo nil src-block t) 22 23 (fontified t font-lock-fontified t help-echo nil src-block t) 23 24 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id94 . -24)) nil (25384 21863 101412 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id92 . -1) (undo-tree-id93 . -1)) nil (25384 21863 101411 0) 0 nil])
+([nil nil ((#("lsp-ui-doc-enable t" 0 17 (fontified t font-lock-fontified t help-echo nil src-block t) 17 18 (fontified t font-lock-fontified t help-echo nil src-block t) 18 19 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id91 . -19)) nil (25384 21863 101408 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id89 . -1) (undo-tree-id90 . -1)) nil (25384 21863 101406 0) 0 nil])
+([nil nil ((#("lsp-ui-peek-enable t" 0 18 (fontified t font-lock-fontified t help-echo nil src-block t) 18 19 (fontified t font-lock-fontified t help-echo nil src-block t) 19 20 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id88 . -20)) nil (25384 21863 101403 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id86 . -1) (undo-tree-id87 . -1)) nil (25384 21863 101401 0) 0 nil])
+([nil nil ((#("lsp-eldoc-render-all t)" 0 20 (fontified t font-lock-fontified t help-echo nil src-block t) 20 21 (fontified t font-lock-fontified t help-echo nil src-block t) 21 22 (fontified t font-lock-fontified t help-echo nil src-block t) 22 23 (fontified t font-lock-fontified t help-echo nil src-block t)) . 14968) (undo-tree-id85 . -23)) nil (25384 21863 101398 0) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t font-lock-fontified t src-block t)) . 14968) (undo-tree-id83 . -1) (undo-tree-id84 . -1)) nil (25384 21863 101396 0) 0 nil])
+([nil nil ((#("#+END_SRC" 0 9 (fontified t font-lock-fontified t face org-meta-line)) . 14968) (undo-tree-id82 . -9)) nil (25384 21863 101393 0) 0 nil])
+([nil current ((#("
+" 0 1 (fontified t)) . 14968) (undo-tree-id75 . -1) (undo-tree-id76 . -1) (undo-tree-id77 . -1) (undo-tree-id78 . -1) (undo-tree-id79 . -1) (undo-tree-id80 . -1) (undo-tree-id81 . -1)) nil (25384 21863 101387 0) 0 nil])
+nil

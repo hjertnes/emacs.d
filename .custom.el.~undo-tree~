@@ -1,0 +1,16 @@
+(undo-tree-save-format-version . 1)
+"05f0eb1f3269bd0efdcd2b54c8b64130e9d66a93"
+[nil nil nil nil (25384 21553 746656 0) 0 nil]
+([nil current ((739 . 978) (#("(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )" 0 239 (fontified nil)) . -739) (736 . 738) (#("
+" 0 1 (fontified nil)) . -736) (274 . 737) (#(" " 0 1 (fontified nil)) . 274) (1 . 275) (#("(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(use-package)))" 0 290 (fontified nil)) . -1) (t 25384 21232 47764 990000)) nil (25384 21553 746650 0) 0 nil])
+nil
