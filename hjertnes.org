@@ -43,9 +43,20 @@ Sets emacs to not use tab as ident, and sets various two spaces per tab variable
 #+END_SRC
 
 ** Backup files etc
-The default setup for emacs creates various lock and backup files and some auto-save stuff. This diables all of that.
+Lock files and classic auto-save files are disabled, but backups are kept:
+they all go into =~/.emacs-backups/= (which is *not* iCloud-synced) instead
+of littering the visited file's directory, so synced trees stay clean while
+there is still something to recover from after a bad save or sync conflict.
 #+BEGIN_SRC emacs-lisp
-(setq create-lockfiles nil make-backup-files nil auto-save-default nil)
+(setq create-lockfiles nil auto-save-default nil)
+(make-directory "~/.emacs-backups/" t)
+(setq make-backup-files t
+      backup-directory-alist '(("." . "~/.emacs-backups/"))
+      backup-by-copying t
+      version-control t
+      delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2)
 #+END_SRC
 
 ** X11 Clipboard integration
@@ -67,9 +78,34 @@ Showing column numbers and line numbers in the mode line
 #+END_SRC
 
 ** Autosave & autoload
-These two modes will make emacs auto save files, and load them from disk if the file changes. 
+These two modes will make emacs auto save files, and load them from disk if the file changes.
+
+Auto-saving the visited file is dangerous for two kinds of buffers, so a
+predicate excludes them: remote (TRAMP, including =/sudo::=) buffers, where an
+accidental keystroke in a root-opened system file would silently write it back
+as root; and files inside iCloud-synced trees (=~/Documents= and
+=~/Library/Mobile Documents=), where a background write every 10 seconds
+invites sync conflicts. Paths are compared via =file-truename= so symlinked
+routes into synced trees (like =~/Code= -> =~/Documents/Code=) are caught too.
 #+BEGIN_SRC emacs-lisp
 (setq auto-save-visited-interval 10)
+
+(defun hjertnes/auto-save-visited-safe-p ()
+  "Return non-nil when the current buffer is safe to auto-save.
+Excludes remote (TRAMP/sudo) files and files under iCloud-synced
+trees (~/Documents and ~/Library/Mobile Documents)."
+  (let ((name buffer-file-name))
+    (and name
+         (not (file-remote-p name))
+         (let ((true-name (file-truename name))
+               (icloud-roots
+                (list (file-truename (expand-file-name "~/Documents/"))
+                      (file-truename
+                       (expand-file-name "~/Library/Mobile Documents/")))))
+           (not (seq-some (lambda (root) (string-prefix-p root true-name))
+                          icloud-roots))))))
+
+(setq auto-save-visited-predicate #'hjertnes/auto-save-visited-safe-p)
 (global-auto-revert-mode +1)
 (auto-save-visited-mode +1)
 #+END_SRC

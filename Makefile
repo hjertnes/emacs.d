@@ -1,6 +1,6 @@
 clean:
 	rm -rf elpa
-	rm custom.el
+	rm -f custom.el
 	touch custom.el
 	touch personal.el
 init:
