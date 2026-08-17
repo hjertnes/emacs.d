@@ -3,6 +3,6 @@
 
 :PROPERTIES:
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :type post
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :date `(get-datestring)``(get-timestring)` 
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :date `(hjertnes/get-datestring)``(hjertnes/get-timestring)` 
 :EXPORT_FILE_NAME: `(format-time-string "%Y-%m-%d-")`$1
 :END:

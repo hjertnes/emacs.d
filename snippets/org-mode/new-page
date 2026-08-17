@@ -2,6 +2,6 @@
 # --
 
 :PROPERTIES:
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :date `(get-datestring)``(get-timestring)` 
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :date `(hjertnes/get-datestring)``(hjertnes/get-timestring)` 
 :EXPORT_FILE_NAME:  $1
 :END:

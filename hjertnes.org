@@ -2,7 +2,14 @@
 * Introduction
 This is my Emacs configuration, I use it for more or less anything that require me to edit text. Everything from writing, to programming, file management and a lot of command line stuff and sometimes reading email. In August of 2019 I moved my config from a pile of well commented elisp files to this org document.
 
-Why? Because it felt like it made more sense to have my configuration in a form where it works to give a lot of context about every single little dumb detail, to inspiration for others and to remind me why. 
+Why? Because it felt like it made more sense to have my configuration in a form where it works to give a lot of context about every single little dumb detail, to inspiration for others and to remind me why.
+
+This first source block exists only so the tangled =hjertnes.el= starts with
+the =lexical-binding= cookie -- Emacs only honours it on the very first line
+of the file, and without it the whole config loads under dynamic binding.
+#+BEGIN_SRC emacs-lisp
+;;; -*- lexical-binding: t; -*-
+#+END_SRC
 
 * Personal information
 #+BEGIN_SRC emacs-lisp
@@ -131,21 +138,38 @@ Use-package will be used to load, install and configure more or less all other p
 (require 'use-package)
 (setq use-package-always-ensure t)
 #+END_SRC
+** Version pinning policy
+Deliberate decision: packages are *not* version-pinned. A fresh install pulls
+whatever GNU ELPA and MELPA currently serve.
+
+- This is a personal config, not a reproducible deployment. I want current
+  packages, and a rolling archive like MELPA only serves HEAD anyway --
+  =package.el= has no lockfile mechanism that could meaningfully pin it.
+- In practice the installed =elpa/= directory on disk acts as the working
+  snapshot: packages are only downloaded when missing, so day-to-day startups
+  never touch the network.
+- The accepted risk is a fresh machine: it installs ~60 packages at whatever
+  version (and whatever code) the archives serve that day. If a fresh install
+  misbehaves, copy =elpa/= from a working machine instead of reinstalling.
+
+If reproducibility ever becomes a real need, the fix is moving to a package
+manager with a lockfile (=straight.el= or =elpaca=), not per-package =:pin=,
+which only selects the archive, never the version.
 * Helper functions
-Various helper functions I use a few different places in my setup. Most of them do stuff like reading passwords from auth-info, predicates for figuring out what kind of system it is or isn't and a few date related functions I use in my yasnippets
+Various helper functions I use a few different places in my setup. Most of them do stuff like reading passwords from auth-info, predicates for figuring out what kind of system it is or isn't and a few date related functions I use in my yasnippets. Everything is prefixed with =hjertnes/= so my names never collide with package or built-in namespaces.
 #+BEGIN_SRC emacs-lisp
-(defun is-mac () 
+(defun hjertnes/is-mac ()
   (eq system-type 'darwin))
-(defun is-linux () 
+(defun hjertnes/is-linux ()
   (eq system-type 'gnu/linux))
-(defvar current-date-time-format "%a %b %d %H:%M:%S %Z %Y")
-(defun get-url()
+(defvar hjertnes/current-date-time-format "%a %b %d %H:%M:%S %Z %Y")
+(defun hjertnes/get-url()
   (format-time-string "/%Y/%m/%d/"))
-(defun get-datestring()
+(defun hjertnes/get-datestring()
   (format-time-string "%Y-%m-%dT%T"))
-(defun get-timestring()
-  ((lambda (x) 
-		     (concat (substring x 0 3) ":" (substring x 3 5))) 
+(defun hjertnes/get-timestring()
+  ((lambda (x)
+		     (concat (substring x 0 3) ":" (substring x 3 5)))
 		   (format-time-string "%z")))
 #+END_SRC
 * Interactive functions
@@ -153,7 +177,7 @@ Interactive functions that I use from time to time to do stuff that isn't as eas
 ** Calc eval region
 A simple function to just mark some math and show the result in the message area 
 #+BEGIN_SRC emacs-lisp
-(defun calc-eval-region (arg beg end)
+(defun hjertnes/calc-eval-region (arg beg end)
   "Calculate the region and display the result in the echo area.
 With prefix ARG non-nil, insert the result at the end of region."
   (interactive "P\nr")
@@ -169,7 +193,7 @@ With prefix ARG non-nil, insert the result at the end of region."
 ** Quickly find config
 A function to quickly open this file
 #+BEGIN_SRC emacs-lisp
-(defun open-config ()
+(defun hjertnes/open-config ()
     "Build the pillow fort!"
     (interactive)
     (find-file "~/.emacs.d/hjertnes.org"))
@@ -177,7 +201,7 @@ A function to quickly open this file
 ** New Empty Buffer
 Stole this one from [[http://ergoemacs.org/emacs/emacs_new_empty_buffer.html][http://ergoemacs.org/emacs/emacs_new_empty_buffer.html]]. It is a small function that let me create a new "scratch" buffer. 
 #+BEGIN_SRC emacs-lisp
-(defun new-buffer () 
+(defun hjertnes/new-buffer ()
   "Create a new empty buffer." 
   (interactive) 
   (let (($buf (generate-new-buffer "untitled"))) 
@@ -189,14 +213,14 @@ Stole this one from [[http://ergoemacs.org/emacs/emacs_new_empty_buffer.html][ht
 ** Save all
 Not soemthing I use a lot, but I do use it when I have search and replaced a lot of files, and just want to save it all. 
 #+BEGIN_SRC emacs-lisp
-(defun save-all () 
+(defun hjertnes/save-all ()
   (interactive) 
   (save-some-buffers t))
 #+END_SRC
 ** Eshell New
 Eshell doesn't have a "give me another shell" interactive function for some weird reason. This function let me create a new one. 
 #+BEGIN_SRC emacs-lisp
-(defun new-eshell()
+(defun hjertnes/new-eshell()
   "Open a new instance of eshell."
   (interactive)
   (eshell 'N))
@@ -226,8 +250,8 @@ Paths can be a little bit weird if you start emacs as an App on OS X. This packa
 #+BEGIN_SRC emacs-lisp
 (use-package 
   exec-path-from-shell 
-  :ensure t 
-  :if (is-mac) 
+  :ensure t
+  :if (hjertnes/is-mac)
   :config (exec-path-from-shell-initialize))
 #+END_SRC
 
@@ -239,8 +263,8 @@ Changes that are first and foremost UI changes
 (set-face-attribute 'default nil
 :family "JetBrains Mono"
 		    :height (cond 
-				  ((is-linux) 90) 
-				  ((is-mac) 150)) 
+				  ((hjertnes/is-linux) 90) 
+				  ((hjertnes/is-mac) 150)) 
 		    :weight 'normal 
 		    :width 'normal)
 #+END_SRC
@@ -404,7 +428,7 @@ This package enables projectile commands using Ivy stuff. A lot nicer than the d
 ** C#
 Adds support for C# via built-in eglot (LSP)
 #+BEGIN_SRC emacs-lisp
-(defun my-csharp-mode-setup ()
+(defun hjertnes/csharp-mode-setup ()
   (setq indent-tabs-mode nil)
   (setq c-basic-offset 4)
   (setq truncate-lines t)
@@ -412,7 +436,7 @@ Adds support for C# via built-in eglot (LSP)
   (eglot-ensure)
   (local-set-key (kbd "C-c C-c") 'recompile))
 
-(add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
+(add-hook 'csharp-mode-hook 'hjertnes/csharp-mode-setup t)
 #+END_SRC
 
 ** HTML
