@@ -39,7 +39,7 @@ These two settings forces emacs to use text-mode as its default mode, used when 
 ** Indent
 Sets emacs to not use tab as ident, and sets various two spaces per tab variables. And I enable electric ident mode which will ident a line to the previous one when you hit RET. 
 #+BEGIN_SRC emacs-lisp
-(setq tab-with 2 indent-tabs-mode nil js-indent-level 2)
+(setq tab-width 2 indent-tabs-mode nil js-indent-level 2)
 #+END_SRC
 
 ** Backup files etc
@@ -74,10 +74,9 @@ These two modes will make emacs auto save files, and load them from disk if the 
 (auto-save-visited-mode +1)
 #+END_SRC
 
-** Disable package sign verify
-This disabled verification of package signature, probably a bad idea, but useful in some cases, like when running non released version of Emacs.
+** Package signature verification
 #+BEGIN_SRC emacs-lisp
-(setq package-check-signature nil)
+(setq package-check-signature 'allow-unsigned)
 #+END_SRC
 * Package manager
 One of the first things I do is to configure the Emacs package system to use all the package sources I know of, and to install use-package, request and org-plus-contrib; and then load use-package. 
@@ -85,17 +84,16 @@ One of the first things I do is to configure the Emacs package system to use all
 Use-package will be used to load, install and configure more or less all other pakcages. Request are installed here because I use it in some of my interactive functions. And I install org-contrib-plus here because I either have to do this or to have nested use-packages, and I'm doing the lesser evil. 
 #+BEGIN_SRC emacs-lisp
 (require 'package)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/") 
-			 ("marmalade" . "http://marmalade-repo.org/packages/") 
-			 ("melpa" . "http://melpa.org/packages/")))
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+			 ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
-(dolist (package 
-	 '(use-package smartparens request))
-  (unless (package-installed-p package) 
+(dolist (package
+	 '(smartparens request))
+  (unless (package-installed-p package)
     (package-install package)))
-(eval-when-compile 
-  (require 'use-package))
+(require 'use-package)
+(setq use-package-always-ensure t)
 #+END_SRC
 * Helper functions
 Various helper functions I use a few different places in my setup. Most of them do stuff like reading passwords from auth-info, predicates for figuring out what kind of system it is or isn't and a few date related functions I use in my yasnippets
@@ -202,8 +200,8 @@ Changes that are first and foremost UI changes
 ** Font
    I use JetBrains Mono with different since on my different systems
 #+BEGIN_SRC emacs-lisp
-(set-face-attribute 'default nil 
-:family "Dank Mono"
+(set-face-attribute 'default nil
+:family "JetBrains Mono"
 		    :height (cond 
 				  ((is-linux) 90) 
 				  ((is-mac) 150)) 
@@ -219,6 +217,7 @@ No welcome screen on startup and no toolbar or scroll bars.
 (setq inhibit-startup-message t initial-scratch-message nil)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+(pixel-scroll-precision-mode +1)
 #+END_SRC
 ** Wrap lines
 Makes lines wrap over to the next
@@ -237,12 +236,12 @@ Enables you to highlight everything matching a search in the current buffer with
 (global-hi-lock-mode +1)
 #+END_SRC
 ** Indent Guide
-Shows markers for ident levels
+Shows markers for indent levels
 #+BEGIN_SRC emacs-lisp
-(use-package 
-  indent-guide 
-  :ensure t 
-  :config (indent-guide-global-mode))
+(use-package highlight-indent-guides
+  :ensure t
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :init (setq highlight-indent-guides-method 'character))
 #+END_SRC
 ** Highlight current line
 Highlight the current line. All of it.
@@ -252,10 +251,6 @@ Highlight the current line. All of it.
 ** Theme
 I currently use modus operandi. A very accessible light theme
 #+BEGIN_SRC emacs-lisp
-;(load "~/Code/emacs.d-private/dracula-theme.el")
-;(use-package dracula-theme :ensure t)
-(use-package modus-operandi-theme :ensure t)
-(use-package modus-vivendi-theme :ensure t)
 (use-package solarized-theme :ensure t)
 (use-package doom-themes :ensure t
   :config
@@ -308,28 +303,28 @@ Flycheck is this awesome package that everything works with. It an show you warn
   :ensure t)
 #+END_SRC
 
-** Company
-A better autocomplete system than the built in one. Most major modes for emacs that have some kind of auto complete also integrates with company. 
+** Corfu
+Lightweight in-buffer completion UI using Emacs's native completion API.
 #+BEGIN_SRC emacs-lisp
-(use-package 
-  company 
-  :ensure t 
-  :init (setq company-dabbrev-downcase 0 company-idle-delay 0 company-minimum-prefix-length 1)
-  :config (global-company-mode +1))
+(use-package corfu
+  :ensure t
+  :init
+  (setq corfu-auto t
+        corfu-auto-delay 0
+        corfu-auto-prefix 1)
+  :config
+  (global-corfu-mode))
+
+(use-package cape
+  :ensure t
+  :init
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file))
 #+END_SRC
 
 ** Ivy
    Ivy provide a lot of the same functionality that Helm has, just that I like it better.
-*** Smex
-This package provide history for the M-x command, great if you need to run the same thing multiple times or re-do the thing you did 5 commands ago. 
-#+BEGIN_SRC emacs-lisp
-(use-package 
-  smex 
-  :ensure t 
-  :config (smex-initialize))
-#+END_SRC
-
-*** Cousel
+*** Counsel
 This setups up Ivy and maps it to keyboard shortcuts so that I use Ivy or Counsel for stuff like M-x, selecting buffers, saarching etc . 
 #+BEGIN_SRC emacs-lisp
 (setq ivy-use-selectable-prompt t)
@@ -371,37 +366,18 @@ This package enables projectile commands using Ivy stuff. A lot nicer than the d
 #+END_SRC
 * Languages
 ** C#
-Adds support for C#
+Adds support for C# via built-in eglot (LSP)
 #+BEGIN_SRC emacs-lisp
-(use-package omnisharp :ensure t :config (eval-after-load
-  'company
-  '(add-to-list 'company-backends #'company-omnisharp))
-
 (defun my-csharp-mode-setup ()
-  (omnisharp-mode)
-  (company-mode)
-  (flycheck-mode)
-
   (setq indent-tabs-mode nil)
-  (setq c-syntactic-indentation t)
-  (c-set-style "ellemtel")
   (setq c-basic-offset 4)
   (setq truncate-lines t)
   (setq tab-width 4)
-  (setq evil-shift-width 4)
-
-  ;csharp-mode README.md recommends this too
-  ;(electric-pair-mode 1)       ;; Emacs 24
-  ;(electric-pair-local-mode 1) ;; Emacs 25
-
-  (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
+  (eglot-ensure)
   (local-set-key (kbd "C-c C-c") 'recompile))
 
-(add-hook 'csharp-mode-hook 'my-csharp-mode-setup t))
+(add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
 #+END_SRC
-
-#+RESULTS:
-: t
 
 ** HTML
 HTML support
@@ -428,7 +404,7 @@ Org support
 
 *** Journal
 #+BEGIN_SRC emacs-lisp
-(use-package org-journal :ensure t :init (setq org-journal-dir "~/txt/notes/journal/" org-journal-file-type 'yearly org-journal-file-format "%Y.org" org-journal-date-format "%Y-%m-%d" org-journal-time-format "%H:%M:%S") :bind (("C-c j j" . 'org-journal-new-entry)))
+(use-package org-journal :ensure t :init (setq org-journal-dir "~/txt/notes/journal/" org-journal-file-type 'yearly org-journal-file-format "%Y.org" org-journal-date-format "%Y-%m-%d" org-journal-time-format "%H:%M:%S") :bind (("C-c j j" . org-journal-new-entry)))
 #+END_SRC
 
 ** TOML
@@ -496,7 +472,7 @@ My favourite git client
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "gfm-mode"))
+  :init (setq markdown-command "multimarkdown"))
 #+END_SRC
 
 * Misc
@@ -572,7 +548,9 @@ Config for the new emacs27 tabs.
 ** Undo
 Undo-tree makes undo works a little bit more like you expect, and it also has this awesome command to interactivly move through the history.
 #+BEGIN_SRC emacs-lisp
-(use-package undo-tree :ensure t :config (global-undo-tree-mode))
+(use-package undo-tree :ensure t
+  :init (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree-history/")))
+  :config (global-undo-tree-mode))
 #+END_SRC
 *** Undo limit
 This sets a very high limit on how much stuff emacs keeps in the kill ring. I hate loosing stuff from Copy Paste fuckups. Like with GC, this could probably be lower, but I don't bother with doing so before I have a real reason for it. 
@@ -580,11 +558,10 @@ This sets a very high limit on how much stuff emacs keeps in the kill ring. I ha
 (setq undo-limit 1000000000 undo-strong-limit 1000000000)
 #+END_SRC
 ** Pairs
-Electric pair mode will insert a matching symbol for pairs like ()[] etc. And smart parens is a superior way to working with them. 
+Smart parens handles pair insertion and navigation for ()[] etc.
 #+BEGIN_SRC emacs-lisp
-  (electric-pair-mode +1)
-  (require 'smartparens-config) 
-  (smartparens-mode)
+  (electric-pair-mode -1)
+  (require 'smartparens-config)
   (smartparens-global-mode +1)
 #+END_SRC
 

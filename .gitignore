@@ -27,3 +27,5 @@ bookmarks
 mastodon.plstore
 .org-id-locations
 org-roam.db
+*.~undo-tree~
+eln-cache/
