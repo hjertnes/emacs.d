@@ -607,9 +607,33 @@ Config for the new emacs27 tabs.
 
 ** Undo
 Undo-tree makes undo works a little bit more like you expect, and it also has this awesome command to interactivly move through the history.
+
+History is persisted to =~/.emacs-undo-history/=, alongside =~/.emacs-backups/=
+and =~/.emacs-eln-cache/=, for the same reason: it is generated state and it
+must not live in the iCloud-synced =~/.emacs.d= tree (which is this git repo).
+The old location, =~/.emacs.d/undo-tree-history/=, put a file per edited buffer
+into a synced repo, where =git clean= could remove it and iCloud could rewrite
+it under a running Emacs.
+
+The directory is created here rather than left to undo-tree. Undo-tree has no
+=make-directory= call of its own: it borrows directory creation from Emacs'
+=make-backup-file-name-1=, and if that ever fails it silently falls back to
+writing =.file.~undo-tree~= next to the visited file -- which is exactly the
+litter this setting exists to avoid. Creating it up front makes the intent
+explicit and removes the dependency on that side effect.
+=undo-tree-auto-save-history= is set explicitly for the same reason: it is the
+switch the whole feature hangs on, and it should not be an inherited default.
 #+BEGIN_SRC emacs-lisp
+(defvar hjertnes/undo-tree-history-dir
+  (expand-file-name "~/.emacs-undo-history/")
+  "Directory holding persisted undo-tree history, outside the synced repo.")
+
 (use-package undo-tree :ensure t
-  :init (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree-history/")))
+  :init
+  (make-directory hjertnes/undo-tree-history-dir t)
+  (setq undo-tree-auto-save-history t
+        undo-tree-history-directory-alist
+        `(("." . ,hjertnes/undo-tree-history-dir)))
   :config (global-undo-tree-mode))
 #+END_SRC
 *** Undo limit

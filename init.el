@@ -1,5 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
+(declare-function org-babel-tangle-file "ob-tangle" (file &optional target-file lang-re))
+
 (defmacro hjertnes/with-error-guard (label &rest body)
   "Run BODY, logging a warning instead of aborting startup if it fails.
 LABEL names the startup stage in the warning.  This keeps one broken
@@ -23,17 +25,62 @@ still load, and the failure is visible in the *Warnings* buffer."
   (setq custom-file "~/.emacs.d/custom.el")
   (load custom-file))
 
+(defun hjertnes/load-forms (file label)
+  "Evaluate every top-level form in FILE, isolating failures.
+Returns the number of forms that signalled.
+
+`load' (and therefore `org-babel-load-file') evaluates a file as one
+unit: the first form that signals aborts every remaining form in the
+file, silently.  For a literate config that is a trap -- a form that
+only fails in a GUI session (a missing font, a theme, `server-mode',
+`exec-path-from-shell') skips all ~60 blocks after it, and startup still
+looks clean because the rest of init.el keeps going.  Evaluating form by
+form contains the damage to the one broken form and names it in
+*Warnings*.  Forms are read and evaluated one at a time in order, with
+lexical binding, exactly as `load' would."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (goto-char (point-min))
+    (let ((eof (make-symbol "eof"))
+          (failures 0)
+          form)
+      (while (not (eq (setq form (condition-case nil
+                                     (read (current-buffer))
+                                   (end-of-file eof)))
+                      eof))
+        (let ((line (line-number-at-pos)))
+          (condition-case err
+              (eval form t)
+            (error
+             (setq failures (1+ failures))
+             (display-warning
+              'init
+              (format "%s: top-level form ending on line %d of %s failed: %s"
+                      label line (file-name-nondirectory file)
+                      (error-message-string err))
+              :error)))))
+      failures)))
+
 ;; Load configuration from Org Document.
 ;; iCloud sync can give the tangled hjertnes.el a newer mtime than
 ;; hjertnes.org, which defeats org-babel-load-file's tangle cache and
 ;; makes config edits silently do nothing. Delete the tangled file so
 ;; every startup re-tangles from hjertnes.org.
+;; Tangle and load are done by hand rather than via org-babel-load-file
+;; so each block can fail on its own (see hjertnes/load-forms).
 (hjertnes/with-error-guard "Loading hjertnes.org"
   (require 'org)
-  (let ((tangled (expand-file-name "~/.emacs.d/hjertnes.el")))
+  (require 'ob-tangle)
+  (let ((source (expand-file-name "~/.emacs.d/hjertnes.org"))
+        (tangled (expand-file-name "~/.emacs.d/hjertnes.el")))
     (when (file-exists-p tangled)
-      (delete-file tangled)))
-  (org-babel-load-file "~/.emacs.d/hjertnes.org"))
+      (delete-file tangled))
+    (org-babel-tangle-file source tangled "\\`\\(?:emacs-lisp\\|elisp\\)\\'")
+    (let ((failures (hjertnes/load-forms tangled "hjertnes.org")))
+      ;; Loud sentinel: a truncated or partially failed load must never
+      ;; look like a clean startup.
+      (message "hjertnes.org loaded: %d form%s failed"
+               failures (if (= failures 1) "" "s")))))
 
 ;; Per computer overrides
 (hjertnes/with-error-guard "Loading personal.el"
