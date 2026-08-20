@@ -43,11 +43,13 @@ lexical binding, exactly as `load' would."
     (goto-char (point-min))
     (let ((eof (make-symbol "eof"))
           (failures 0)
-          form)
-      (while (not (eq (setq form (condition-case nil
-                                     (read (current-buffer))
-                                   (end-of-file eof)))
-                      eof))
+          form start)
+      (while (progn
+               (setq start (point))
+               (not (eq (setq form (condition-case nil
+                                       (read (current-buffer))
+                                     (end-of-file eof)))
+                        eof)))
         (let ((line (line-number-at-pos)))
           (condition-case err
               (eval form t)
@@ -59,6 +61,29 @@ lexical binding, exactly as `load' would."
                       label line (file-name-nondirectory file)
                       (error-message-string err))
               :error)))))
+      ;; `read' signals `end-of-file' both when the buffer is legitimately spent and when a
+      ;; form is unbalanced -- an unclosed paren swallows the rest of the file and then hits
+      ;; the real end. Treating the two alike is what made a single stray paren silently drop
+      ;; every block after it while this function still returned 0 failures, so startup looked
+      ;; clean. Distinguish them by where the failed read began: anything but whitespace and
+      ;; comments left after it means the file was truncated, not finished.
+      (goto-char start)
+      ;; Skip whitespace and `;' comments by hand: a temp buffer is in fundamental-mode, so
+      ;; `forward-comment' has no Lisp syntax table to work from and treats a trailing comment
+      ;; as leftover code.
+      (while (progn
+               (skip-chars-forward " \t\n\f")
+               (when (eq (char-after) ?\;)
+                 (forward-line 1)
+                 t)))
+      (unless (eobp)
+        (setq failures (1+ failures))
+        (display-warning
+         'init
+         (format "%s: unbalanced expression starting on line %d of %s -- \
+everything from there on was NOT loaded"
+                 label (line-number-at-pos) (file-name-nondirectory file))
+         :error))
       failures)))
 
 ;; Load configuration from Org Document.

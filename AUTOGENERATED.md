@@ -21,7 +21,7 @@ make init
 
 ## Architecture
 
-Emacs Lisp, literate via Org-babel. Load order: `early-init.el` -> `init.el`, which loads `custom.el`, then tangles `hjertnes.org` to `hjertnes.el` with `org-babel-tangle-file` and evaluates it **form by form** via `hjertnes/load-forms` (`init.el:68-83`) rather than calling `org-babel-load-file` -- so one bad block fails alone instead of aborting the rest of the config, and the count of failed forms is logged as a sentinel. Then loads `personal.el`.
+Emacs Lisp, literate via Org-babel. Load order: `early-init.el` -> `init.el`, which loads `custom.el`, then tangles `hjertnes.org` to `hjertnes.el` with `org-babel-tangle-file` and evaluates it **form by form** via `hjertnes/load-forms` (`init.el:68-83`) rather than calling `org-babel-load-file` -- so one bad block fails alone instead of aborting the rest of the config, and the count of failed forms is logged as a sentinel. That count also covers truncation: `read` signals `end-of-file` both when the file is spent and when a paren is unbalanced, so the loader checks whether anything but whitespace and comments is left over and reports a stray paren as a failure rather than a clean finish. Then loads `personal.el`.
 
 | Path | Role |
 | --- | --- |
