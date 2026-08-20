@@ -9,7 +9,8 @@ Personal GNU Emacs configuration written as a literate Org document.
 
 # Smoke-test that the literate config tangles and loads (run from repo root;
 # succeeds when the final line is "Loaded hjertnes.el"):
-emacs --batch --eval "(require 'org)" --eval '(org-babel-load-file "hjertnes.org")'
+emacs --batch --eval "(require 'org)" --eval "(require 'ob-tangle)" \
+      --eval '(org-babel-tangle-file "hjertnes.org" "hjertnes.el" "\\`\\(?:emacs-lisp\\|elisp\\)\\'")'
 
 # Remove elpa/ and custom.el, then recreate empty custom.el / personal.el:
 make clean
@@ -20,7 +21,7 @@ make init
 
 ## Architecture
 
-Emacs Lisp, literate via Org-babel. Load order: `early-init.el` -> `init.el`, which loads `custom.el`, runs `org-babel-load-file` on `hjertnes.org` (tangling it to `hjertnes.el`), then loads `personal.el`.
+Emacs Lisp, literate via Org-babel. Load order: `early-init.el` -> `init.el`, which loads `custom.el`, then tangles `hjertnes.org` to `hjertnes.el` with `org-babel-tangle-file` and evaluates it **form by form** via `hjertnes/load-forms` (`init.el:68-83`) rather than calling `org-babel-load-file` -- so one bad block fails alone instead of aborting the rest of the config, and the count of failed forms is logged as a sentinel. Then loads `personal.el`.
 
 | Path | Role |
 | --- | --- |
@@ -44,7 +45,8 @@ Packages via `package.el` + `use-package` (`use-package-always-ensure t`); archi
 - `custom.el` and `personal.el` are auto-created empty if missing and gitignored -- the place for machine-local settings. `hjertnes.el` is regenerated on every startup and gitignored.
 - Harmless in batch/non-GUI runs: repeated `highlight-indent-guides cannot auto set faces` errors and emojify image-download warnings.
 - macOS: `exec-path-from-shell` imports `$PATH`; Command = `super`, right Option/Command disabled, native fullscreen, `ns-appearance` light. `server-mode` is enabled unconditionally (emacsclient).
-- Lock, backup, and classic auto-save files are all disabled; `auto-save-visited-mode` writes the visited file every 10s instead, and `global-auto-revert-mode` reloads on external change.
+- Lock files and classic `#auto-save#` files are disabled (`create-lockfiles nil`, `auto-save-default nil`), but **backups are on** (`hjertnes.org:60`): `make-backup-files t`, copied into `~/.emacs-backups/`, versioned, 6 new / 2 old kept.
+- `auto-save-visited-mode` writes the visited file every 10s, but only where `hjertnes/auto-save-visited-safe-p` allows: remote (TRAMP/sudo) files and anything under `~/Documents` or `~/Library/Mobile Documents` are excluded, so iCloud-synced trees are never auto-saved into a sync conflict. `global-auto-revert-mode` reloads on external change.
 - `electric-pair-mode` is explicitly disabled in favour of global smartparens.
 - `markdown-mode` shells out to `multimarkdown` for preview/export -- an external binary this repo does not install.
 - Custom keys all live in `hjertnes.org`: `M-p` projectile map, `M-o` ace-window, `<f5>` deadgrep, `C-:` avy, `M-s M-s` yasnippet, `C-c j j` org-journal (journal files under `~/txt/notes/journal/`).
