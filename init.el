@@ -42,25 +42,45 @@ lexical binding, exactly as `load' would."
     (insert-file-contents file)
     (goto-char (point-min))
     (let ((eof (make-symbol "eof"))
+          (bad (make-symbol "bad"))
           (failures 0)
           form start)
       (while (progn
                (setq start (point))
+               ;; Two escape routes for a failed read: `end-of-file' (listed
+               ;; first) feeds the truncation check below, covering both the
+               ;; buffer being legitimately spent and an unclosed paren that
+               ;; swallowed the rest of the file; any other read error -- a
+               ;; stray `)', a bad `#' token -- yields `bad' so one unreadable
+               ;; token costs its own line instead of aborting every
+               ;; remaining form.
                (not (eq (setq form (condition-case nil
                                        (read (current-buffer))
-                                     (end-of-file eof)))
+                                     (end-of-file eof)
+                                     (error bad)))
                         eof)))
-        (let ((line (line-number-at-pos)))
-          (condition-case err
-              (eval form t)
-            (error
-             (setq failures (1+ failures))
-             (display-warning
-              'init
-              (format "%s: top-level form ending on line %d of %s failed: %s"
-                      label line (file-name-nondirectory file)
-                      (error-message-string err))
-              :error)))))
+        (if (eq form bad)
+            (progn
+              (setq failures (1+ failures))
+              (display-warning
+               'init
+               (format "%s: unreadable token on line %d of %s -- skipped one line"
+                       label (line-number-at-pos) (file-name-nondirectory file))
+               :error)
+              ;; Guaranteed progress: skip the offending line and resume
+              ;; reading; at end-of-buffer the next read returns `eof'.
+              (forward-line 1))
+          (let ((line (line-number-at-pos)))
+            (condition-case err
+                (eval form t)
+              (error
+               (setq failures (1+ failures))
+               (display-warning
+                'init
+                (format "%s: top-level form ending on line %d of %s failed: %s"
+                        label line (file-name-nondirectory file)
+                        (error-message-string err))
+                :error))))))
       ;; `read' signals `end-of-file' both when the buffer is legitimately spent and when a
       ;; form is unbalanced -- an unclosed paren swallows the rest of the file and then hits
       ;; the real end. Treating the two alike is what made a single stray paren silently drop

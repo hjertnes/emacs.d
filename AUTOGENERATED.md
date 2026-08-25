@@ -7,10 +7,11 @@ Personal GNU Emacs configuration written as a literate Org document.
 ```bash
 # No build step -- Emacs re-tangles and evaluates hjertnes.org at every startup.
 
-# Smoke-test that the literate config tangles and loads (run from repo root;
-# a clean run ends with "hjertnes.org loaded: 0 forms failed"):
-emacs --batch --eval "(require 'org)" --eval "(require 'ob-tangle)" \
-      --eval '(org-babel-tangle-file "hjertnes.org" "hjertnes.el" "\\`\\(?:emacs-lisp\\|elisp\\)\\'")'
+make test    # fast hermetic check: evaluates only hjertnes/load-forms from init.el
+             # and exercises its read-error isolation against temp files
+make smoke   # full-startup smoke test (tangle + form-by-form eval); passes when
+             # the output contains "hjertnes.org loaded: 0 forms failed".
+             # Needs elpa/ present -- a fresh machine hits the network first.
 
 make clean   # rm -rf elpa/, rm custom.el, then recreate empty custom.el + personal.el
 make init    # just recreate empty custom.el + personal.el
@@ -28,7 +29,8 @@ Emacs Lisp, literate via Org-babel. Load order: `early-init.el` -> `init.el`, wh
 | `hjertnes.el` | Tangled output of `hjertnes.org` (regenerated every startup, gitignored) |
 | `custom.el`, `personal.el` | Custom-var storage / per-machine overrides (auto-created empty, gitignored) |
 | `snippets/` | yasnippet templates (`org-mode`, `rjsx-mode`, `sql-mode`) |
-| `Makefile` | `clean` / `init` helpers |
+| `Makefile` | `test` (hermetic loader check) / `smoke` (full-startup sentinel grep) / `clean` / `init` |
+| `tests/load-forms-test.el` | Batch test for `hjertnes/load-forms`: stray `)`, bad `#` token, unclosed paren |
 
 Packages via `package.el` + `use-package` (`use-package-always-ensure t`); archives are GNU ELPA + MELPA over https. `use-package` is `require`d directly as an Emacs built-in -- only `smartparens` and `request` are installed imperatively before it. Completion is Ivy/Counsel/Swiper + ivy-rich (minibuffer) plus Corfu/Cape (in-buffer, `corfu-auto` with zero delay, one-char prefix; `cape-dabbrev` and `cape-file` added globally). Also Projectile (+counsel-projectile, search path `~/Code/`), Magit, undo-tree, yasnippet, avy, ace-window, which-key, multiple-cursors, crux, golden-ratio, aggressive-indent, deadgrep, restart-emacs, flycheck, rainbow-delimiters/identifiers, highlight-indent-guides, nyan-mode, emojify, and a Mastodon client (instance `https://dog.estate`). Theme: doom-themes with `doom-outrun-electric` active -- solarized-theme is installed but never loaded, and the surrounding prose still claims modus-operandi. Languages: C# via built-in `csharp-mode` + eglot, plus web/json/toml/svelte/yaml/caddyfile/taskpaper/markdown/elisp-format and org (org-journal, ox-hugo, htmlize, org-superstar).
 
