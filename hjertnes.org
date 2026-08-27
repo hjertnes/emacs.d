@@ -50,13 +50,21 @@ Sets emacs to not use tab as ident, and sets various two spaces per tab variable
 #+END_SRC
 
 ** Backup files etc
-Lock files and classic auto-save files are disabled, but backups are kept:
-they all go into =~/.emacs-backups/= (which is *not* iCloud-synced) instead
-of littering the visited file's directory, so synced trees stay clean while
-there is still something to recover from after a bad save or sync conflict.
+Lock files are disabled, but backups and classic auto-save are kept -- and
+both write *outside* the synced trees: backups into =~/.emacs-backups/= and
+=#file#= auto-saves into =~/.emacs-autosave/= (neither is iCloud-synced), so
+synced trees stay clean while there is still something to recover from after
+a bad save, a sync conflict, or a crash.
+
+Classic auto-save matters here because =auto-save-visited-mode= below is
+predicated *off* for everything under =~/Documents= -- without these =#file#=
+saves, the entire working set (Code, txt/Writing, WeekPlan, this config)
+would have no crash coverage at all.
 #+BEGIN_SRC emacs-lisp
-(setq create-lockfiles nil auto-save-default nil)
+(setq create-lockfiles nil auto-save-default t)
 (make-directory "~/.emacs-backups/" t)
+(make-directory "~/.emacs-autosave/" t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs-autosave/" t)))
 (setq make-backup-files t
       backup-directory-alist '(("." . "~/.emacs-backups/"))
       backup-by-copying t
