@@ -17,9 +17,13 @@ init:
 test:
 	emacs --batch -l $(ROOT)tests/load-forms-test.el
 	emacs --batch -l $(ROOT)tests/calc-eval-test.el
+	emacs --batch -l $(ROOT)tests/state-dirs-test.el
 
 # Full-startup smoke test: runs the real loader (tangle + form-by-form eval).
-# Passes when the output contains the init.el sentinel line; needs the package
-# snapshot present (a fresh machine would install packages over the network first).
+# early-init.el is loaded first, exactly as a real startup does -- without it,
+# package-user-dir falls back to elpa/ INSIDE this synced repo and the run
+# re-downloads every package into it. Passes when the output contains the
+# init.el sentinel line; needs the ~/.emacs-packages/ snapshot present (a
+# fresh machine would install packages over the network first).
 smoke:
-	emacs --batch -l $(ROOT)init.el 2>&1 | grep "hjertnes.org loaded: 0 forms failed"
+	emacs --batch -l $(ROOT)early-init.el -l $(ROOT)init.el 2>&1 | grep "hjertnes.org loaded: 0 forms failed"

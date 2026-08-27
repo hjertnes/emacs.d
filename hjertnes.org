@@ -153,12 +153,15 @@ whatever GNU ELPA and MELPA currently serve.
 - This is a personal config, not a reproducible deployment. I want current
   packages, and a rolling archive like MELPA only serves HEAD anyway --
   =package.el= has no lockfile mechanism that could meaningfully pin it.
-- In practice the installed =elpa/= directory on disk acts as the working
+- In practice the installed package directory on disk acts as the working
   snapshot: packages are only downloaded when missing, so day-to-day startups
-  never touch the network.
+  never touch the network. It lives at =~/.emacs-packages/= (=package-user-dir=,
+  set in =early-init.el=) -- outside this iCloud-synced repo, like backups,
+  auto-saves and the eln-cache -- precisely because it is the only snapshot.
 - The accepted risk is a fresh machine: it installs ~60 packages at whatever
   version (and whatever code) the archives serve that day. If a fresh install
-  misbehaves, copy =elpa/= from a working machine instead of reinstalling.
+  misbehaves, copy =~/.emacs-packages/= from a working machine instead of
+  reinstalling.
 
 If reproducibility ever becomes a real need, the fix is moving to a package
 manager with a lockfile (=straight.el= or =elpaca=), not per-package =:pin=,

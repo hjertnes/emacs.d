@@ -8,6 +8,22 @@
 ;; We call package-initialize manually in init.el
 (setq package-enable-at-startup nil)
 
+;; Keep installed packages out of this iCloud-synced tree, matching backups
+;; (~/.emacs-backups/), auto-saves (~/.emacs-autosave/), undo history and the
+;; eln-cache below. The package directory doubles as the config's de-facto
+;; version snapshot (see "Version pinning policy" in hjertnes.org), so it
+;; especially must not live where iCloud can evict or conflict-copy it.
+(setq package-user-dir (expand-file-name "~/.emacs-packages/"))
+
+;; Package state that defaults to ~/.emacs.d/<dir>/ goes to ~/.emacs-state/:
+;; transient's persisted levels/values/history and emojify's downloaded images.
+;; Set here, before any package loads, so the defaults never materialise
+;; inside the synced tree.
+(setq transient-levels-file (expand-file-name "~/.emacs-state/transient/levels.el")
+      transient-values-file (expand-file-name "~/.emacs-state/transient/values.el")
+      transient-history-file (expand-file-name "~/.emacs-state/transient/history.el")
+      emojify-emojis-dir (expand-file-name "~/.emacs-state/emojis/"))
+
 ;; Keep the native-compilation cache out of this iCloud-synced tree.
 ;; Redirect it to a local, unsynced directory (same idea as ~/.emacs-backups/).
 (when (fboundp 'startup-redirect-eln-cache)
