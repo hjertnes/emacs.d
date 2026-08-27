@@ -191,6 +191,10 @@ With prefix ARG non-nil, insert the result at the end of region."
   (interactive "P\nr")
   (let* ((expr (buffer-substring-no-properties beg end))
          (result (calc-eval expr)))
+    ;; On a parse error calc-eval returns (POSITION MESSAGE) instead of a
+    ;; string; both branches below want the string, so fail loudly first.
+    (unless (stringp result)
+      (user-error "calc: %s" (nth 1 result)))
     (if (null arg)
         (message "%s = %s" expr result)
       (goto-char end)
