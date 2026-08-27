@@ -106,11 +106,31 @@ everything from there on was NOT loaded"
          :error))
       failures)))
 
+(defun hjertnes/tangle-config (source tangled)
+  "Tangle SOURCE to a temp file, then rename it over TANGLED.
+Never deletes TANGLED first: when SOURCE is evicted by iCloud or
+otherwise unreadable, the previous startup's working TANGLED survives
+instead of leaving no config at all.  Tangling to a fresh temp file
+also defeats org-babel's mtime tangle cache, which iCloud sync used to
+confuse by giving TANGLED a newer mtime than SOURCE."
+  (let ((tmp (make-temp-file "hjertnes-tangle-" nil ".el")))
+    (unwind-protect
+        (progn
+          ;; An evicted/missing source must error here: org-babel-tangle-file
+          ;; would happily visit a nonexistent file and "tangle" zero blocks.
+          (unless (file-readable-p source)
+            (error "Config source %s is not readable" source))
+          (org-babel-tangle-file source tmp
+                                 "\\`\\(?:emacs-lisp\\|elisp\\)\\'")
+          ;; Same trap from the other side: an empty tangle is never an
+          ;; improvement on yesterday's working config.
+          (when (zerop (file-attribute-size (file-attributes tmp)))
+            (error "Tangling %s produced no output" source))
+          (rename-file tmp tangled t))
+      (when (file-exists-p tmp)
+        (delete-file tmp)))))
+
 ;; Load configuration from Org Document.
-;; iCloud sync can give the tangled hjertnes.el a newer mtime than
-;; hjertnes.org, which defeats org-babel-load-file's tangle cache and
-;; makes config edits silently do nothing. Delete the tangled file so
-;; every startup re-tangles from hjertnes.org.
 ;; Tangle and load are done by hand rather than via org-babel-load-file
 ;; so each block can fail on its own (see hjertnes/load-forms).
 (hjertnes/with-error-guard "Loading hjertnes.org"
@@ -118,9 +138,7 @@ everything from there on was NOT loaded"
   (require 'ob-tangle)
   (let ((source (expand-file-name "~/.emacs.d/hjertnes.org"))
         (tangled (expand-file-name "~/.emacs.d/hjertnes.el")))
-    (when (file-exists-p tangled)
-      (delete-file tangled))
-    (org-babel-tangle-file source tangled "\\`\\(?:emacs-lisp\\|elisp\\)\\'")
+    (hjertnes/tangle-config source tangled)
     (let ((failures (hjertnes/load-forms tangled "hjertnes.org")))
       ;; Loud sentinel: a truncated or partially failed load must never
       ;; look like a clean startup.

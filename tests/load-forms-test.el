@@ -15,8 +15,8 @@
 (defvar load-forms-test--failed 0
   "Number of failed checks.")
 
-(defun load-forms-test--extract-loader ()
-  "Read init.el and evaluate only the (defun hjertnes/load-forms ...) form."
+(defun load-forms-test--extract (name)
+  "Read init.el and evaluate only the (defun NAME ...) form."
   (with-temp-buffer
     (insert-file-contents (expand-file-name "../init.el" load-forms-test--here))
     (goto-char (point-min))
@@ -28,12 +28,16 @@
                                         (end-of-file eof)))
                            eof)))
         (when (and (eq (car-safe form) 'defun)
-                   (eq (nth 1 form) 'hjertnes/load-forms))
+                   (eq (nth 1 form) name))
           (eval form t)
           (setq found t)))
       (unless found
-        (message "FAIL: (defun hjertnes/load-forms ...) not found in init.el")
+        (message "FAIL: (defun %s ...) not found in init.el" name)
         (kill-emacs 1)))))
+
+(defun load-forms-test--extract-loader ()
+  "Evaluate the hjertnes/load-forms defun from init.el."
+  (load-forms-test--extract 'hjertnes/load-forms))
 
 (defun load-forms-test--check (name got want)
   "Record and report whether GOT equals WANT for the check NAME."
@@ -81,6 +85,34 @@
                           (and (boundp 'load-forms-test-c1)
                                (symbol-value 'load-forms-test-c1))
                           1))
+
+;; (d) hjertnes/tangle-config on an unreadable org source leaves the
+;;     pre-existing tangled file in place -- yesterday's working config
+;;     must survive an iCloud eviction of hjertnes.org.
+(require 'ob-tangle)
+(load-forms-test--extract 'hjertnes/tangle-config)
+(let ((tangled (make-temp-file "load-forms-test-tangled-" nil ".el"
+                               ";; yesterday's working config\n")))
+  (unwind-protect
+      (progn
+        (load-forms-test--check
+         "tangling an unreadable org source signals"
+         (condition-case nil
+             (progn (hjertnes/tangle-config
+                     (expand-file-name "load-forms-test-missing.org"
+                                       temporary-file-directory)
+                     tangled)
+                    nil)
+           (error 1))
+         1)
+        (load-forms-test--check
+         "pre-existing tangled config survives the failed tangle"
+         (with-temp-buffer
+           (insert-file-contents tangled)
+           (buffer-string))
+         ";; yesterday's working config\n"))
+    (when (file-exists-p tangled)
+      (delete-file tangled))))
 
 (if (zerop load-forms-test--failed)
     (message "load-forms-test: all checks passed")
