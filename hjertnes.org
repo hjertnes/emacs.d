@@ -101,7 +101,8 @@ accidental keystroke in a root-opened system file would silently write it back
 as root; and files inside iCloud-synced trees (=~/Documents= and
 =~/Library/Mobile Documents=), where a background write every 10 seconds
 invites sync conflicts. Paths are compared via =file-truename= so symlinked
-routes into synced trees (like =~/Code= -> =~/Documents/Code=) are caught too.
+routes into synced trees are caught too. (=~/Code= used to be such a route,
+before the tree moved out of =~/Documents= on 2026-09-01.)
 #+BEGIN_SRC emacs-lisp
 (setq auto-save-visited-interval 10)
 
